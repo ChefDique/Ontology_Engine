@@ -10,28 +10,28 @@
 
 ## Letter Registry
 
-| Letter | Workstream                          | Status                          | Branch                                |
-| ------ | ----------------------------------- | ------------------------------- | ------------------------------------- |
-| A      | Alpha: Node 1 Ingestion             | 📋 Assigned (ready to dispatch) | `feature/agent-a-ingestion`           |
-| B      | Beta: Nodes 2+3 Extraction+Calculus | ✅ Merged                       | `feature/agent-b-extraction-calculus` |
-| C      | Gamma: Node 4 Output Adapters       | 📋 Assigned (ready to dispatch) | `feature/agent-c-output-adapters`     |
-| D      | Delta: UAD 3.6 R&D                  | 📋 Assigned                     | `feature/agent-d-uad-research`        |
+| Letter | Workstream                          | Status         | Branch / Scope                                  |
+| ------ | ----------------------------------- | -------------- | ----------------------------------------------- |
+| A      | Alpha: Node 1 Ingestion             | 🟡 In-Progress | `feature/agent-a-ingestion`                     |
+| B      | Beta: Nodes 2+3 Extraction+Calculus | ✅ Merged      | `feature/agent-b-extraction-calculus`           |
+| C      | Gamma: Node 4 Output Adapters       | 🟡 In-Progress | `feature/agent-c-output-adapters`               |
+| D      | Delta: UAD 3.6 R&D                  | 📋 Assigned    | `feature/agent-d-uad-research`                  |
+| E      | Epsilon: kb-orchestrator Skill      | 🟡 In-Progress | `~/.gemini/antigravity/skills/kb-orchestrator/` |
 
 ## Work Queue
 
 1. ~~Alpha + Beta (parallel — no dependency)~~ **Beta merged**
-2. **Alpha + Gamma** (parallel — no scope overlap, both now unblocked)
-3. Delta (independent, low priority)
+2. **Alpha + Gamma** (parallel — no scope overlap, both dispatched)
+3. **Epsilon** (skill build — no project scope overlap, dispatched)
+4. Delta (independent, low priority)
 
 ## Last Session
 
 - **Date:** 2026-03-07
-- **Session:** Orchestrator (R&D synthesis + dispatch prep)
+- **Session:** Orchestrator (dispatch + Agent E registration)
 - **Completed:**
-  - Synthesized DOC_008 (Xactimate Data Extraction Research Plan) into KB — 5 public PDF sample URLs identified
-  - Synthesized DOC_009 (GOAS Hybrid Architecture Summary) into KB
-  - Resolved TASK_A4 blocker (Xactimate samples now available via public URLs)
-  - Unblocked Gamma (Beta merged, Node 3→4 contract finalized)
-  - Enriched Alpha briefing with PDF URLs and OCR research context
-  - Updated Gamma briefing to reflect Beta completion
-- **Next:** Dispatch Alpha + Gamma agents in parallel
+  - Confirmed Agent A actively running (verification phase, 808 lines written)
+  - Confirmed Agent C actively running
+  - Registered Agent E (kb-orchestrator skill) in KB Layer 7
+  - Updated HANDOFF with all active agents
+- **Next:** Monitor A/C for completion → `/done`; dispatch E in new session

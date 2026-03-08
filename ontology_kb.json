@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "created": "2026-03-08",
     "methodology": {
-      "name": "Z → A Reverse Extrapolation Pipeline",
+      "name": "Z \u2192 A Reverse Extrapolation Pipeline",
       "alias": "Goal-Oriented Action System (GOAS)",
       "description": "Define the final, mathematically verifiable output (Z) first, then work backward to deduce all prerequisite data structures, transformations, and validation gates. Inverts traditional forward-chaining approaches.",
       "principles": [
@@ -17,7 +17,7 @@
     },
     "timeline": {
       "mvp_window": "2 days",
-      "phase_1_target": "Xactimate → Roofing CRM (fastest time-to-revenue)",
+      "phase_1_target": "Xactimate \u2192 Roofing CRM (fastest time-to-revenue)",
       "phase_2_target": "UAD 3.6 MISMO XML for real estate appraisers (longer-term, higher enterprise value)"
     },
     "document_inventory": [
@@ -29,9 +29,9 @@
       },
       {
         "id": "DOC_002",
-        "title": "Z → A Pipeline Research & Blueprint",
-        "filename": "Z → A Pipeline Research & Blueprint.md",
-        "path": "R&D-Unsynthesized/markdown/Z → A Pipeline Research & Blueprint.md"
+        "title": "Z \u2192 A Pipeline Research & Blueprint",
+        "filename": "Z \u2192 A Pipeline Research & Blueprint.md",
+        "path": "R&D-Unsynthesized/markdown/Z \u2192 A Pipeline Research & Blueprint.md"
       },
       {
         "id": "DOC_003",
@@ -59,7 +59,7 @@
       },
       {
         "id": "DOC_007",
-        "title": "Ontology Engine SaaS — Strategic Summary",
+        "title": "Ontology Engine SaaS \u2014 Strategic Summary",
         "filename": "chatgemini -summary.json",
         "path": "R&D-Unsynthesized/markdown/chatgemini -summary.json"
       },
@@ -71,7 +71,7 @@
       },
       {
         "id": "DOC_009",
-        "title": "GOAS Hybrid Architecture — Research Summary",
+        "title": "GOAS Hybrid Architecture \u2014 Research Summary",
         "filename": "research-xactimite-pdf-esx.json",
         "path": "R&D-Unsynthesized/markdown/research-xactimite-pdf-esx.json"
       }
@@ -87,7 +87,7 @@
       "key_concepts": [
         {
           "name": "Ontology Thinking Mode",
-          "definition": "A cognitive framework that applies ontological analysis to problems — defining entities, their properties, and relationships before attempting solutions."
+          "definition": "A cognitive framework that applies ontological analysis to problems \u2014 defining entities, their properties, and relationships before attempting solutions."
         },
         {
           "name": "GOAS (Goal-Oriented Action System)",
@@ -166,7 +166,7 @@
       "relationships": [
         {
           "from_concept": "GOAS",
-          "to_concept": "Z → A Pipeline",
+          "to_concept": "Z \u2192 A Pipeline",
           "relation": "implements",
           "target_doc": "DOC_002"
         },
@@ -186,13 +186,13 @@
     },
     {
       "id": "DOC_002",
-      "title": "Z → A Pipeline Research & Blueprint",
-      "source_path": "R&D-Unsynthesized/markdown/Z → A Pipeline Research & Blueprint.md",
+      "title": "Z \u2192 A Pipeline Research & Blueprint",
+      "source_path": "R&D-Unsynthesized/markdown/Z \u2192 A Pipeline Research & Blueprint.md",
       "doc_type": "framework",
-      "summary": "Details the Z→A Pipeline methodology which inverts traditional forward-chaining by defining the final output (Z) first and working backward. Emphasizes rigorous data contracts, verification checkpoints, and exception handling. Draws parallels with backward chaining in AI, Hoare Logic, GOAP, and Spec-Driven Development.",
+      "summary": "Details the Z\u2192A Pipeline methodology which inverts traditional forward-chaining by defining the final output (Z) first and working backward. Emphasizes rigorous data contracts, verification checkpoints, and exception handling. Draws parallels with backward chaining in AI, Hoare Logic, GOAP, and Spec-Driven Development.",
       "key_concepts": [
         {
-          "name": "Z → A Pipeline (Reverse Extrapolation)",
+          "name": "Z \u2192 A Pipeline (Reverse Extrapolation)",
           "definition": "A methodology that starts with the final, mathematically verifiable output (Z) and deduces all prerequisite data structures and transformations backward to the raw input (A)."
         },
         {
@@ -205,7 +205,7 @@
         },
         {
           "name": "Backward Chaining",
-          "definition": "Starting from a goal and working backward through rules/preconditions to find what inputs/facts are needed. Analogous to the Z→A approach."
+          "definition": "Starting from a goal and working backward through rules/preconditions to find what inputs/facts are needed. Analogous to the Z\u2192A approach."
         },
         {
           "name": "Hoare Logic",
@@ -251,7 +251,7 @@
       ],
       "findings": [
         {
-          "finding": "The Z→A approach aligns with established CS concepts: backward chaining, Hoare Logic, and GOAP",
+          "finding": "The Z\u2192A approach aligns with established CS concepts: backward chaining, Hoare Logic, and GOAP",
           "evidence": "Direct parallels drawn to formal verification and goal-oriented planning in AI"
         },
         {
@@ -261,7 +261,7 @@
       ],
       "relationships": [
         {
-          "from_concept": "Z → A Pipeline",
+          "from_concept": "Z \u2192 A Pipeline",
           "to_concept": "4-Node Pipeline Architecture",
           "relation": "structures",
           "target_doc": "DOC_003"
@@ -285,7 +285,7 @@
       "title": "PRD - ScopeBridge",
       "source_path": "R&D-Unsynthesized/markdown/PRD - ScopeBridge.md",
       "doc_type": "prd",
-      "summary": "Outlines a phased approach to building the Ontology Engine, detailing specific agent tasks for data acquisition, CRM API research, and core ontology development. Highlights critical risks and blindspots to be addressed in a backlog. Currently incomplete — requires expansion.",
+      "summary": "Outlines a phased approach to building the Ontology Engine, detailing specific agent tasks for data acquisition, CRM API research, and core ontology development. Highlights critical risks and blindspots to be addressed in a backlog. Currently incomplete \u2014 requires expansion.",
       "key_concepts": [
         {
           "name": "4-Node Pipeline Architecture",
@@ -346,7 +346,7 @@
         },
         {
           "id": "REQ_003_02",
-          "description": "LLMs must NEVER perform calculations — only semantic extraction",
+          "description": "LLMs must NEVER perform calculations \u2014 only semantic extraction",
           "priority": "critical",
           "status": "defined"
         },
@@ -382,7 +382,7 @@
       "relationships": [
         {
           "from_concept": "4-Node Pipeline Architecture",
-          "to_concept": "Z → A Pipeline",
+          "to_concept": "Z \u2192 A Pipeline",
           "relation": "instantiates",
           "target_doc": "DOC_002"
         },
@@ -413,7 +413,7 @@
         },
         {
           "name": "Roofer Math (Deterministic Calculus)",
-          "definition": "Industry-specific mathematical conversions: Squares → Bundles (×3), linear feet → pieces (÷10), pitch-adjusted waste factors (steep pitch = 15% waste), and bundle rounding (always round UP)."
+          "definition": "Industry-specific mathematical conversions: Squares \u2192 Bundles (\u00d73), linear feet \u2192 pieces (\u00f710), pitch-adjusted waste factors (steep pitch = 15% waste), and bundle rounding (always round UP)."
         },
         {
           "name": "O&P Double-Dip Prevention",
@@ -529,15 +529,15 @@
           "evidence": "Lexicon Matrix documented in source with specific code-to-material mappings"
         },
         {
-          "finding": "Xactimate prices are aggregate (material + labor + equipment + O&P) — cannot push directly to CRM cost fields",
+          "finding": "Xactimate prices are aggregate (material + labor + equipment + O&P) \u2014 cannot push directly to CRM cost fields",
           "evidence": "AccuLynx API docs show separate Material Cost vs Retail Price fields; mixing causes negative margins"
         },
         {
-          "finding": "AccuLynx Material Order creation is a private/partner API — not publicly documented",
+          "finding": "AccuLynx Material Order creation is a private/partner API \u2014 not publicly documented",
           "evidence": "Public API docs focus on leads, contacts, webhooks, and financials only"
         },
         {
-          "finding": "JobNimbus has no native product import — requires QBO bridge as backdoor",
+          "finding": "JobNimbus has no native product import \u2014 requires QBO bridge as backdoor",
           "evidence": "UserVoice feature request confirms community desire; QBO sync is documented workaround"
         },
         {
@@ -587,7 +587,7 @@
       "key_concepts": [
         {
           "name": "Data Friction Matrix",
-          "definition": "A structured analysis framework that maps: Source Format → Human Translator → Target Format, identifying cost, latency, error rate, and automation potential at each translation point."
+          "definition": "A structured analysis framework that maps: Source Format \u2192 Human Translator \u2192 Target Format, identifying cost, latency, error rate, and automation potential at each translation point."
         },
         {
           "name": "Human API",
@@ -692,17 +692,17 @@
         {
           "name": "Custom Cabinetry",
           "type": "industry_vertical",
-          "description": "Design-to-manufacturing pipeline requiring CAD → G-code translation"
+          "description": "Design-to-manufacturing pipeline requiring CAD \u2192 G-code translation"
         },
         {
           "name": "Legal Discovery (eDiscovery)",
           "type": "industry_vertical",
-          "description": "Document review pipeline requiring unstructured → structured translation"
+          "description": "Document review pipeline requiring unstructured \u2192 structured translation"
         },
         {
           "name": "Real Estate Appraisal",
           "type": "industry_vertical",
-          "description": "Property valuation pipeline requiring field data → MISMO XML translation"
+          "description": "Property valuation pipeline requiring field data \u2192 MISMO XML translation"
         },
         {
           "name": "SketchUp",
@@ -770,7 +770,7 @@
     },
     {
       "id": "DOC_007",
-      "title": "Ontology Engine SaaS — Strategic Summary",
+      "title": "Ontology Engine SaaS \u2014 Strategic Summary",
       "source_path": "R&D-Unsynthesized/markdown/chatgemini -summary.json",
       "doc_type": "strategic_summary",
       "summary": "Comprehensive strategic summary synthesizing the Ontology Engine project vision: core thesis (monetizing the 'ontological divide' between ConTech and PropTech), GOAS methodology, competitive landscape analysis (verified white space), Phase 1/Phase 2 architecture, and data physics contracts (ingestion schema, supplement delta contract, UAD mapping logic).",
@@ -854,10 +854,10 @@
         },
         {
           "finding": "Phase 1 pain is quantifiable: $1,050-$3,600/month per office in wasted labor for manual Xactimate-to-CRM data entry",
-          "evidence": "45-90 min/estimate × 40 estimates/month = 30-60 hours/month of manual translation"
+          "evidence": "45-90 min/estimate \u00d7 40 estimates/month = 30-60 hours/month of manual translation"
         },
         {
-          "finding": "Supplement delta tracking is a net-new capability not in the original PRD — enables version-aware estimate management",
+          "finding": "Supplement delta tracking is a net-new capability not in the original PRD \u2014 enables version-aware estimate management",
           "evidence": "Supplement delta contract schema defines change types, margin impact, and evidence references"
         },
         {
@@ -978,10 +978,10 @@
     },
     {
       "id": "DOC_009",
-      "title": "GOAS Hybrid Architecture — Research Summary",
+      "title": "GOAS Hybrid Architecture \u2014 Research Summary",
       "source_path": "R&D-Unsynthesized/markdown/research-xactimite-pdf-esx.json",
       "doc_type": "research",
-      "summary": "Compact JSON summary defining the two-phase product strategy (Phase 1: The Wedge — Automated Parser, Phase 2: The Moat — Claims Database), competitive gaps, and Line_Item_Object schema with validation rules.",
+      "summary": "Compact JSON summary defining the two-phase product strategy (Phase 1: The Wedge \u2014 Automated Parser, Phase 2: The Moat \u2014 Claims Database), competitive gaps, and Line_Item_Object schema with validation rules.",
       "key_concepts": [
         {
           "name": "The Wedge (Phase 1)",
@@ -1022,7 +1022,7 @@
       },
       {
         "id": "C_002",
-        "label": "Z → A Pipeline",
+        "label": "Z \u2192 A Pipeline",
         "category": "methodology",
         "definition": "Reverse extrapolation methodology: define output (Z) first, work backward to input (A)",
         "source_doc_ids": [
@@ -1035,7 +1035,7 @@
         "id": "C_003",
         "label": "GOAS",
         "category": "methodology",
-        "definition": "Goal-Oriented Action System — planning framework that works backward from goals to prerequisites",
+        "definition": "Goal-Oriented Action System \u2014 planning framework that works backward from goals to prerequisites",
         "source_doc_ids": [
           "DOC_001",
           "DOC_002",
@@ -1047,7 +1047,7 @@
         "id": "C_004",
         "label": "Human API",
         "category": "problem",
-        "definition": "Humans acting as middleware translators between incompatible systems — the core bottleneck",
+        "definition": "Humans acting as middleware translators between incompatible systems \u2014 the core bottleneck",
         "source_doc_ids": [
           "DOC_001",
           "DOC_005",
@@ -1079,7 +1079,7 @@
         "id": "C_007",
         "label": "4-Node Pipeline",
         "category": "architecture",
-        "definition": "Ingestion → Extraction → Calculus → Routing — the core processing chain",
+        "definition": "Ingestion \u2192 Extraction \u2192 Calculus \u2192 Routing \u2014 the core processing chain",
         "source_doc_ids": [
           "DOC_003",
           "DOC_004"
@@ -1137,7 +1137,7 @@
         "id": "C_013",
         "label": "Roofer Math",
         "category": "algorithm",
-        "definition": "Deterministic conversion formulas: Squares→Bundles(×3), LF→pieces(÷10), pitch waste factors, always-round-UP",
+        "definition": "Deterministic conversion formulas: Squares\u2192Bundles(\u00d73), LF\u2192pieces(\u00f710), pitch waste factors, always-round-UP",
         "source_doc_ids": [
           "DOC_004"
         ]
@@ -1146,7 +1146,7 @@
         "id": "C_014",
         "label": "Data Friction Matrix",
         "category": "analysis_framework",
-        "definition": "Maps Source→Translator→Target to quantify cost, latency, and error of human translation",
+        "definition": "Maps Source\u2192Translator\u2192Target to quantify cost, latency, and error of human translation",
         "source_doc_ids": [
           "DOC_005",
           "DOC_006"
@@ -1183,7 +1183,7 @@
         "id": "C_018",
         "label": "UAD 3.6 MISMO XML",
         "category": "standard",
-        "definition": "Uniform Appraisal Dataset v3.6 — GSE-mandated format for real estate appraisals",
+        "definition": "Uniform Appraisal Dataset v3.6 \u2014 GSE-mandated format for real estate appraisals",
         "source_doc_ids": [
           "DOC_001",
           "DOC_006",
@@ -1348,7 +1348,7 @@
   },
   "pipeline": {
     "architecture": {
-      "name": "4-Node Z→A Pipeline",
+      "name": "4-Node Z\u2192A Pipeline",
       "nodes": [
         {
           "id": "NODE_1",
@@ -1377,7 +1377,7 @@
               "OCR confidence score attached to each text block"
             ],
             "invariants": [
-              "Zero PII in output — no exceptions"
+              "Zero PII in output \u2014 no exceptions"
             ]
           }
         },
@@ -1402,7 +1402,7 @@
             "postconditions": [
               "Output JSON validates against defined schema",
               "All Xactimate codes from input are present in output",
-              "NO calculations performed — raw values only"
+              "NO calculations performed \u2014 raw values only"
             ],
             "invariants": [
               "LLM never performs arithmetic",
@@ -1535,7 +1535,7 @@
           },
           {
             "id": "TASK_B3",
-            "description": "Build Roofer Math Python module (Squares→Bundles, pitch adjustment, waste factors)",
+            "description": "Build Roofer Math Python module (Squares\u2192Bundles, pitch adjustment, waste factors)",
             "status": "todo",
             "priority": "critical",
             "dependencies": [
@@ -1744,23 +1744,23 @@
     ]
   },
   "prd_synthesis": {
-    "problem_statement": "Skilled professionals currently act as 'Human APIs' — manually translating unstructured data (Xactimate estimates, blueprints, legal documents, real estate appraisals) into structured formats required by downstream systems (CRMs, ERPs, procurement platforms). This creates significant latency (hours to days per translation), high cost ($25-150/hour), and error cascades (2-15% error rates). The Ontology Engine eliminates this bottleneck by automating the full translation pipeline.",
+    "problem_statement": "Skilled professionals currently act as 'Human APIs' \u2014 manually translating unstructured data (Xactimate estimates, blueprints, legal documents, real estate appraisals) into structured formats required by downstream systems (CRMs, ERPs, procurement platforms). This creates significant latency (hours to days per translation), high cost ($25-150/hour), and error cascades (2-15% error rates). The Ontology Engine eliminates this bottleneck by automating the full translation pipeline.",
     "target_markets": [
       {
         "phase": 1,
-        "market": "Roofing Contractors (Xactimate → CRM)",
+        "market": "Roofing Contractors (Xactimate \u2192 CRM)",
         "rationale": "Fastest time-to-revenue. Clear pain point, existing contractor relationships. Three target CRMs (JobNimbus, AccuLynx, Buildertrend) with documented integration paths.",
         "priority": "immediate"
       },
       {
         "phase": 2,
-        "market": "Real Estate Appraisers (Field Data → UAD 3.6 MISMO XML)",
+        "market": "Real Estate Appraisers (Field Data \u2192 UAD 3.6 MISMO XML)",
         "rationale": "Higher enterprise value and competitive moat due to GSE certification requirements. Longer development timeline.",
         "priority": "future"
       }
     ],
     "system_architecture": {
-      "pattern": "4-Node Z→A Pipeline with Design by Contract",
+      "pattern": "4-Node Z\u2192A Pipeline with Design by Contract",
       "nodes": [
         "Ingestion (OCR + PII)",
         "Semantic Extraction (LLM)",
@@ -1788,7 +1788,7 @@
       "Multi-Trade Routing Collision (MEDIUM)"
     ],
     "success_metrics": [
-      "Process an Xactimate PDF → CRM-ready output in < 60 seconds",
+      "Process an Xactimate PDF \u2192 CRM-ready output in < 60 seconds",
       "Achieve 95%+ extraction accuracy on structured fields",
       "Zero PII leakage to LLM",
       "Successful import/API push to at least 2 of 3 target CRMs",
@@ -1845,7 +1845,7 @@
         "TASK_A3",
         "TASK_A4"
       ],
-      "status": "🟡 in-progress",
+      "status": "\ud83d\udfe1 in-progress",
       "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node1_ingestion/ -v",
       "branch": "feature/agent-a-ingestion",
@@ -1876,7 +1876,7 @@
         "TASK_B6",
         "TASK_B7"
       ],
-      "status": "✅ merged",
+      "status": "\u2705 merged",
       "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node2_extraction/ tests/test_node3_calculus/ -v",
       "branch": "feature/agent-b-extraction-calculus",
@@ -1900,7 +1900,7 @@
         "TASK_G3",
         "TASK_G4"
       ],
-      "status": "🟡 in-progress",
+      "status": "\ud83d\udfe1 in-progress",
       "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node4_output/ -v",
       "branch": "feature/agent-c-output-adapters",
@@ -1920,12 +1920,64 @@
         "TASK_D2",
         "TASK_D3"
       ],
-      "status": "📋 assigned",
+      "status": "\ud83d\udccb assigned",
       "blocker": null,
       "verify": "test -f docs/research/uad_36_analysis.md",
       "branch": "feature/agent-d-uad-research",
       "recommended_mode": "planning",
       "mode_rationale": "Pure research workstream requiring deep investigation of UAD 3.6 / MISMO XML standards"
+    },
+    "epsilon": {
+      "letter": "E",
+      "name": "Skill Build: kb-orchestrator",
+      "status": "\ud83d\udfe1 in-progress",
+      "scope": [
+        "~/.gemini/antigravity/skills/kb-orchestrator/"
+      ],
+      "blocker": null,
+      "recommended_mode": "fast",
+      "tasks": [
+        {
+          "id": "TASK_E1",
+          "title": "Create SKILL.md",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_E2",
+          "title": "Build preflight.py",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_E3",
+          "title": "Build kb.py",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_E4",
+          "title": "Build dashboard.py",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_E5",
+          "title": "Build compile_briefing.py",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_E6",
+          "title": "Build validate_kb.py",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_E7",
+          "title": "Create resources + examples",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_E8",
+          "title": "Verify all scripts",
+          "status": "pending"
+        }
+      ]
     }
   }
 }
