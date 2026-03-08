@@ -2,13 +2,15 @@
 
 ## Mission
 
-**We are building an automated Xactimate-to-CRM translation engine.** Insurance restoration contractors currently waste hours manually re-entering estimate data from Xactimate (the industry-standard estimating tool, 85-90% market share) into their CRM systems (Buildertrend, JobNimbus, AccuLynx). Our 4-node pipeline ingests an Xactimate PDF, extracts structured line items via LLM, applies deterministic roofer math (waste factors, O&P stripping, unit conversions), and routes the output as CRM-ready CSV/JSON.
+**The Ontology Engine is a universal analog-to-digital translation engine** — it converts unstructured proprietary documents into structured, system-ready data. The core methodology (Z→A / GOAS) is industry-agnostic: define the target output schema first, then reverse-engineer everything needed to get there.
 
-**Who it's for:** Roofing and restoration contractors in the US market.
+**Phase 1 (current MVP):** Xactimate → Roofing CRM. Insurance restoration contractors waste hours re-entering estimate data from Xactimate (85-90% market share) into CRM systems (Buildertrend, JobNimbus, AccuLynx). Our 4-node pipeline ingests a PDF, extracts structured line items via LLM, applies deterministic roofer math, and routes CRM-ready CSV/JSON. This is "The Wedge" — fast time-to-revenue, immediate pain relief.
 
-**Why it matters:** No tool does this end-to-end today. Existing integrations are shallow (file status only) or locked inside Verisk's walled garden. We sit in the gap between the estimate and the CRM — "The Wedge."
+**Phase 2 (planned):** UAD 3.6 MISMO XML for real estate appraisers. Higher enterprise value, GSE certification requirements, longer runway. Same pipeline architecture, different lexicon and output adapters.
 
-**Legal constraint (CONST_006):** MVP uses PDF/OCR extraction only. ESX/XML parsing is deferred pending legal counsel review of the Xactimate EULA. All processed files must be user-exported from their own licensed Xactimate (CONST_007).
+**Future verticals:** Construction, legal, logistics — anywhere a "Human API" bottleneck exists (manual re-entry of structured data trapped in proprietary formats).
+
+**Legal constraint (CONST_006):** MVP uses PDF/OCR extraction only. ESX/XML parsing deferred pending EULA review. All files must be user-exported from the user's own license (CONST_007).
 
 ## Documentation & Tracking
 
