@@ -2174,7 +2174,7 @@
     "epsilon": {
       "letter": "E",
       "name": "Skill Build: kb-orchestrator",
-      "status": "🟡 in-progress",
+      "status": "✅ merged",
       "scope": [
         "~/.gemini/antigravity/skills/kb-orchestrator/"
       ],
