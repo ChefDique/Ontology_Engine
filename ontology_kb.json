@@ -1,6 +1,6 @@
 {
   "meta": {
-    "project_name": "Ontology Engine — ScopeBridge",
+    "project_name": "Ontology Engine",
     "version": "1.0.0",
     "created": "2026-03-08",
     "methodology": {
@@ -302,7 +302,7 @@
       ],
       "entities": [
         {
-          "name": "ScopeBridge",
+          "name": "Ontology Engine",
           "type": "product",
           "description": "The product name for the Ontology Engine MVP targeting roofing contractors"
         },
@@ -393,7 +393,7 @@
           "target_doc": "DOC_003"
         },
         {
-          "from_concept": "ScopeBridge",
+          "from_concept": "Ontology Engine",
           "to_concept": "Roofing CRM Integration",
           "relation": "targets",
           "target_doc": "DOC_004"

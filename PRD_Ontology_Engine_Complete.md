@@ -1,4 +1,4 @@
-# ScopeBridge — Complete Product Requirements Document
+# Ontology Engine — Complete Product Requirements Document
 
 > **Generated from:** `ontology_kb.json` (v1.0.0)
 > **Date:** 2026-03-08
@@ -16,7 +16,7 @@ Skilled professionals currently act as **"Human APIs"** — manually translating
 - **Error Cascades:** 2–15% error rates in manual data entry
 - **Scale Ceiling:** Capacity is limited by the number of humans available
 
-**ScopeBridge (the Ontology Engine)** eliminates this bottleneck by automating the full translation pipeline using a 4-node agentic architecture that separates semantic extraction (LLMs) from deterministic calculation (Python), enforced by Design by Contract at every boundary.
+**The Ontology Engine** eliminates this bottleneck by automating the full translation pipeline using a 4-node agentic architecture that separates semantic extraction (LLMs) from deterministic calculation (Python), enforced by Design by Contract at every boundary.
 
 ---
 

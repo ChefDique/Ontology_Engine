@@ -57,13 +57,13 @@ pytest tests/ -v
 
 ## Key Documents
 
-| Document                                                     | Purpose                                               |
-| ------------------------------------------------------------ | ----------------------------------------------------- |
-| [`ontology_kb.json`](ontology_kb.json)                       | Canonical knowledge base (6 layers, machine-readable) |
-| [`PRD_ScopeBridge_Complete.md`](PRD_ScopeBridge_Complete.md) | Full product requirements document                    |
-| [`docs/architecture.md`](docs/architecture.md)               | System architecture deep-dive                         |
-| [`docs/constraints.md`](docs/constraints.md)                 | 5 non-negotiable system rules                         |
-| [`docs/briefings/`](docs/briefings/)                         | Scoped agent briefing files per workstream            |
+| Document                                                             | Purpose                                               |
+| -------------------------------------------------------------------- | ----------------------------------------------------- |
+| [`ontology_kb.json`](ontology_kb.json)                               | Canonical knowledge base (6 layers, machine-readable) |
+| [`PRD_Ontology_Engine_Complete.md`](PRD_Ontology_Engine_Complete.md) | Full product requirements document                    |
+| [`docs/architecture.md`](docs/architecture.md)                       | System architecture deep-dive                         |
+| [`docs/constraints.md`](docs/constraints.md)                         | 5 non-negotiable system rules                         |
+| [`docs/briefings/`](docs/briefings/)                                 | Scoped agent briefing files per workstream            |
 
 ## Agent Onboarding
 
