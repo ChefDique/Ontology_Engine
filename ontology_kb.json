@@ -1004,6 +1004,132 @@
           "relation": "future_implements"
         }
       ]
+    },
+    {
+      "id": "DOC_010",
+      "title": "Legal Risk Analysis: Xactimate ESX Data Extraction",
+      "source_path": "R&D-Unsynthesized/deep-research-report.md",
+      "doc_type": "research",
+      "summary": "Comprehensive legal risk analysis covering DMCA §1201, CFAA, EULA/contract risk, trade secret, antitrust, data portability, and industry precedent. Concludes EULA breach is highest risk; PDF/OCR is the legally safe path.",
+      "key_concepts": [
+        {
+          "label": "Anti-Circumvention (DMCA §1201)",
+          "definition": "Federal prohibition on circumventing technological protection measures. Trivial obfuscation (rename .esx → .zip) likely does not qualify as a TPM per Lexmark v. Static Control."
+        },
+        {
+          "label": "Interoperability Exception (§1201(f))",
+          "definition": "DMCA carve-out allowing reverse engineering solely to achieve interoperability between independently created programs."
+        },
+        {
+          "label": "EULA Restriction Risk",
+          "definition": "Xactimate EULA likely prohibits reverse engineering. EULA breach is civil (injunctions, license revocation) and is the highest legal threat vector."
+        },
+        {
+          "label": "PDF-as-Safe-Harbor",
+          "definition": "Strategy of processing only PDF exports via OCR. No circumvention, no format secrets, no EULA trap."
+        },
+        {
+          "label": "User-Origin Enforcement",
+          "definition": "Mitigation pattern requiring users to certify file origin from their own licensed Xactimate instance."
+        }
+      ],
+      "entities": [
+        {
+          "name": "DMCA §1201",
+          "type": "statute"
+        },
+        {
+          "name": "CFAA",
+          "type": "statute"
+        },
+        {
+          "name": "DTSA",
+          "type": "statute"
+        },
+        {
+          "name": "Lexmark v. Static Control",
+          "type": "case_law"
+        },
+        {
+          "name": "Chamberlain v. Skylink",
+          "type": "case_law"
+        },
+        {
+          "name": "Van Buren v. United States (2021)",
+          "type": "case_law"
+        },
+        {
+          "name": "hiQ Labs v. LinkedIn",
+          "type": "case_law"
+        },
+        {
+          "name": "Oracle v. Google (2021)",
+          "type": "case_law"
+        },
+        {
+          "name": "Vedder Software v. ISO/Xactware",
+          "type": "case_law"
+        },
+        {
+          "name": "Verisk Analytics",
+          "type": "organization"
+        },
+        {
+          "name": "ClickClaims",
+          "type": "organization"
+        },
+        {
+          "name": "Roofr",
+          "type": "organization"
+        },
+        {
+          "name": "FTC",
+          "type": "organization"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "EULA/contract breach is the highest legal risk vector",
+          "evidence": "EULA prohibits reverse engineering; violations lead to injunctions or license revocation"
+        },
+        {
+          "finding": "DMCA risk is Medium (ESX) / Low (PDF)",
+          "evidence": "Lexmark: trivial obfuscation not a TPM; Chamberlain: consumer right to use purchased software"
+        },
+        {
+          "finding": "CFAA risk is Low — processing user files is authorized",
+          "evidence": "Van Buren (2021) narrowed 'exceeds authorized access'; hiQ confirmed scraping isn't unauthorized"
+        },
+        {
+          "finding": "Trade secret risk is Low — ESX is trivially discoverable",
+          "evidence": "DTSA excludes reverse engineering by fair means; ZIP/XML has no reasonable secrecy"
+        },
+        {
+          "finding": "No known Verisk litigation against ESX parsers",
+          "evidence": "Industry scan found no C&D letters; authorized integrators (ClickClaims, Roofr) operate freely"
+        },
+        {
+          "finding": "PDF/OCR is the recommended safe path for MVP",
+          "evidence": "PDF export is expressly supported by Xactimate UI; no circumvention, no EULA trap"
+        }
+      ],
+      "relationships": [
+        {
+          "from": "DOC_010",
+          "to": "DOC_008",
+          "relation": "constrains"
+        },
+        {
+          "from": "DOC_010",
+          "to": "DOC_002",
+          "relation": "constrains"
+        },
+        {
+          "from": "DOC_010",
+          "to": "DOC_009",
+          "relation": "constrains"
+        }
+      ]
     }
   ],
   "ontology": {
@@ -1226,6 +1352,51 @@
           "DOC_007",
           "DOC_006"
         ]
+      },
+      {
+        "id": "C_023",
+        "label": "DMCA Anti-Circumvention",
+        "category": "legal",
+        "definition": "Federal prohibition on circumventing TPMs. Key question: does trivial ESX obfuscation qualify?",
+        "source_doc_ids": [
+          "DOC_010"
+        ]
+      },
+      {
+        "id": "C_024",
+        "label": "EULA Contract Risk",
+        "category": "legal",
+        "definition": "Risk of Xactimate license violation from parsing proprietary formats. Highest-severity legal threat.",
+        "source_doc_ids": [
+          "DOC_010"
+        ]
+      },
+      {
+        "id": "C_025",
+        "label": "PDF Safe Harbor Strategy",
+        "category": "legal",
+        "definition": "Use PDF/OCR as primary ingestion to avoid DMCA and EULA risk. ESX deferred.",
+        "source_doc_ids": [
+          "DOC_010"
+        ]
+      },
+      {
+        "id": "C_026",
+        "label": "Interoperability Defense",
+        "category": "legal",
+        "definition": "DMCA §1201(f) exception for reverse engineering to achieve program interoperability.",
+        "source_doc_ids": [
+          "DOC_010"
+        ]
+      },
+      {
+        "id": "C_027",
+        "label": "User-Origin Attestation",
+        "category": "legal",
+        "definition": "Mitigation pattern: users certify they exported files from their own Xactimate license.",
+        "source_doc_ids": [
+          "DOC_010"
+        ]
       }
     ],
     "edges": [
@@ -1343,6 +1514,31 @@
         "from": "C_022",
         "to": "C_011",
         "relation": "enables_phase2_for"
+      },
+      {
+        "from": "C_025",
+        "to": "C_001",
+        "relation": "constrains"
+      },
+      {
+        "from": "C_024",
+        "to": "C_025",
+        "relation": "enables"
+      },
+      {
+        "from": "C_023",
+        "to": "C_025",
+        "relation": "enables"
+      },
+      {
+        "from": "C_026",
+        "to": "C_023",
+        "relation": "constrains"
+      },
+      {
+        "from": "C_027",
+        "to": "C_024",
+        "relation": "constrains"
       }
     ]
   },
@@ -1698,6 +1894,30 @@
         "description": "Any output with confidence below threshold or F9 note conflicts must be held for human review before final CRM submission.",
         "mitigation_strategy": "HITL queue system with notification. User approves/rejects/edits before data proceeds to Node 4.",
         "status": "defined"
+      },
+      {
+        "id": "CONST_006",
+        "name": "PDF-First Ingestion (Legal Safe Harbor)",
+        "severity": "critical",
+        "description": "MVP must use PDF/OCR extraction only. ESX/XML parsing blocked pending legal counsel review of Xactimate EULA.",
+        "mitigation_strategy": "Node 1 already supports PDF via pdfplumber. ESX path deferred.",
+        "status": "active"
+      },
+      {
+        "id": "CONST_007",
+        "name": "User-Origin Enforcement",
+        "severity": "high",
+        "description": "All files must be user-exported from their own licensed Xactimate. Require certification of file origin.",
+        "mitigation_strategy": "Upload flow with attestation checkbox + timestamp logging.",
+        "status": "defined"
+      },
+      {
+        "id": "CONST_008",
+        "name": "No Format Spec Distribution",
+        "severity": "high",
+        "description": "Never publish any reverse-engineered ESX/XML format specs. Protects DMCA §1201(f) defense.",
+        "mitigation_strategy": "Parsing logic in private repo. No public documentation of ESX structure.",
+        "status": "active"
       }
     ],
     "risk_backlog": [
@@ -1740,6 +1960,30 @@
         "description": "A single Xactimate estimate may contain multiple trades (roofing, siding, gutters) destined for different suppliers. Data must be split correctly.",
         "mitigation_strategy": "Xactimate category codes naturally segment by trade. Node 2 extracts trade tags. Node 3 splits by trade for separate routing in Node 4.",
         "status": "open"
+      },
+      {
+        "id": "RISK_003",
+        "name": "EULA Breach from ESX Parsing",
+        "severity": "high",
+        "description": "Verisk EULA likely prohibits reverse engineering of software output. Primary litigation weapon.",
+        "mitigation_strategy": "CONST_006 (PDF-first) + CONST_007 (user-origin enforcement)",
+        "status": "mitigated"
+      },
+      {
+        "id": "RISK_004",
+        "name": "DMCA §1201 Circumvention Claim",
+        "severity": "medium",
+        "description": "Decoding ESX format could trigger anti-circumvention claims despite trivial obfuscation.",
+        "mitigation_strategy": "§1201(f) interoperability defense + PDF fallback + CONST_008",
+        "status": "mitigated"
+      },
+      {
+        "id": "RISK_005",
+        "name": "Verisk Enforcement Action",
+        "severity": "medium",
+        "description": "No known lawsuits against ESX parsers, but Verisk may enforce quietly via C&D.",
+        "mitigation_strategy": "CONST_008 + monitor industry + legal counsel on retainer",
+        "status": "monitoring"
       }
     ]
   },
