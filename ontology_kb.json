@@ -62,6 +62,18 @@
         "title": "Ontology Engine SaaS — Strategic Summary",
         "filename": "chatgemini -summary.json",
         "path": "R&D-Unsynthesized/markdown/chatgemini -summary.json"
+      },
+      {
+        "id": "DOC_008",
+        "title": "Xactimate Data Extraction Research Plan",
+        "filename": "Xactimate Data Extraction Research Plan.md",
+        "path": "R&D-Unsynthesized/markdown/Xactimate Data Extraction Research Plan.md"
+      },
+      {
+        "id": "DOC_009",
+        "title": "GOAS Hybrid Architecture — Research Summary",
+        "filename": "research-xactimite-pdf-esx.json",
+        "path": "R&D-Unsynthesized/markdown/research-xactimite-pdf-esx.json"
       }
     ]
   },
@@ -877,6 +889,119 @@
           "to_concept": "UAD 3.6 MISMO XML",
           "relation": "implements",
           "target_doc": "DOC_006"
+        }
+      ]
+    },
+    {
+      "id": "DOC_008",
+      "title": "Xactimate Data Extraction Research Plan",
+      "source_path": "R&D-Unsynthesized/markdown/Xactimate Data Extraction Research Plan.md",
+      "doc_type": "research",
+      "summary": "Exhaustive blueprint for building an OCR + semantic extraction pipeline for Xactimate PDF estimates. Covers macro-layout, micro-structure (9- vs 10-column tables), CAT/SEL/ACT taxonomy, ESX/XML target schemas, edge cases, and mathematical verification checkpoints.",
+      "key_concepts": [
+        {
+          "name": "Priority Asset Catalog",
+          "definition": "5 ranked, publicly available Xactimate PDF samples with direct URLs for parser training."
+        },
+        {
+          "name": "Dynamic Table Parsing",
+          "definition": "OCR must detect 9-column (standard valuation) vs 10-column (action-oriented) layouts."
+        },
+        {
+          "name": "CAT/SEL/ACT Semantic Triangle",
+          "definition": "Category Code + Selector Code + Activity Code: the universal taxonomy between contractors and insurers."
+        },
+        {
+          "name": "ESX Container Protocol",
+          "definition": ".ESX files are renamed .zip archives containing structured XML (<XACTDOC> root)."
+        },
+        {
+          "name": "Verification Checkpoints",
+          "definition": "RCV equation, ACV equation, spatial variable reconciliation, schema compliance validation."
+        }
+      ],
+      "training_samples": [
+        {
+          "rank": 1,
+          "name": "UP Help Fire Loss",
+          "url": "https://uphelp.org/wp-content/uploads/2020/09/rra-_uphelp_sample_xactimate_estimate.pdf",
+          "price_list": "CASO8X_SEP18",
+          "value": "Multi-page spanning, building code upgrade segregation"
+        },
+        {
+          "rank": 2,
+          "name": "Claims Delegates Draft",
+          "url": "https://www.claimsdelegates.com/wp-content/uploads/2021/12/EXAMPLE001_ROUGH_DRAFT_CAR.pdf",
+          "price_list": "TXDF8X_NOV21",
+          "value": "10-column layout, REMOVE/REPLACE split, Missing Wall deductions"
+        },
+        {
+          "rank": 3,
+          "name": "Assistimate Structure",
+          "url": "https://www.assistimate.com/wp-content/uploads/2022/05/Example_Xactimate_Structure.pdf",
+          "price_list": "TXDF8X_MAY22",
+          "value": "REDACTED string anomaly, coordinate sketch data"
+        },
+        {
+          "rank": 4,
+          "name": "GAF Roofing",
+          "url": "https://www.gaf.com/en-us/document-library/documents/brochures-&-literature/xactimate-sample.pdf",
+          "price_list": "INSB8X_NOV23",
+          "value": "Recap by Room/Category validation tables"
+        },
+        {
+          "rank": 5,
+          "name": "Assistimate Contents",
+          "url": "https://www.assistimate.com/wp-content/uploads/2022/05/Example_Xactimate_Contents.pdf",
+          "price_list": "TXDF8X_MAY22",
+          "value": "Non-spatial units (HR, MO, EA), TBD costs"
+        }
+      ],
+      "cross_references": [
+        {
+          "from_concept": "Priority Asset Catalog",
+          "to_concept": "TASK_A4",
+          "relation": "resolves"
+        },
+        {
+          "from_concept": "CAT/SEL/ACT Semantic Triangle",
+          "to_concept": "Lexicon Matrix",
+          "relation": "defines_inputs_for",
+          "target_doc": "DOC_004"
+        },
+        {
+          "from_concept": "ESX Container Protocol",
+          "to_concept": "Node 4 Output Adapters",
+          "relation": "defines_target_schema"
+        }
+      ]
+    },
+    {
+      "id": "DOC_009",
+      "title": "GOAS Hybrid Architecture — Research Summary",
+      "source_path": "R&D-Unsynthesized/markdown/research-xactimite-pdf-esx.json",
+      "doc_type": "research",
+      "summary": "Compact JSON summary defining the two-phase product strategy (Phase 1: The Wedge — Automated Parser, Phase 2: The Moat — Claims Database), competitive gaps, and Line_Item_Object schema with validation rules.",
+      "key_concepts": [
+        {
+          "name": "The Wedge (Phase 1)",
+          "definition": "Automated Xactimate Parser: Ingest PDF/ESX -> Output Structured JSON."
+        },
+        {
+          "name": "The Moat (Phase 2)",
+          "definition": "Proprietary Claims Database: Aggregated Line-Item Intelligence for benchmarking."
+        }
+      ],
+      "cross_references": [
+        {
+          "from_concept": "The Wedge",
+          "to_concept": "Node 1-3 Pipeline",
+          "relation": "implements"
+        },
+        {
+          "from_concept": "The Moat",
+          "to_concept": "Phase 2 R&D",
+          "relation": "future_implements"
         }
       ]
     }
@@ -1717,10 +1842,11 @@
       "tasks": [
         "TASK_A1",
         "TASK_A2",
-        "TASK_A3"
+        "TASK_A3",
+        "TASK_A4"
       ],
-      "status": "📋 assigned",
-      "blocker": "Needs Xactimate PDF samples (TASK_A4)",
+      "status": "🟡 in-progress",
+      "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node1_ingestion/ -v",
       "branch": "feature/agent-a-ingestion"
     },
@@ -1770,8 +1896,8 @@
         "TASK_G3",
         "TASK_G4"
       ],
-      "status": "⏳ blocked",
-      "blocker": "Depends on Beta (Node 3→4 output format must be finalized)",
+      "status": "🟡 in-progress",
+      "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node4_output/ -v",
       "branch": "feature/agent-c-output-adapters"
     },

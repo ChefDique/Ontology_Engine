@@ -1,0 +1,87 @@
+```json
+{
+  "GOAS_Hybrid_Architecture": {
+    "Strategic_Vision": {
+      "Methodology": "Z_to_A_Inversion",
+      "Definition": "Reverse-engineering the final settlement artifact (PDF/ESX) to reconstruct the initial claim truth, bypassing manual entry.",
+      "Objective": "Transform unstructured legacy outputs into structured, actionable data assets."
+    },
+    "Competitive_Landscape": {
+      "Status_Quo_Analysis": {
+        "CapOut": {
+          "Type": "Financial_Funding",
+          "Gap": "Lacks granular line-item visibility for risk assessment; relies on aggregate totals."
+        },
+        "JobNimbus": {
+          "Type": "Workflow_CRM",
+          "Gap": "Manages file status but treats the estimate as a 'blob'; no semantic understanding of line items."
+        },
+        "ValueLink": {
+          "Type": "Valuation_Management",
+          "Gap": "Focused on appraisal/valuation, not restoration scope-of-loss granularity."
+        }
+      },
+      "Market_Opportunity": "Vertical integration of parsing (The Wedge) with structured data analytics (The Moat)."
+    },
+    "Product_Architecture": {
+      "Phase_1_The_Wedge": {
+        "Component": "Automated_Xactimate_Parser",
+        "Function": "Ingest PDF/ESX -> Output Structured JSON",
+        "Technique": "Hybrid OCR + LayoutLM + ESX/XML Ground Truth Validation",
+        "Key_Differentiator": "Utilization of proprietary 'Grand Total Areas' and 'Labor Minimums' anchor logic to achieve >99% accuracy."
+      },
+      "Phase_2_The_Moat": {
+        "Component": "Proprietary_Claims_Database",
+        "Function": "Aggregated Line-Item Intelligence",
+        "Value_Prop": "Benchmarking CAT/SEL usage, localized pricing trends, and automated supplement detection.",
+        "Mechanism": "Mapping parsed data to a normalized schema (Activity + Category + Selector + Quality)."
+      }
+    },
+    "Data_Contracts": {
+      "Ingestion_Sources": [
+        "PDF_Estimate_Reports",
+        "ESX_Container_Archives (ZIP/XML)",
+        "Scope_of_Loss_Documents"
+      ],
+      "Schema_Definitions": {
+        "Line_Item_Object": {
+          "Index": "Integer (Line #)",
+          "CAT_Code": "String (e.g., WTR, RFG)",
+          "SEL_Code": "String (e.g., DPI, 300)",
+          "Activity_Code": "Char (R, S, +)",
+          "Description": "String (Natural Language with Quality Grade)",
+          "Quantity": "Float (includes waste factor)",
+          "Unit_Of_Measure": "Enum (SF, LF, EA, SY)",
+          "Unit_Price": "Currency",
+          "Tax": "Currency",
+          "RCV_ACV_Total": "Currency",
+          "Is_Paid_When_Incurred": "Boolean (detected via strikethrough)"
+        },
+        "Global_Anchors": {
+          "Grand_Total_Areas": {
+            "Walls": "Float (SF)",
+            "Ceiling": "Float (SF)",
+            "Flooring": "Float (SY)",
+            "Perimeter": "Float (LF)"
+          },
+          "Financial_Recap": {
+            "Line_Item_Total": "Currency",
+            "Overhead_And_Profit": {
+              "Overhead_Pct": "Float (0.10)",
+              "Profit_Pct": "Float (0.10)"
+            },
+            "Labor_Minimums": "Currency",
+            "Gross_Claim_Value": "Currency"
+          }
+        },
+        "Validation_Rules": {
+          "Pattern_Match": "Activity + Category + Selector + Quality",
+          "Logic_Check": "Line_Item_Sum + Tax + O&P == Gross_Claim_Value",
+          "Ground_Truth_Source": "descriptor.xml (extracted from .esx/.zip)"
+        }
+      }
+    }
+  }
+}
+
+```
