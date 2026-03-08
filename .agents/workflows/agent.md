@@ -4,40 +4,55 @@ description: Run as a workstream agent — reads assignment from KB, creates wor
 
 # /agent [workstream]
 
-You are an **implementation agent** for a specific Ontology Engine workstream. You build, test, and verify — then report.
+You are an **implementation agent** for a specific Ontology Engine workstream.
 
-**Usage:** `/agent alpha` or `/agent beta` or `/agent gamma` or `/agent delta`
+**Usage:** `/agent alpha` | `/agent beta` | `/agent gamma` | `/agent delta`
 
 // turbo-all
 
-## Step 1: Load Assignment
+## Step 1: Safety Gate
 
-Read the project rules:
+```bash
+git status --porcelain
+```
+
+**If non-empty → STOP.** Do NOT stash. Do NOT continue.
+
+```bash
+git checkout master && git pull
+```
+
+---
+
+## Step 2: Load Assignment
 
 ```bash
 cat .agents/rules/project-rules.md
 ```
 
-Extract your assignment from the KB:
+Read your workstream from the KB (replace `[WORKSTREAM]` with argument):
 
 ```bash
 python3 -c "
 import json, sys
-ws_name = '[WORKSTREAM]'  # replaced by user's argument
+ws_name = '[WORKSTREAM]'
 kb = json.loads(open('ontology_kb.json').read())
 ws = kb['workstreams'].get(ws_name)
 if not ws:
-    print(f'❌ Unknown workstream: {ws_name}')
-    print(f'Available: {list(kb[\"workstreams\"].keys())}')
+    print(f'❌ Unknown: {ws_name}. Available: {list(kb[\"workstreams\"].keys())}')
     sys.exit(1)
-print(f'=== Agent {ws[\"letter\"]}: {ws[\"name\"]} ===')
-print(f'Scope:    {ws[\"scope\"]}')
-print(f'Tasks:    {ws[\"tasks\"]}')
-print(f'Verify:   {ws[\"verify\"]}')
-print(f'Branch:   {ws[\"branch\"]}')
-print(f'Briefing: {ws[\"briefing\"]}')
+if ws.get('blocker'):
+    print(f'⚠️  BLOCKED: {ws[\"blocker\"]}')
+    print('Cannot proceed. Run /orchestrate to resolve blocker.')
+    sys.exit(1)
+print(f'Letter:    {ws[\"letter\"]}')
+print(f'Name:      {ws[\"name\"]}')
+print(f'Scope:     {ws[\"scope\"]}')
+print(f'Tasks:     {ws[\"tasks\"]}')
+print(f'Verify:    {ws[\"verify\"]}')
+print(f'Branch:    {ws[\"branch\"]}')
+print(f'Briefing:  {ws[\"briefing\"]}')
 print(f'Contracts: {ws[\"contracts\"]}')
-if ws.get('blocker'): print(f'⚠️ Blocker: {ws[\"blocker\"]}')
 "
 ```
 
@@ -50,64 +65,95 @@ cat src/ontology_engine/contracts/schemas.py
 
 ---
 
-## Step 2: Create Worktree
+## Step 3: Create Worktree
 
 ```bash
-git status --porcelain
-```
-
-**If non-empty → STOP.** Refuse with dirty tree.
-
-```bash
-git checkout master && git pull
 git worktree add ../agent-[LETTER] -b [BRANCH]
+cd ../agent-[LETTER]
 ```
 
-**All work happens in `../agent-[LETTER]/` directory.** Do not work in the main repo directory.
+**ALL work happens in `../agent-[LETTER]/`.** Never return to the main repo.
 
 ---
 
-## Step 3: Build
+## Step 4: Build
 
 Work through your task list. For each task:
 
-1. Implement the feature
+1. Implement the feature in your scope directories ONLY
 2. Write tests
-3. Run the verify command from your assignment
-4. Ensure `contracts/schemas.py` validation passes for your node's output
+3. Run your verify command
 
-**Scope boundary:** ONLY edit files in your `scope` directories. If you need to change shared files (`contracts/`, `pipeline.py`, `config.py`), note it in your status report and do NOT make the change.
+### Scope Boundary Enforcement (CRITICAL)
+
+You may **ONLY** edit files under your `scope` paths from KB Layer 7.
+
+**If you need to change a shared file** (`contracts/`, `config.py`, `pipeline.py`, `pyproject.toml`):
+
+1. Do NOT make the change
+2. Note it in your status report under `## Shared File Requests`
+3. The orchestrator will make the change on `master` after review
+
+**WHY:** Parallel agents share `master`. If two agents both edit `contracts/schemas.py`, the second merge will conflict. Only the orchestrator edits shared files — it serializes those changes.
+
+### Other Parallel Safety Rules
+
+- **Never `git merge`** — you are on a feature branch, merging is orchestrator-only
+- **Never `git stash`** — stashes create hidden state that corrupts worktree isolation
+- **Never switch branches** — the worktree IS the branch
+- **Never read/edit `../agent-X/`** — other agent worktrees are off-limits
+- **Never edit `.agents/HANDOFF.md`** — orchestrator-only file
 
 ---
 
-## Step 4: Report
+## Step 5: Verify
 
-After all tasks are complete and tests pass:
+```bash
+cd ../agent-[LETTER]
+[VERIFY_COMMAND from KB]
+```
+
+If tests fail, fix them before proceeding. Do not submit with failing tests.
+
+---
+
+## Step 6: Report
 
 ```bash
 cd ../agent-[LETTER]
 git add -A
-git commit -m "feat: implement [workstream name]"
+git commit -m "feat: implement [workstream name]
+
+Tasks: [TASK_IDs]
+Scope: [scope paths]"
 git push -u origin [BRANCH]
 ```
 
 Create completion report:
 
 ```bash
-cat > .agents/status/[LETTER].md << 'EOF'
+cat > .agents/status/[LETTER].md << 'REPORT'
 # Agent [LETTER] — [Workstream Name]
 
-## Verify Checklist
-- [ ] `[VERIFY_COMMAND]` — all tests pass
-- [ ] Contract validation passes for [contracts]
-- [ ] No files outside scope boundary were modified
+## Verify Results
+- `[VERIFY_COMMAND]` — PASS/FAIL
+- Contract validation — PASS/FAIL
+- Scope boundary respected — YES/NO
+
+## Shared File Requests
+(List any shared files you NEED changed but did NOT edit)
 
 ## Changes
-$(git diff master --stat)
+```
 
-## Status
-$(git status --short)
-EOF
+git diff master --stat
+
+```
+
+## Notes
+(Blockers, questions, or observations for orchestrator)
+REPORT
+
 git add .agents/status/[LETTER].md
 git commit -m "docs: agent [LETTER] completion report"
 git push
@@ -115,12 +161,13 @@ git push
 
 ---
 
-## Agent Rules (CRITICAL)
+## Agent Rules Summary
 
-- ❌ NEVER edit `.agents/HANDOFF.md` (orchestrator-only)
-- ❌ NEVER merge to master
-- ❌ NEVER switch branches (worktree IS the branch)
-- ❌ NEVER stash
-- ✅ DO stay in worktree directory
-- ✅ DO create status file as last action
-- ✅ DO respect scope boundary
+| Rule                                    | Reason                               |
+| --------------------------------------- | ------------------------------------ |
+| Stay in worktree                        | Isolation from other agents          |
+| Only edit scope files                   | Prevents merge conflicts             |
+| Never merge/stash/switch                | Worktree IS the branch               |
+| Never edit HANDOFF.md                   | Orchestrator-only state              |
+| Status file is last action              | Signals completion to `/done`        |
+| Request shared changes, don't make them | Orchestrator serializes shared edits |
