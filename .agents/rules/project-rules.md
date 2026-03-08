@@ -1,5 +1,15 @@
 # Ontology Engine — Project Rules
 
+## Mission
+
+**We are building an automated Xactimate-to-CRM translation engine.** Insurance restoration contractors currently waste hours manually re-entering estimate data from Xactimate (the industry-standard estimating tool, 85-90% market share) into their CRM systems (Buildertrend, JobNimbus, AccuLynx). Our 4-node pipeline ingests an Xactimate PDF, extracts structured line items via LLM, applies deterministic roofer math (waste factors, O&P stripping, unit conversions), and routes the output as CRM-ready CSV/JSON.
+
+**Who it's for:** Roofing and restoration contractors in the US market.
+
+**Why it matters:** No tool does this end-to-end today. Existing integrations are shallow (file status only) or locked inside Verisk's walled garden. We sit in the gap between the estimate and the CRM — "The Wedge."
+
+**Legal constraint (CONST_006):** MVP uses PDF/OCR extraction only. ESX/XML parsing is deferred pending legal counsel review of the Xactimate EULA. All processed files must be user-exported from their own licensed Xactimate (CONST_007).
+
 ## Documentation & Tracking
 
 - **Knowledge Base:** `ontology_kb.json` is the single source of truth (7 layers)
