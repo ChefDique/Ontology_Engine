@@ -41,8 +41,11 @@ print()
 print('=== WORKSTREAMS ===')
 for name, ws in kb.get('workstreams', {}).items():
     blocker = f' | ⚠️ {ws[\"blocker\"]}' if ws.get('blocker') else ''
+    mode = ws.get('recommended_mode', 'planning')
+    mode_icon = '🧠 Planning' if mode == 'planning' else '⚡ Fast'
     print(f\"  [{ws['letter']}] {ws['status']:16s} {ws['name']}{blocker}\")
     print(f\"      scope: {ws['scope']}\")
+    print(f\"      mode:  {mode_icon}\")
 "
 ```
 
@@ -110,7 +113,18 @@ print('✅ No scope collisions — safe to parallelize')
 1. Update KB `workstreams[name].status` to `"🟡 in-progress"`
 2. Update `.agents/HANDOFF.md` letter registry
 3. `git add -A && git commit -m "docs: dispatch agent [LETTER]" && git push`
-4. Tell user: _"Open a new session and type `/agent [workstream]`"_
+4. Present dispatch table with recommended conversation mode:
+
+| Agent    | Workstream | Mode                  | Command               |
+| -------- | ---------- | --------------------- | --------------------- |
+| [LETTER] | [name]     | 🧠 Planning / ⚡ Fast | `/agent [workstream]` |
+
+**Mode heuristic (already encoded in KB `recommended_mode`):**
+
+- **🧠 Planning** — >3 interconnected tasks, design decisions, research, novel domain logic, >3 new files
+- **⚡ Fast** — 1-2 isolated tasks, clear pattern, mechanical changes, all info in briefing
+
+5. Tell user: _"Open a new session in [Planning/Fast] mode and type `/agent [workstream]`"_
 
 **Mode B — Research needed:**
 

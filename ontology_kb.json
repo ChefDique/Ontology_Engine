@@ -1848,7 +1848,9 @@
       "status": "🟡 in-progress",
       "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node1_ingestion/ -v",
-      "branch": "feature/agent-a-ingestion"
+      "branch": "feature/agent-a-ingestion",
+      "recommended_mode": "planning",
+      "mode_rationale": "Multiple interconnected components (OCR routing, PII pipeline, chunking), design decisions required, needs to download/integrate test fixtures"
     },
     "beta": {
       "letter": "B",
@@ -1877,7 +1879,9 @@
       "status": "✅ merged",
       "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node2_extraction/ tests/test_node3_calculus/ -v",
-      "branch": "feature/agent-b-extraction-calculus"
+      "branch": "feature/agent-b-extraction-calculus",
+      "recommended_mode": "planning",
+      "mode_rationale": "Complex domain logic (Lexicon Matrix, roofer math, O&P stripping), multiple modules with dependencies"
     },
     "gamma": {
       "letter": "C",
@@ -1899,7 +1903,9 @@
       "status": "🟡 in-progress",
       "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node4_output/ -v",
-      "branch": "feature/agent-c-output-adapters"
+      "branch": "feature/agent-c-output-adapters",
+      "recommended_mode": "planning",
+      "mode_rationale": "CRM integration nuances (JobNimbus duplicate errors, AccuLynx private API research), format decisions per CRM target"
     },
     "delta": {
       "letter": "D",
@@ -1917,7 +1923,9 @@
       "status": "📋 assigned",
       "blocker": null,
       "verify": "test -f docs/research/uad_36_analysis.md",
-      "branch": "feature/agent-d-uad-research"
+      "branch": "feature/agent-d-uad-research",
+      "recommended_mode": "planning",
+      "mode_rationale": "Pure research workstream requiring deep investigation of UAD 3.6 / MISMO XML standards"
     }
   }
 }
