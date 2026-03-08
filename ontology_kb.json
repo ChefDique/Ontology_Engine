@@ -1130,6 +1130,145 @@
           "relation": "constrains"
         }
       ]
+    },
+    {
+      "id": "DOC_011",
+      "title": "GOAS Hybrid Architecture — Legal + Product Strategy",
+      "source_path": "inline (user-provided JSON, 2026-03-08)",
+      "doc_type": "framework",
+      "summary": "Strategic framework combining Z→A methodology with legal risk compression for ESX parsing. Defines two-phase product architecture (The Wedge: ESX→CRM parser; The Moat: aggregated pricing intelligence). Maps legal posture per phase using DMCA §1201(f), CFAA safe harbors, and FTC data portability. Includes refined data contracts with mathematical verification (PRICE*QTY+TAX+O&P=RCV) and strict BYOD user attestation.",
+      "key_concepts": [
+        {
+          "label": "The Wedge (Phase 1)",
+          "definition": "Fast ESX-to-CRM parser that eliminates manual data entry. Strategic entry point for market penetration. Legal posture: DMCA §1201(f) interoperability exception + CFAA safe harbors."
+        },
+        {
+          "label": "The Moat (Phase 2)",
+          "definition": "Aggregated anonymized pricing intelligence and material analytics across platforms. Creates defensible data ecosystem and workflow lock-in. Leverages FTC Right to Repair + state data portability frameworks."
+        },
+        {
+          "label": "BYOD (Bring Your Own Data)",
+          "definition": "Core legal and product principle requiring users to supply their own locally-saved ESX files via affirmative warranty of data ownership. No credential sharing, no server scraping."
+        },
+        {
+          "label": "Legal Risk Compression",
+          "definition": "Strategy of reducing multi-vector legal exposure to near-zero by staying outside authentication gates, avoiding trademark use, and relying on federal copyright preemption."
+        },
+        {
+          "label": "Mathematical Verification Protocol",
+          "definition": "Algorithmic reconciliation: (PRICE * QTY) + TAX + O&P = RCV. Must match Grand Total Areas before CRM dispatch. Core quality gate for Node 3."
+        },
+        {
+          "label": "Dynamic Tabular Mapping",
+          "definition": "Output transformation handling both 9-column valuation layouts and 10-column Remove/Replace action layouts from Xactimate."
+        }
+      ],
+      "entities": [
+        {
+          "name": "Verisk / Xactware",
+          "type": "organization",
+          "detail": "85-90% market share; highly litigious"
+        },
+        {
+          "name": "Actionable Insights",
+          "type": "organization",
+          "detail": "Sanctioned ecosystem partner"
+        },
+        {
+          "name": "EagleView",
+          "type": "organization",
+          "detail": "Sanctioned ecosystem partner"
+        },
+        {
+          "name": "JobNimbus",
+          "type": "product"
+        },
+        {
+          "name": "AccuLynx",
+          "type": "product"
+        },
+        {
+          "name": "Buildertrend",
+          "type": "product"
+        },
+        {
+          "name": "CompanyCam",
+          "type": "product"
+        },
+        {
+          "name": "DMCA §1201(f)",
+          "type": "statute"
+        },
+        {
+          "name": "Hawaii SB 1037",
+          "type": "statute",
+          "detail": "Data portability trajectory"
+        },
+        {
+          "name": "FTC Right to Repair",
+          "type": "regulation"
+        },
+        {
+          "name": "Lexmark v. Static Control",
+          "type": "case_law"
+        },
+        {
+          "name": "hiQ Labs v. LinkedIn",
+          "type": "case_law"
+        },
+        {
+          "name": "Van Buren v. United States",
+          "type": "case_law"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "CFAA threat is zero — operations occur entirely outside Verisk authentication gates on user-provided local files",
+          "evidence": "hiQ Labs v. LinkedIn; Van Buren v. United States"
+        },
+        {
+          "finding": "DMCA threat is low — renaming .esx to .zip is trivial obfuscation, failing the 'effective TPM' standard",
+          "evidence": "Lexmark v. Static Control"
+        },
+        {
+          "finding": "EULA tortious interference is medium-high — mitigated by federal copyright preemption and trademark abstention",
+          "evidence": "No Verisk trademark use, no affiliation claims"
+        },
+        {
+          "finding": "Phase 2 (The Moat) provides legal deterrent via FTC Right to Repair and emerging data portability mandates",
+          "evidence": "FTC open data mandates, state-level bills like Hawaii SB 1037"
+        },
+        {
+          "finding": "Two layout formats exist in Xactimate output: 9-column valuation and 10-column Remove/Replace action",
+          "evidence": "Data extraction research confirms dual-layout requirement"
+        }
+      ],
+      "relationships": [
+        {
+          "from": "DOC_011",
+          "to": "DOC_010",
+          "relation": "enables",
+          "detail": "Provides strategic legal framing building on DOC_010 risk analysis"
+        },
+        {
+          "from": "DOC_011",
+          "to": "DOC_002",
+          "relation": "implements",
+          "detail": "Operationalizes Z→A pipeline methodology with legal posture"
+        },
+        {
+          "from": "DOC_011",
+          "to": "DOC_009",
+          "relation": "enables",
+          "detail": "Refines GOAS architecture with two-phase product strategy"
+        },
+        {
+          "from": "DOC_011",
+          "to": "DOC_004",
+          "relation": "targets",
+          "detail": "Specifies CRM integration targets from Blueprint"
+        }
+      ]
     }
   ],
   "ontology": {
@@ -1397,6 +1536,53 @@
         "source_doc_ids": [
           "DOC_010"
         ]
+      },
+      {
+        "id": "C_028",
+        "label": "The Wedge (Phase 1 Market Entry)",
+        "category": "strategy",
+        "definition": "Fast ESX-to-CRM parser for immediate workflow friction reduction. First-mover advantage via speed and accuracy.",
+        "source_doc_ids": [
+          "DOC_011",
+          "DOC_002"
+        ]
+      },
+      {
+        "id": "C_029",
+        "label": "The Moat (Phase 2 Data Ecosystem)",
+        "category": "strategy",
+        "definition": "Aggregated anonymized pricing intelligence creating defensible data ecosystem. Contractors and CRMs become dependent on the intelligence layer.",
+        "source_doc_ids": [
+          "DOC_011"
+        ]
+      },
+      {
+        "id": "C_030",
+        "label": "BYOD Legal Model",
+        "category": "legal",
+        "definition": "Bring-Your-Own-Data: users must warrant ownership of files being processed. Core legal shield eliminating CFAA and reducing EULA exposure.",
+        "source_doc_ids": [
+          "DOC_011",
+          "DOC_010"
+        ]
+      },
+      {
+        "id": "C_031",
+        "label": "Dual Layout Detection",
+        "category": "technical",
+        "definition": "Xactimate produces two output layouts: 9-column valuation and 10-column Remove/Replace action. Parser must handle both dynamically.",
+        "source_doc_ids": [
+          "DOC_011"
+        ]
+      },
+      {
+        "id": "C_032",
+        "label": "Federal Copyright Preemption",
+        "category": "legal",
+        "definition": "Defensive strategy using federal copyright preemption to counter EULA tortious interference claims. Avoids Verisk trademark use.",
+        "source_doc_ids": [
+          "DOC_011"
+        ]
       }
     ],
     "edges": [
@@ -1539,6 +1725,36 @@
         "from": "C_027",
         "to": "C_024",
         "relation": "constrains"
+      },
+      {
+        "from": "C_028",
+        "to": "C_029",
+        "relation": "enables"
+      },
+      {
+        "from": "C_030",
+        "to": "C_027",
+        "relation": "implements"
+      },
+      {
+        "from": "C_030",
+        "to": "C_024",
+        "relation": "constrains"
+      },
+      {
+        "from": "C_031",
+        "to": "C_007",
+        "relation": "constrains"
+      },
+      {
+        "from": "C_032",
+        "to": "C_024",
+        "relation": "constrains"
+      },
+      {
+        "from": "C_028",
+        "to": "C_025",
+        "relation": "depends_on"
       }
     ]
   },
@@ -1918,6 +2134,14 @@
         "description": "Never publish any reverse-engineered ESX/XML format specs. Protects DMCA §1201(f) defense.",
         "mitigation_strategy": "Parsing logic in private repo. No public documentation of ESX structure.",
         "status": "active"
+      },
+      {
+        "id": "CONST_009",
+        "name": "RCV Reconciliation Gate",
+        "severity": "critical",
+        "description": "Before CRM dispatch, algorithmically verify: (PRICE * QTY) + TAX + O&P = RCV. Must match the document's Grand Total Areas. Reject if mismatch exceeds tolerance.",
+        "mitigation_strategy": "Node 3 roofer_math already computes adjusted totals. Add reconciliation check against extracted totals from Node 2.",
+        "status": "defined"
       }
     ],
     "risk_backlog": [
@@ -1984,6 +2208,14 @@
         "description": "No known lawsuits against ESX parsers, but Verisk may enforce quietly via C&D.",
         "mitigation_strategy": "CONST_008 + monitor industry + legal counsel on retainer",
         "status": "monitoring"
+      },
+      {
+        "id": "RISK_006",
+        "name": "Tortious Interference via EULA",
+        "severity": "medium-high",
+        "description": "Verisk could claim tortious interference with contractual relations (EULA). Distinct from direct EULA breach (RISK_003).",
+        "mitigation_strategy": "Federal copyright preemption + zero Verisk trademark usage + no affiliation claims. BYOD model (CONST_007).",
+        "status": "mitigated"
       }
     ]
   },
