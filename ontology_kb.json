@@ -1701,5 +1701,97 @@
         "source_doc": "DOC_005"
       }
     ]
+  },
+  "workstreams": {
+    "alpha": {
+      "letter": "A",
+      "name": "Node 1: Ingestion (OCR + PII Redaction)",
+      "scope": [
+        "src/ontology_engine/node1_ingestion/",
+        "tests/test_node1_ingestion/"
+      ],
+      "briefing": "docs/briefings/alpha_briefing.md",
+      "contracts": [
+        "node1_to_2"
+      ],
+      "tasks": [
+        "TASK_A1",
+        "TASK_A2",
+        "TASK_A3"
+      ],
+      "status": "📋 assigned",
+      "blocker": "Needs Xactimate PDF samples (TASK_A4)",
+      "verify": "source .venv/bin/activate && pytest tests/test_node1_ingestion/ -v",
+      "branch": "feature/agent-a-ingestion"
+    },
+    "beta": {
+      "letter": "B",
+      "name": "Nodes 2+3: Semantic Extraction + Deterministic Calculus",
+      "scope": [
+        "src/ontology_engine/node2_extraction/",
+        "src/ontology_engine/node3_calculus/",
+        "tests/test_node2_extraction/",
+        "tests/test_node3_calculus/"
+      ],
+      "briefing": "docs/briefings/beta_briefing.md",
+      "contracts": [
+        "node1_to_2",
+        "node2_to_3",
+        "node3_to_4"
+      ],
+      "tasks": [
+        "TASK_B1",
+        "TASK_B2",
+        "TASK_B3",
+        "TASK_B4",
+        "TASK_B5",
+        "TASK_B6",
+        "TASK_B7"
+      ],
+      "status": "📋 assigned",
+      "blocker": null,
+      "verify": "source .venv/bin/activate && pytest tests/test_node2_extraction/ tests/test_node3_calculus/ -v",
+      "branch": "feature/agent-b-extraction-calculus"
+    },
+    "gamma": {
+      "letter": "C",
+      "name": "Node 4: Output Routing (CRM Adapters)",
+      "scope": [
+        "src/ontology_engine/node4_output/",
+        "tests/test_node4_output/"
+      ],
+      "briefing": "docs/briefings/gamma_briefing.md",
+      "contracts": [
+        "node3_to_4"
+      ],
+      "tasks": [
+        "TASK_G1",
+        "TASK_G2",
+        "TASK_G3",
+        "TASK_G4"
+      ],
+      "status": "⏳ blocked",
+      "blocker": "Depends on Beta (Node 3→4 output format must be finalized)",
+      "verify": "source .venv/bin/activate && pytest tests/test_node4_output/ -v",
+      "branch": "feature/agent-c-output-adapters"
+    },
+    "delta": {
+      "letter": "D",
+      "name": "Phase 2 R&D: UAD 3.6 / MISMO XML",
+      "scope": [
+        "docs/research/"
+      ],
+      "briefing": "docs/briefings/delta_briefing.md",
+      "contracts": [],
+      "tasks": [
+        "TASK_D1",
+        "TASK_D2",
+        "TASK_D3"
+      ],
+      "status": "📋 assigned",
+      "blocker": null,
+      "verify": "test -f docs/research/uad_36_analysis.md",
+      "branch": "feature/agent-d-uad-research"
+    }
   }
 }
