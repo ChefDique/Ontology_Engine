@@ -2222,6 +2222,81 @@
           "status": "pending"
         }
       ]
+    },
+    "foxtrot": {
+      "letter": "F",
+      "name": "Pipeline Wiring + HITL + CLI",
+      "status": "🟡 in-progress",
+      "scope": [
+        "src/ontology_engine/pipeline.py",
+        "src/ontology_engine/hitl/",
+        "src/ontology_engine/__main__.py",
+        "tests/test_pipeline/",
+        "tests/test_hitl/"
+      ],
+      "blocker": null,
+      "recommended_mode": "fast",
+      "tasks": [
+        {
+          "id": "TASK_F1",
+          "title": "Wire pipeline.py (chain Nodes 1→4 with contract validation)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_F2",
+          "title": "Implement hitl/review_queue.py (local JSON queue)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_F3",
+          "title": "Add CLI entry point __main__.py",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_F4",
+          "title": "Write integration tests for pipeline + HITL",
+          "status": "pending"
+        }
+      ]
+    },
+    "golf": {
+      "letter": "G",
+      "name": "LLM Integration (Gemini Flash → Node 2)",
+      "status": "🟡 in-progress",
+      "scope": [
+        "src/ontology_engine/node2_extraction/",
+        "src/ontology_engine/config.py",
+        "tests/test_node2_extraction/"
+      ],
+      "blocker": null,
+      "recommended_mode": "fast",
+      "tasks": [
+        {
+          "id": "TASK_G1",
+          "title": "Add google-generativeai dependency",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_G2",
+          "title": "Wire extractor to Gemini Flash",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_G3",
+          "title": "Update config.py for Gemini settings",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_G4",
+          "title": "Add response parsing + error handling",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_G5",
+          "title": "Write integration tests with mocked LLM",
+          "status": "pending"
+        }
+      ]
     }
   }
 }

@@ -16,22 +16,28 @@
 | B      | Beta: Nodes 2+3 Extraction+Calculus | ✅ Merged      | `feature/agent-b-extraction-calculus`           |
 | C      | Gamma: Node 4 Output Adapters       | ✅ Merged      | `feature/agent-c-output-adapters`               |
 | D      | Delta: UAD 3.6 R&D                  | 📋 Assigned    | `feature/agent-d-uad-research`                  |
-| E      | Epsilon: kb-orchestrator Skill      | 🟡 In-Progress | `~/.gemini/antigravity/skills/kb-orchestrator/` |
+| E      | Epsilon: kb-orchestrator Skill      | ✅ Complete    | `~/.gemini/antigravity/skills/kb-orchestrator/` |
+| F      | Foxtrot: Pipeline Wiring + HITL     | 🟡 In-Progress | `feature/agent-f-pipeline-wiring`               |
+| G      | Golf: LLM Integration (Gemini)      | 🟡 In-Progress | `feature/agent-g-llm-integration`               |
 
 ## Work Queue
 
 1. ~~Alpha + Beta (parallel)~~ **Both merged**
-2. ~~Alpha + Gamma (parallel)~~ **Both merged**
-3. **Epsilon** (skill build — no project scope overlap, dispatched)
-4. Delta (independent, low priority)
+2. ~~Gamma (parallel with Alpha)~~ **Merged**
+3. ~~Epsilon (skill build)~~ **Complete**
+4. **Foxtrot + Golf** (parallel — no scope overlap, MVP critical path)
+5. Hotel: Red Team Suite (after F+G merge)
+6. India: UI Shell (after F+G merge)
+7. Delta (independent, low priority)
 
 ## Last Session
 
-- **Date:** 2026-03-07
-- **Session:** `/done` — verify + merge Agent C
+- **Date:** 2026-03-08
+- **Session:** Orchestrator — dispatch F + G
 - **Completed:**
-  - Agent A: already merged in prior session (`465982a`)
-  - Agent C: verified (44/44 tests), merged, worktree removed, archived
-  - Full suite post-merge: 175 passed, 1 skipped across all 4 nodes
-  - Nodes 1–4 pipeline complete on master
-- **Next:** Dispatch Agent E (kb-orchestrator skill); Delta when ready
+  - Marked Agent E complete (kb-orchestrator skill verified)
+  - Synthesized DOC_010 (legal risk analysis) into KB — CONST_006-008, RISK_003-005
+  - Wrote F assignment (pipeline.py + HITL + CLI, 4 tasks)
+  - Wrote G assignment (Gemini Flash → Node 2, 5 tasks)
+  - Scope collision check: ✅ passed
+- **Next:** Agents F + G execute in parallel → `/done` → dispatch H (Red Team) + I (UI Shell)
