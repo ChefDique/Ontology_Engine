@@ -1900,7 +1900,7 @@
         "TASK_G3",
         "TASK_G4"
       ],
-      "status": "🟡 in-progress",
+      "status": "✅ merged",
       "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node4_output/ -v",
       "branch": "feature/agent-c-output-adapters",
