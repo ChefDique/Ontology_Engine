@@ -56,10 +56,15 @@
         "title": "GOAS Data Friction Matrix Generation",
         "filename": "GOAS Data Friction Matrix Generation.md",
         "path": "R&D-Unsynthesized/markdown/GOAS Data Friction Matrix Generation.md"
+      },
+      {
+        "id": "DOC_007",
+        "title": "Ontology Engine SaaS — Strategic Summary",
+        "filename": "chatgemini -summary.json",
+        "path": "R&D-Unsynthesized/markdown/chatgemini -summary.json"
       }
     ]
   },
-
   "documents": [
     {
       "id": "DOC_001",
@@ -750,9 +755,132 @@
           "target_doc": "DOC_005"
         }
       ]
+    },
+    {
+      "id": "DOC_007",
+      "title": "Ontology Engine SaaS — Strategic Summary",
+      "source_path": "R&D-Unsynthesized/markdown/chatgemini -summary.json",
+      "doc_type": "strategic_summary",
+      "summary": "Comprehensive strategic summary synthesizing the Ontology Engine project vision: core thesis (monetizing the 'ontological divide' between ConTech and PropTech), GOAS methodology, competitive landscape analysis (verified white space), Phase 1/Phase 2 architecture, and data physics contracts (ingestion schema, supplement delta contract, UAD mapping logic).",
+      "key_concepts": [
+        {
+          "name": "Ontological Divide",
+          "definition": "The market gap between the ConTech silo (contractor operations: CRMs, procurement) and the PropTech silo (mortgage compliance: UAD 3.6, MISMO XML). No existing competitor bridges both."
+        },
+        {
+          "name": "Competitive White Space",
+          "definition": "Verified zero direct competitors bridging Xactimate parsing to UAD 3.6/MISMO 3.6 XML. ConTech players (CapOut.ai, EstimateHub, CRMs) lack PropTech mapping. PropTech players (ValueLink, Restb.ai) lack contractor intake."
+        },
+        {
+          "name": "Ingestion Contract Schema",
+          "definition": "Formal JSON schema defining the canonical intake format: source_type (pdf|esx|email|scan|xactanalysis), customer PII fields, property/claim/estimate metadata, and confidence scores per extraction."
+        },
+        {
+          "name": "Supplement Delta Contract",
+          "definition": "Schema for tracking changes between estimate versions: diffs with change_type (added|removed|qty_changed|price_changed|scope_changed), margin_impact, evidence_refs, and summary (added_rcv, removed_rcv, net_delta)."
+        },
+        {
+          "name": "UAD Condition/Quality Mapping",
+          "definition": "Logic to algorithmically map Xactimate Category/Selector codes to UAD 3.6 Condition Ratings (C1-C6) and Quality Ratings (Q1-Q6) for MISMO 3.6 XML export."
+        },
+        {
+          "name": "Pain Quantification",
+          "definition": "Phase 1: 45-90 min per estimate, $1,050-$3,600/month at 40 packets/month. Phase 2: 60-120 min per appraisal, caps daily revenue capacity."
+        }
+      ],
+      "entities": [
+        {
+          "name": "CapOut.ai",
+          "type": "competitor",
+          "description": "ConTech PDF parser/workflow tool. Strictly contractor-side; no UAD 3.6 mapping."
+        },
+        {
+          "name": "EstimateHub / ClaimsFlow",
+          "type": "competitor",
+          "description": "PDF-to-ESX converters within Xactimate ecosystem. No cross-industry translation."
+        },
+        {
+          "name": "ValueLink / Appraise-It Pro",
+          "type": "competitor",
+          "description": "PropTech appraisal ledgers/UAD translators. Rely on human appraiser workflow, don't ingest Xactimate."
+        },
+        {
+          "name": "Restb.ai",
+          "type": "competitor",
+          "description": "Visual AI property scanning. Guesses condition from photos; doesn't verify using contractor material lists."
+        },
+        {
+          "name": "Canonical Claim Graph",
+          "type": "data_structure",
+          "description": "Internal structured representation that captures contact, claim metadata, estimate structure, worksheet sections, and material objects."
+        }
+      ],
+      "requirements": [
+        {
+          "id": "REQ_007_01",
+          "description": "Ingestion must accept 5 source types: pdf, esx, email, scan, xactanalysis",
+          "priority": "high",
+          "status": "specified"
+        },
+        {
+          "id": "REQ_007_02",
+          "description": "Supplement tracking must support 5 change types in delta contracts",
+          "priority": "high",
+          "status": "specified"
+        },
+        {
+          "id": "REQ_007_03",
+          "description": "UAD mapping must produce C1-C6 condition and Q1-Q6 quality codes from Xactimate line items",
+          "priority": "medium",
+          "status": "researched"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "Verified competitive white space: no player bridges ConTech (Xactimate parsing) to PropTech (UAD 3.6 MISMO XML)",
+          "evidence": "Analysis of CapOut.ai, EstimateHub, ValueLink, Restb.ai shows each is siloed in one vertical"
+        },
+        {
+          "finding": "Phase 1 pain is quantifiable: $1,050-$3,600/month per office in wasted labor for manual Xactimate-to-CRM data entry",
+          "evidence": "45-90 min/estimate × 40 estimates/month = 30-60 hours/month of manual translation"
+        },
+        {
+          "finding": "Supplement delta tracking is a net-new capability not in the original PRD — enables version-aware estimate management",
+          "evidence": "Supplement delta contract schema defines change types, margin impact, and evidence references"
+        },
+        {
+          "finding": "The ingestion contract schema introduces multi-format intake (pdf, esx, email, scan, xactanalysis) beyond the initial PDF-only scope",
+          "evidence": "source_type field in ingestion contract schema"
+        }
+      ],
+      "relationships": [
+        {
+          "from_concept": "Competitive White Space",
+          "to_concept": "Ontology Engine",
+          "relation": "validates_market_for",
+          "target_doc": "DOC_001"
+        },
+        {
+          "from_concept": "Ingestion Contract Schema",
+          "to_concept": "Ingestion Node",
+          "relation": "defines_contract_for",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "Supplement Delta Contract",
+          "to_concept": "Semantic Extraction Node",
+          "relation": "extends_capability_of",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "UAD Condition/Quality Mapping",
+          "to_concept": "UAD 3.6 MISMO XML",
+          "relation": "implements",
+          "target_doc": "DOC_006"
+        }
+      ]
     }
   ],
-
   "ontology": {
     "nodes": [
       {
@@ -760,154 +888,339 @@
         "label": "Ontology Engine",
         "category": "system",
         "definition": "Middleware that automates translation of analog/unstructured data into structured, system-ready formats",
-        "source_doc_ids": ["DOC_001", "DOC_003", "DOC_004"]
+        "source_doc_ids": [
+          "DOC_001",
+          "DOC_003",
+          "DOC_004",
+          "DOC_007"
+        ]
       },
       {
         "id": "C_002",
         "label": "Z → A Pipeline",
         "category": "methodology",
         "definition": "Reverse extrapolation methodology: define output (Z) first, work backward to input (A)",
-        "source_doc_ids": ["DOC_001", "DOC_002", "DOC_003"]
+        "source_doc_ids": [
+          "DOC_001",
+          "DOC_002",
+          "DOC_003"
+        ]
       },
       {
         "id": "C_003",
         "label": "GOAS",
         "category": "methodology",
         "definition": "Goal-Oriented Action System — planning framework that works backward from goals to prerequisites",
-        "source_doc_ids": ["DOC_001", "DOC_002", "DOC_006"]
+        "source_doc_ids": [
+          "DOC_001",
+          "DOC_002",
+          "DOC_006",
+          "DOC_007"
+        ]
       },
       {
         "id": "C_004",
         "label": "Human API",
         "category": "problem",
         "definition": "Humans acting as middleware translators between incompatible systems — the core bottleneck",
-        "source_doc_ids": ["DOC_001", "DOC_005", "DOC_006"]
+        "source_doc_ids": [
+          "DOC_001",
+          "DOC_005",
+          "DOC_006",
+          "DOC_007"
+        ]
       },
       {
         "id": "C_005",
         "label": "Design by Contract",
         "category": "principle",
         "definition": "Formal agreements (preconditions, postconditions, invariants) enforced at every node boundary via JSON schema",
-        "source_doc_ids": ["DOC_002", "DOC_003"]
+        "source_doc_ids": [
+          "DOC_002",
+          "DOC_003"
+        ]
       },
       {
         "id": "C_006",
         "label": "Agentic V-Model",
         "category": "principle",
         "definition": "Acceptance criteria and tests defined BEFORE generative execution",
-        "source_doc_ids": ["DOC_002", "DOC_003"]
+        "source_doc_ids": [
+          "DOC_002",
+          "DOC_003"
+        ]
       },
       {
         "id": "C_007",
         "label": "4-Node Pipeline",
         "category": "architecture",
         "definition": "Ingestion → Extraction → Calculus → Routing — the core processing chain",
-        "source_doc_ids": ["DOC_003", "DOC_004"]
+        "source_doc_ids": [
+          "DOC_003",
+          "DOC_004"
+        ]
       },
       {
         "id": "C_008",
         "label": "Ingestion Node",
         "category": "pipeline_node",
         "definition": "Node 1: Accepts data, performs OCR if needed, redacts PII",
-        "source_doc_ids": ["DOC_003"]
+        "source_doc_ids": [
+          "DOC_003"
+        ]
       },
       {
         "id": "C_009",
         "label": "Semantic Extraction Node",
         "category": "pipeline_node",
         "definition": "Node 2: LLM extracts raw variables into rigid JSON schema. LLMs NEVER calculate.",
-        "source_doc_ids": ["DOC_003", "DOC_004"]
+        "source_doc_ids": [
+          "DOC_003",
+          "DOC_004"
+        ]
       },
       {
         "id": "C_010",
         "label": "Deterministic Calculus Node",
         "category": "pipeline_node",
         "definition": "Node 3: Python applies industry-specific math (dimensional analysis, waste factors, rounding) to convert abstract units into physical SKUs",
-        "source_doc_ids": ["DOC_003", "DOC_004"]
+        "source_doc_ids": [
+          "DOC_003",
+          "DOC_004"
+        ]
       },
       {
         "id": "C_011",
         "label": "Output Routing Node",
         "category": "pipeline_node",
         "definition": "Node 4: Transforms structured JSON into target-specific formats (CSV, JSON, MISMO XML) via APIs or CSV generators",
-        "source_doc_ids": ["DOC_003", "DOC_004"]
+        "source_doc_ids": [
+          "DOC_003",
+          "DOC_004"
+        ]
       },
       {
         "id": "C_012",
         "label": "Lexicon Matrix",
         "category": "data_structure",
         "definition": "Mapping of ~50 Xactimate codes to physical units, material categories, and supplier equivalents",
-        "source_doc_ids": ["DOC_004"]
+        "source_doc_ids": [
+          "DOC_004"
+        ]
       },
       {
         "id": "C_013",
         "label": "Roofer Math",
         "category": "algorithm",
         "definition": "Deterministic conversion formulas: Squares→Bundles(×3), LF→pieces(÷10), pitch waste factors, always-round-UP",
-        "source_doc_ids": ["DOC_004"]
+        "source_doc_ids": [
+          "DOC_004"
+        ]
       },
       {
         "id": "C_014",
         "label": "Data Friction Matrix",
         "category": "analysis_framework",
         "definition": "Maps Source→Translator→Target to quantify cost, latency, and error of human translation",
-        "source_doc_ids": ["DOC_005", "DOC_006"]
+        "source_doc_ids": [
+          "DOC_005",
+          "DOC_006"
+        ]
       },
       {
         "id": "C_015",
         "label": "AI/Code Arbitrage",
         "category": "strategy",
         "definition": "Replacing expensive human translators with AI pipelines at lower cost and higher accuracy",
-        "source_doc_ids": ["DOC_005"]
+        "source_doc_ids": [
+          "DOC_005"
+        ]
       },
       {
         "id": "C_016",
         "label": "PII Redaction",
         "category": "constraint",
         "definition": "All personally identifiable information must be masked locally before LLM processing",
-        "source_doc_ids": ["DOC_003"]
+        "source_doc_ids": [
+          "DOC_003"
+        ]
       },
       {
         "id": "C_017",
         "label": "O&P Double-Dip Prevention",
         "category": "constraint",
         "definition": "Overhead & Profit must be stripped from Xactimate totals before CRM injection",
-        "source_doc_ids": ["DOC_004"]
+        "source_doc_ids": [
+          "DOC_004"
+        ]
       },
       {
         "id": "C_018",
         "label": "UAD 3.6 MISMO XML",
         "category": "standard",
         "definition": "Uniform Appraisal Dataset v3.6 — GSE-mandated format for real estate appraisals",
-        "source_doc_ids": ["DOC_001", "DOC_006"]
+        "source_doc_ids": [
+          "DOC_001",
+          "DOC_006",
+          "DOC_007"
+        ]
+      },
+      {
+        "id": "C_019",
+        "label": "Competitive White Space",
+        "category": "market_analysis",
+        "definition": "Verified gap: no competitor bridges ConTech (Xactimate parsing) to PropTech (UAD 3.6 MISMO XML)",
+        "source_doc_ids": [
+          "DOC_007"
+        ]
+      },
+      {
+        "id": "C_020",
+        "label": "Supplement Delta Contract",
+        "category": "data_structure",
+        "definition": "Schema for tracking changes between estimate versions with typed diffs (added/removed/qty_changed/price_changed/scope_changed)",
+        "source_doc_ids": [
+          "DOC_007"
+        ]
+      },
+      {
+        "id": "C_021",
+        "label": "Ingestion Contract Schema",
+        "category": "data_structure",
+        "definition": "Canonical intake JSON format supporting 5 source types (pdf, esx, email, scan, xactanalysis) with customer, property, claim, estimate fields",
+        "source_doc_ids": [
+          "DOC_007"
+        ]
+      },
+      {
+        "id": "C_022",
+        "label": "UAD Condition/Quality Mapping",
+        "category": "algorithm",
+        "definition": "Logic to convert Xactimate Category/Selector codes to UAD 3.6 Condition (C1-C6) and Quality (Q1-Q6) ratings for MISMO XML",
+        "source_doc_ids": [
+          "DOC_007",
+          "DOC_006"
+        ]
       }
     ],
     "edges": [
-      { "from": "C_002", "to": "C_007", "relation": "structures" },
-      { "from": "C_003", "to": "C_002", "relation": "instantiated_by" },
-      { "from": "C_001", "to": "C_004", "relation": "eliminates" },
-      { "from": "C_005", "to": "C_007", "relation": "constrains" },
-      { "from": "C_006", "to": "C_007", "relation": "constrains" },
-      { "from": "C_007", "to": "C_008", "relation": "contains" },
-      { "from": "C_007", "to": "C_009", "relation": "contains" },
-      { "from": "C_007", "to": "C_010", "relation": "contains" },
-      { "from": "C_007", "to": "C_011", "relation": "contains" },
-      { "from": "C_008", "to": "C_009", "relation": "feeds" },
-      { "from": "C_009", "to": "C_010", "relation": "feeds" },
-      { "from": "C_010", "to": "C_011", "relation": "feeds" },
-      { "from": "C_012", "to": "C_009", "relation": "enables" },
-      { "from": "C_013", "to": "C_010", "relation": "implements" },
-      { "from": "C_016", "to": "C_008", "relation": "constrains" },
-      { "from": "C_017", "to": "C_010", "relation": "constrains" },
+      {
+        "from": "C_002",
+        "to": "C_007",
+        "relation": "structures"
+      },
+      {
+        "from": "C_003",
+        "to": "C_002",
+        "relation": "instantiated_by"
+      },
+      {
+        "from": "C_001",
+        "to": "C_004",
+        "relation": "eliminates"
+      },
+      {
+        "from": "C_005",
+        "to": "C_007",
+        "relation": "constrains"
+      },
+      {
+        "from": "C_006",
+        "to": "C_007",
+        "relation": "constrains"
+      },
+      {
+        "from": "C_007",
+        "to": "C_008",
+        "relation": "contains"
+      },
+      {
+        "from": "C_007",
+        "to": "C_009",
+        "relation": "contains"
+      },
+      {
+        "from": "C_007",
+        "to": "C_010",
+        "relation": "contains"
+      },
+      {
+        "from": "C_007",
+        "to": "C_011",
+        "relation": "contains"
+      },
+      {
+        "from": "C_008",
+        "to": "C_009",
+        "relation": "feeds"
+      },
+      {
+        "from": "C_009",
+        "to": "C_010",
+        "relation": "feeds"
+      },
+      {
+        "from": "C_010",
+        "to": "C_011",
+        "relation": "feeds"
+      },
+      {
+        "from": "C_012",
+        "to": "C_009",
+        "relation": "enables"
+      },
+      {
+        "from": "C_013",
+        "to": "C_010",
+        "relation": "implements"
+      },
+      {
+        "from": "C_016",
+        "to": "C_008",
+        "relation": "constrains"
+      },
+      {
+        "from": "C_017",
+        "to": "C_010",
+        "relation": "constrains"
+      },
       {
         "from": "C_014",
         "to": "C_015",
         "relation": "identifies_opportunity_for"
       },
-      { "from": "C_015", "to": "C_001", "relation": "implemented_as" }
+      {
+        "from": "C_015",
+        "to": "C_001",
+        "relation": "implemented_as"
+      },
+      {
+        "from": "C_019",
+        "to": "C_001",
+        "relation": "validates_market_for"
+      },
+      {
+        "from": "C_021",
+        "to": "C_008",
+        "relation": "defines_contract_for"
+      },
+      {
+        "from": "C_020",
+        "to": "C_009",
+        "relation": "extends"
+      },
+      {
+        "from": "C_022",
+        "to": "C_018",
+        "relation": "implements"
+      },
+      {
+        "from": "C_022",
+        "to": "C_011",
+        "relation": "enables_phase2_for"
+      }
     ]
   },
-
   "pipeline": {
     "architecture": {
       "name": "4-Node Z→A Pipeline",
@@ -919,8 +1232,15 @@
             "Raw PDF (native or scanned)",
             "Image files (JPG, PNG, TIFF)"
           ],
-          "outputs": ["Clean text with metadata", "PII-redacted content"],
-          "tools": ["Tesseract OCR", "AWS Textract", "Microsoft Presidio"],
+          "outputs": [
+            "Clean text with metadata",
+            "PII-redacted content"
+          ],
+          "tools": [
+            "Tesseract OCR",
+            "AWS Textract",
+            "Microsoft Presidio"
+          ],
           "data_contract": {
             "preconditions": [
               "File is a valid PDF or image format",
@@ -931,15 +1251,24 @@
               "No PII remains in output",
               "OCR confidence score attached to each text block"
             ],
-            "invariants": ["Zero PII in output — no exceptions"]
+            "invariants": [
+              "Zero PII in output — no exceptions"
+            ]
           }
         },
         {
           "id": "NODE_2",
           "name": "Semantic Extraction Node",
-          "inputs": ["PII-redacted text from Node 1"],
-          "outputs": ["Structured JSON matching rigid extraction schema"],
-          "tools": ["LLM (GPT-4 / Claude / Gemini)", "JSON Schema Validator"],
+          "inputs": [
+            "PII-redacted text from Node 1"
+          ],
+          "outputs": [
+            "Structured JSON matching rigid extraction schema"
+          ],
+          "tools": [
+            "LLM (GPT-4 / Claude / Gemini)",
+            "JSON Schema Validator"
+          ],
           "data_contract": {
             "preconditions": [
               "Input text is PII-free",
@@ -959,11 +1288,16 @@
         {
           "id": "NODE_3",
           "name": "Deterministic Calculus Node",
-          "inputs": ["Structured JSON from Node 2"],
+          "inputs": [
+            "Structured JSON from Node 2"
+          ],
           "outputs": [
             "Calculated JSON with physical units, quantities, and costs"
           ],
-          "tools": ["Python (NumPy/custom)", "Roofer Math library"],
+          "tools": [
+            "Python (NumPy/custom)",
+            "Roofer Math library"
+          ],
           "data_contract": {
             "preconditions": [
               "Input JSON passes schema validation",
@@ -984,9 +1318,17 @@
         {
           "id": "NODE_4",
           "name": "Output Routing Node",
-          "inputs": ["Calculated JSON from Node 3"],
-          "outputs": ["CRM-specific payload (CSV or API JSON)"],
-          "tools": ["CSV generator", "REST API client", "CRM adapter modules"],
+          "inputs": [
+            "Calculated JSON from Node 3"
+          ],
+          "outputs": [
+            "CRM-specific payload (CSV or API JSON)"
+          ],
+          "tools": [
+            "CSV generator",
+            "REST API client",
+            "CRM adapter modules"
+          ],
           "data_contract": {
             "preconditions": [
               "Input JSON passes calculated schema validation",
@@ -1022,14 +1364,18 @@
             "description": "Implement PII redaction pipeline using Microsoft Presidio",
             "status": "todo",
             "priority": "critical",
-            "dependencies": ["TASK_A1"]
+            "dependencies": [
+              "TASK_A1"
+            ]
           },
           {
             "id": "TASK_A3",
             "description": "Build token chunking strategy for large documents",
             "status": "todo",
             "priority": "high",
-            "dependencies": ["TASK_A1"]
+            "dependencies": [
+              "TASK_A1"
+            ]
           },
           {
             "id": "TASK_A4",
@@ -1058,42 +1404,54 @@
             "description": "Engineer LLM prompt for semantic extraction (no calculation)",
             "status": "todo",
             "priority": "critical",
-            "dependencies": ["TASK_B1"]
+            "dependencies": [
+              "TASK_B1"
+            ]
           },
           {
             "id": "TASK_B3",
             "description": "Build Roofer Math Python module (Squares→Bundles, pitch adjustment, waste factors)",
             "status": "todo",
             "priority": "critical",
-            "dependencies": ["TASK_B1"]
+            "dependencies": [
+              "TASK_B1"
+            ]
           },
           {
             "id": "TASK_B4",
             "description": "Implement O&P stripping logic",
             "status": "todo",
             "priority": "critical",
-            "dependencies": ["TASK_B3"]
+            "dependencies": [
+              "TASK_B3"
+            ]
           },
           {
             "id": "TASK_B5",
             "description": "Implement negative quantity (credit_return) handling",
             "status": "todo",
             "priority": "high",
-            "dependencies": ["TASK_B3"]
+            "dependencies": [
+              "TASK_B3"
+            ]
           },
           {
             "id": "TASK_B6",
             "description": "Implement F9 note collision detection with HITL gate",
             "status": "todo",
             "priority": "high",
-            "dependencies": ["TASK_B2"]
+            "dependencies": [
+              "TASK_B2"
+            ]
           },
           {
             "id": "TASK_B7",
             "description": "Build multi-trade data splitting logic",
             "status": "todo",
             "priority": "medium",
-            "dependencies": ["TASK_B1"]
+            "dependencies": [
+              "TASK_B1"
+            ]
           }
         ],
         "acceptance_criteria": "LLM extracts all Xactimate codes into valid JSON without performing any calculations. Python module correctly converts all values to physical units with proper rounding, O&P handling, and credit_return flagging."
@@ -1108,14 +1466,18 @@
             "description": "Build Buildertrend CSV generator (assembly import format)",
             "status": "todo",
             "priority": "high",
-            "dependencies": ["TASK_B3"]
+            "dependencies": [
+              "TASK_B3"
+            ]
           },
           {
             "id": "TASK_G2",
             "description": "Build JobNimbus QBO bridge CSV generator",
             "status": "todo",
             "priority": "high",
-            "dependencies": ["TASK_B3"]
+            "dependencies": [
+              "TASK_B3"
+            ]
           },
           {
             "id": "TASK_G3",
@@ -1129,7 +1491,10 @@
             "description": "Build deduplication logic for CRM imports",
             "status": "todo",
             "priority": "high",
-            "dependencies": ["TASK_G1", "TASK_G2"]
+            "dependencies": [
+              "TASK_G1",
+              "TASK_G2"
+            ]
           }
         ],
         "acceptance_criteria": "CSV generators produce valid import files for Buildertrend and JobNimbus. AccuLynx API research completed with partner access path documented."
@@ -1158,14 +1523,15 @@
             "description": "Map appraisal data friction points to Ontology Engine architecture",
             "status": "todo",
             "priority": "low",
-            "dependencies": ["TASK_D1"]
+            "dependencies": [
+              "TASK_D1"
+            ]
           }
         ],
         "acceptance_criteria": "UAD 3.6 schema fully documented. GSE submission requirements documented. Architecture adaptation plan drafted."
       }
     ]
   },
-
   "constraints": {
     "hardcoded_rules": [
       {
@@ -1252,7 +1618,6 @@
       }
     ]
   },
-
   "prd_synthesis": {
     "problem_statement": "Skilled professionals currently act as 'Human APIs' — manually translating unstructured data (Xactimate estimates, blueprints, legal documents, real estate appraisals) into structured formats required by downstream systems (CRMs, ERPs, procurement platforms). This creates significant latency (hours to days per translation), high cost ($25-150/hour), and error cascades (2-15% error rates). The Ontology Engine eliminates this bottleneck by automating the full translation pipeline.",
     "target_markets": [
@@ -1305,14 +1670,26 @@
       "Contractor time savings: from 30-60 min manual entry to < 2 min automated"
     ],
     "industry_verticals": [
-      { "name": "Roofing/Construction", "phase": 1, "source_doc": "DOC_004" },
-      { "name": "Real Estate Appraisal", "phase": 2, "source_doc": "DOC_006" },
+      {
+        "name": "Roofing/Construction",
+        "phase": 1,
+        "source_doc": "DOC_004"
+      },
+      {
+        "name": "Real Estate Appraisal",
+        "phase": 2,
+        "source_doc": "DOC_006"
+      },
       {
         "name": "Custom Cabinetry",
         "phase": "future",
         "source_doc": "DOC_006"
       },
-      { "name": "Legal Discovery", "phase": "future", "source_doc": "DOC_006" },
+      {
+        "name": "Legal Discovery",
+        "phase": "future",
+        "source_doc": "DOC_006"
+      },
       {
         "name": "Commercial Real Estate",
         "phase": "future",
