@@ -1748,7 +1748,7 @@
         "TASK_B6",
         "TASK_B7"
       ],
-      "status": "📋 assigned",
+      "status": "✅ merged",
       "blocker": null,
       "verify": "source .venv/bin/activate && pytest tests/test_node2_extraction/ tests/test_node3_calculus/ -v",
       "branch": "feature/agent-b-extraction-calculus"
