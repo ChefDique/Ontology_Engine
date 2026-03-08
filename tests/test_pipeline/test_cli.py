@@ -31,9 +31,13 @@ class TestCLIHITL:
 
     def test_hitl_list_empty(self, capsys, tmp_path, monkeypatch):
         """HITL list with empty queue prints 'No pending'."""
-        import ontology_engine.hitl.review_queue as rq
         from ontology_engine.hitl.review_queue import ReviewQueue
-        monkeypatch.setattr(rq, "_default_queue", ReviewQueue(queue_dir=tmp_path / "q"))
+        _orig_init = ReviewQueue.__init__
+
+        def _patched_init(self, queue_dir=None):
+            _orig_init(self, queue_dir=tmp_path / "empty_q")
+
+        monkeypatch.setattr(ReviewQueue, "__init__", _patched_init)
 
         result = main(["hitl", "list"])
         assert result == 0

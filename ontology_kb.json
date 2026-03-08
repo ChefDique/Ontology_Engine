@@ -2458,7 +2458,7 @@
     "foxtrot": {
       "letter": "F",
       "name": "Pipeline Wiring + HITL + CLI",
-      "status": "🟡 in-progress",
+      "status": "✅ merged",
       "scope": [
         "src/ontology_engine/pipeline.py",
         "src/ontology_engine/hitl/",
@@ -2494,7 +2494,7 @@
     "golf": {
       "letter": "G",
       "name": "LLM Integration (Gemini Flash → Node 2)",
-      "status": "🟡 in-progress",
+      "status": "✅ merged",
       "scope": [
         "src/ontology_engine/node2_extraction/",
         "src/ontology_engine/config.py",
