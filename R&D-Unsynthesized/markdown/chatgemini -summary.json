@@ -1,0 +1,138 @@
+{
+  "project_name": "Ontology Engine SaaS",
+  "kb_version": "1.0.0",
+  "core_thesis": {
+    "problem_statement": "Systemic data friction exists between insurance carriers, restoration contractors, and mortgage lenders.",
+    "solution": "An invisible cross-industry translation layer (Ontology Engine) that parses unstructured property insurance estimates (Xactimate PDFs) and automatically translates actuarial codes into operational CRM data and UAD 3.6 real estate appraisal standards.",
+    "market_arbitrage": "Monetizing the 'ontological divide' between the ConTech silo (contractor operations) and the PropTech silo (mortgage compliance)."
+  },
+  "methodologies": {
+    "goas": {
+      "name": "Goal-Oriented Action System",
+      "focus": "Identifying and eliminating 'Human API' bottlenecks where highly paid humans manually translate unstructured data into structured assets, causing margin decay or capping revenue velocity.",
+      "constraints": [
+        "Discard workflows where manual translation takes < 30 minutes.",
+        "Discard workflows lacking direct revenue restriction or margin destruction.",
+        "Do not clone existing software; build the invisible pipeline that renders the manual extraction process obsolete."
+      ]
+    },
+    "z_to_a_reverse_extrapolation": {
+      "step_z": "Define the final structured asset required for revenue or compliance.",
+      "step_y_x": "Deduce the operational steps and mapping logic required to build the asset.",
+      "step_a": "Pinpoint the exact chaotic intake format (unstructured PDFs, scans, emails)."
+    }
+  },
+  "competitive_landscape": {
+    "conclusion": "Verified White Space. Zero direct competitors bridging Xactimate parsing directly to UAD 3.6/MISMO 3.6 XML.",
+    "contech_silo_competitors": [
+      {
+        "name": "CapOut.ai",
+        "type": "Operational workflow / PDF parser",
+        "gap": "Strictly contractor side; completely lacks appraisal compliance mapping (UAD 3.6)."
+      },
+      {
+        "name": "EstimateHub / ClaimsFlow",
+        "type": "PDF-to-ESX converters",
+        "gap": "Focused only on Xactimate ecosystem imports; no cross-industry translation."
+      },
+      {
+        "name": "JobNimbus / AccuLynx",
+        "type": "Contractor CRMs",
+        "gap": "Native integrations exist (e.g., via XactAnalysis), but still require structured intake. They are the destination, not the universal agnostic intake layer."
+      }
+    ],
+    "proptech_silo_competitors": [
+      {
+        "name": "ValueLink / Appraise-It Pro",
+        "type": "Appraisal ledgers / UAD 3.6 translators",
+        "gap": "Rely on traditional human appraiser workflow and manual data entry; do not ingest Xactimate PDFs or contractor material lists."
+      },
+      {
+        "name": "Restb.ai",
+        "type": "Visual AI property scanning",
+        "gap": "Guesses property condition based on photos; does not verify physical updates using contractor's exact material lists."
+      }
+    ]
+  },
+  "architecture": {
+    "phase_1_wedge": {
+      "name": "Estimate-to-Operations Compiler",
+      "target_user": "Office manager, supplementer, PM, estimator",
+      "step_z_goal": "A fully structured job in the contractor’s CRM (contact, claim metadata, estimate structure, worksheet sections, production-ready material objects).",
+      "human_api_pain": "45–90 minutes per estimate; $1,050–$3,600/month in direct labor burn at 40 packets/month.",
+      "data_flow": "Xactimate PDF Upload -> Parser extracts header/line items/totals -> Canonical claim graph structures data -> Adapter layer writes to JobNimbus/AccuLynx via API."
+    },
+    "phase_2_moat": {
+      "name": "PropTech Compliance Bridge",
+      "target_user": "Lenders, AMCs, Appraisers",
+      "step_z_goal": "A compliance-ready UAD 3.6 / MISMO 3.6 XML file verifying property condition updates.",
+      "human_api_pain": "60–120 minutes of manual data entry per appraisal; caps daily revenue capacity.",
+      "data_flow": "Ingest Phase 1 structured Xactimate data -> Algorithmically map granular construction line items to UAD 3.6 condition (C1-C6) and quality (Q1-Q6) codes -> Export MISMO 3.6 XML."
+    }
+  },
+  "data_physics": {
+    "ingestion_contract_schema": {
+      "source_type": "pdf|esx|email|scan|xactanalysis",
+      "job_external_id": "string",
+      "document_version": "string",
+      "customer": {
+        "name": "string",
+        "phones": ["string"],
+        "emails": ["string"]
+      },
+      "property": {
+        "address": "string",
+        "loss_date": "YYYY-MM-DD"
+      },
+      "claim": {
+        "claim_number": "string",
+        "carrier": "string",
+        "adjuster": "string",
+        "policy_number": "string"
+      },
+      "estimate": {
+        "estimate_number": "string",
+        "totals": {
+          "rcv": 0,
+          "acv": 0,
+          "tax": 0,
+          "depreciation": 0,
+          "oop": 0
+        },
+        "sections": [],
+        "line_items": []
+      },
+      "confidence": {
+        "header_fields": 0.0,
+        "line_items": 0.0
+      }
+    },
+    "supplement_delta_contract": {
+      "baseline_estimate_id": "string",
+      "revised_estimate_id": "string",
+      "diffs": [
+        {
+          "trade": "string",
+          "area": "string",
+          "line_item_code": "string",
+          "change_type": "added|removed|qty_changed|price_changed|scope_changed",
+          "baseline_value": {},
+          "revised_value": {},
+          "margin_impact": 0,
+          "evidence_refs": ["string"],
+          "justification_draft": "string"
+        }
+      ],
+      "summary": {
+        "added_rcv": 0,
+        "removed_rcv": 0,
+        "net_delta": 0
+      }
+    },
+    "uad_mapping_logic_target": {
+      "input": "Xactimate Category/Selector Code (e.g., RFG 240) + UOM (Squares)",
+      "contech_output": "Physical materials (e.g., Bundles, Nails, Ridge Cap) for CRM procurement",
+      "proptech_output": "MISMO 3.6 XML Property Condition Rating (e.g., C1 - C6) and Quality Rating (e.g., Q1 - Q6)"
+    }
+  }
+}

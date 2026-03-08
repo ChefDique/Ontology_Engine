@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ontology-engine"
+version = "0.1.0"
+description = "Universal Analog-to-Digital Translation Middleware — Xactimate PDF to CRM pipeline"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Proprietary"}
+
+dependencies = [
+    # Node 1 — Ingestion
+    "pdfplumber>=0.10.0",           # Native PDF text extraction
+    "pytesseract>=0.3.10",          # OCR for scanned PDFs
+    "presidio-analyzer>=2.2.0",     # PII detection
+    "presidio-anonymizer>=2.2.0",   # PII redaction
+    "Pillow>=10.0.0",               # Image processing for OCR
+
+    # Node 2 — Semantic Extraction
+    "openai>=1.0.0",                # GPT-4 API
+    "anthropic>=0.25.0",            # Claude API
+    "google-generativeai>=0.5.0",   # Gemini API
+    "jsonschema>=4.20.0",           # JSON schema validation
+
+    # Node 3 — Deterministic Calculus
+    "numpy>=1.26.0",                # Numerical computation
+
+    # Node 4 — Output Routing
+    "pandas>=2.1.0",                # CSV generation
+    "httpx>=0.27.0",                # Async REST API client
+    "openpyxl>=3.1.0",              # Excel file support
+
+    # Core
+    "python-dotenv>=1.0.0",         # .env loading
+    "pydantic>=2.5.0",              # Data validation
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.3.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100

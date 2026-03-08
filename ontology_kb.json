@@ -1,0 +1,1328 @@
+{
+  "meta": {
+    "project_name": "Ontology Engine — ScopeBridge",
+    "version": "1.0.0",
+    "created": "2026-03-08",
+    "methodology": {
+      "name": "Z → A Reverse Extrapolation Pipeline",
+      "alias": "Goal-Oriented Action System (GOAS)",
+      "description": "Define the final, mathematically verifiable output (Z) first, then work backward to deduce all prerequisite data structures, transformations, and validation gates. Inverts traditional forward-chaining approaches.",
+      "principles": [
+        "Output-first: Z defines terminal output schema before any code is written",
+        "Design by Contract (DbC): Every agent-to-agent handoff enforces preconditions, postconditions, and invariants via JSON schema validation",
+        "Agentic V-Model: Acceptance criteria and test cases are defined BEFORE generative execution begins",
+        "LLMs never calculate: Semantic extraction is strictly separated from deterministic calculus",
+        "Human-in-the-Loop gates: High-uncertainty outputs require human approval before propagation"
+      ]
+    },
+    "timeline": {
+      "mvp_window": "2 days",
+      "phase_1_target": "Xactimate → Roofing CRM (fastest time-to-revenue)",
+      "phase_2_target": "UAD 3.6 MISMO XML for real estate appraisers (longer-term, higher enterprise value)"
+    },
+    "document_inventory": [
+      {
+        "id": "DOC_001",
+        "title": "Ontology Thinking Mode",
+        "filename": "gemchat-Ontology Thinking Mode.md",
+        "path": "R&D-Unsynthesized/markdown/gemchat-Ontology Thinking Mode.md"
+      },
+      {
+        "id": "DOC_002",
+        "title": "Z → A Pipeline Research & Blueprint",
+        "filename": "Z → A Pipeline Research & Blueprint.md",
+        "path": "R&D-Unsynthesized/markdown/Z → A Pipeline Research & Blueprint.md"
+      },
+      {
+        "id": "DOC_003",
+        "title": "PRD - ScopeBridge",
+        "filename": "PRD - ScopeBridge.md",
+        "path": "R&D-Unsynthesized/markdown/PRD - ScopeBridge.md"
+      },
+      {
+        "id": "DOC_004",
+        "title": "Roofing CRM & Xactimate Integration Blueprint",
+        "filename": "Roofing CRM & Xactimate Integration Blueprint.md",
+        "path": "R&D-Unsynthesized/markdown/Roofing CRM & Xactimate Integration Blueprint.md"
+      },
+      {
+        "id": "DOC_005",
+        "title": "Data Friction Matrix Generation",
+        "filename": "Data Friction Matrix Generation.md",
+        "path": "R&D-Unsynthesized/markdown/Data Friction Matrix Generation.md"
+      },
+      {
+        "id": "DOC_006",
+        "title": "GOAS Data Friction Matrix Generation",
+        "filename": "GOAS Data Friction Matrix Generation.md",
+        "path": "R&D-Unsynthesized/markdown/GOAS Data Friction Matrix Generation.md"
+      }
+    ]
+  },
+
+  "documents": [
+    {
+      "id": "DOC_001",
+      "title": "Ontology Thinking Mode",
+      "source_path": "R&D-Unsynthesized/markdown/gemchat-Ontology Thinking Mode.md",
+      "doc_type": "framework",
+      "summary": "Elaborates on the 'Ontology Thinking Mode' and GOAS framework application. Emphasizes a reverse-chaining, goal-oriented approach to problem-solving, the importance of validation, and the need to avoid assumptions. Discusses packaging solutions and the strategic advantage of the UAD 3.6 standard.",
+      "key_concepts": [
+        {
+          "name": "Ontology Thinking Mode",
+          "definition": "A cognitive framework that applies ontological analysis to problems — defining entities, their properties, and relationships before attempting solutions."
+        },
+        {
+          "name": "GOAS (Goal-Oriented Action System)",
+          "definition": "A planning framework that defines goals first, then works backward to identify necessary actions and preconditions. Used in game AI and now applied to data pipeline design."
+        },
+        {
+          "name": "Human API Bottleneck",
+          "definition": "The core problem: skilled professionals manually translate unstructured data into structured formats, creating latency, cost, and error cascades."
+        },
+        {
+          "name": "Assumption Triage",
+          "definition": "A protocol for identifying and validating assumptions before building systems. Prevents building on false premises."
+        },
+        {
+          "name": "UAD 3.6 MISMO XML",
+          "definition": "Uniform Appraisal Dataset version 3.6 using MISMO XML schema. A standardized format for real estate appraisal data required by GSEs (Fannie Mae, Freddie Mac)."
+        }
+      ],
+      "entities": [
+        {
+          "name": "Xactimate",
+          "type": "tool",
+          "description": "Insurance estimation software producing actuarial damage reports"
+        },
+        {
+          "name": "UAD 3.6",
+          "type": "standard",
+          "description": "Uniform Appraisal Dataset v3.6 for real estate appraisals"
+        },
+        {
+          "name": "MISMO XML",
+          "type": "standard",
+          "description": "Mortgage Industry Standards Maintenance Organization XML schema"
+        },
+        {
+          "name": "Fannie Mae",
+          "type": "organization",
+          "description": "GSE requiring UAD compliance"
+        },
+        {
+          "name": "Freddie Mac",
+          "type": "organization",
+          "description": "GSE requiring UAD compliance"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "REQ_001_01",
+          "description": "System must define output schema (Z) before any implementation",
+          "priority": "critical",
+          "status": "defined"
+        },
+        {
+          "id": "REQ_001_02",
+          "description": "All assumptions must pass triage protocol before being encoded",
+          "priority": "high",
+          "status": "defined"
+        },
+        {
+          "id": "REQ_001_03",
+          "description": "Solution must be packageable as a product, not just a custom script",
+          "priority": "high",
+          "status": "defined"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "The Human API bottleneck exists across multiple industries: construction, legal, real estate, logistics",
+          "evidence": "Multiple industry verticals analyzed in companion Data Friction Matrix documents"
+        },
+        {
+          "finding": "UAD 3.6 compliance represents a higher-value but longer-term market vs roofing CRM integration",
+          "evidence": "GSE certification requirements create significant barriers to entry but also competitive moats"
+        }
+      ],
+      "relationships": [
+        {
+          "from_concept": "GOAS",
+          "to_concept": "Z → A Pipeline",
+          "relation": "implements",
+          "target_doc": "DOC_002"
+        },
+        {
+          "from_concept": "Human API Bottleneck",
+          "to_concept": "Data Friction Matrix",
+          "relation": "analyzed_by",
+          "target_doc": "DOC_005"
+        },
+        {
+          "from_concept": "UAD 3.6 MISMO XML",
+          "to_concept": "Phase 2 R&D",
+          "relation": "target_of",
+          "target_doc": "DOC_003"
+        }
+      ]
+    },
+    {
+      "id": "DOC_002",
+      "title": "Z → A Pipeline Research & Blueprint",
+      "source_path": "R&D-Unsynthesized/markdown/Z → A Pipeline Research & Blueprint.md",
+      "doc_type": "framework",
+      "summary": "Details the Z→A Pipeline methodology which inverts traditional forward-chaining by defining the final output (Z) first and working backward. Emphasizes rigorous data contracts, verification checkpoints, and exception handling. Draws parallels with backward chaining in AI, Hoare Logic, GOAP, and Spec-Driven Development.",
+      "key_concepts": [
+        {
+          "name": "Z → A Pipeline (Reverse Extrapolation)",
+          "definition": "A methodology that starts with the final, mathematically verifiable output (Z) and deduces all prerequisite data structures and transformations backward to the raw input (A)."
+        },
+        {
+          "name": "Design by Contract (DbC)",
+          "definition": "Enforcing formal, verifiable agreements (preconditions, postconditions, invariants) between agents via JSON schema validation and strict data gatekeeping."
+        },
+        {
+          "name": "Agentic V-Model",
+          "definition": "Adapting the V-Model from systems engineering to LLM pipelines: acceptance criteria and test cases are defined BEFORE generative execution begins."
+        },
+        {
+          "name": "Backward Chaining",
+          "definition": "Starting from a goal and working backward through rules/preconditions to find what inputs/facts are needed. Analogous to the Z→A approach."
+        },
+        {
+          "name": "Hoare Logic",
+          "definition": "Formal system for reasoning about program correctness using preconditions and postconditions. Theoretical foundation for the DbC approach."
+        }
+      ],
+      "entities": [
+        {
+          "name": "GOAP (Goal-Oriented Action Planning)",
+          "type": "algorithm",
+          "description": "Game AI planning algorithm that searches backward from goal states"
+        },
+        {
+          "name": "Hoare Logic",
+          "type": "formal_system",
+          "description": "Axiomatic system for program correctness proofs"
+        },
+        {
+          "name": "Spec-Driven Development",
+          "type": "methodology",
+          "description": "Development approach where specifications drive implementation"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "REQ_002_01",
+          "description": "Every pipeline node must have defined preconditions and postconditions (DbC)",
+          "priority": "critical",
+          "status": "defined"
+        },
+        {
+          "id": "REQ_002_02",
+          "description": "Verification checkpoints must gate data flow between nodes",
+          "priority": "critical",
+          "status": "defined"
+        },
+        {
+          "id": "REQ_002_03",
+          "description": "Exception handling must be built into every node transition",
+          "priority": "high",
+          "status": "defined"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "The Z→A approach aligns with established CS concepts: backward chaining, Hoare Logic, and GOAP",
+          "evidence": "Direct parallels drawn to formal verification and goal-oriented planning in AI"
+        },
+        {
+          "finding": "LLM pipelines benefit from the V-Model approach where tests are designed before implementation",
+          "evidence": "Applied blueprint demonstrates test-first design for automated video generation pipeline"
+        }
+      ],
+      "relationships": [
+        {
+          "from_concept": "Z → A Pipeline",
+          "to_concept": "4-Node Pipeline Architecture",
+          "relation": "structures",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "Design by Contract",
+          "to_concept": "JSON Schema Validation",
+          "relation": "implemented_via",
+          "target_doc": "DOC_004"
+        },
+        {
+          "from_concept": "Agentic V-Model",
+          "to_concept": "Workstream Acceptance Criteria",
+          "relation": "defines",
+          "target_doc": "DOC_003"
+        }
+      ]
+    },
+    {
+      "id": "DOC_003",
+      "title": "PRD - ScopeBridge",
+      "source_path": "R&D-Unsynthesized/markdown/PRD - ScopeBridge.md",
+      "doc_type": "prd",
+      "summary": "Outlines a phased approach to building the Ontology Engine, detailing specific agent tasks for data acquisition, CRM API research, and core ontology development. Highlights critical risks and blindspots to be addressed in a backlog. Currently incomplete — requires expansion.",
+      "key_concepts": [
+        {
+          "name": "4-Node Pipeline Architecture",
+          "definition": "The core processing pipeline: (1) Ingestion (OCR, PII redaction), (2) Semantic Extraction (LLM, JSON schema), (3) Deterministic Calculus (Python math), (4) Output Routing (CSV/API)."
+        },
+        {
+          "name": "Parallel Workstreams",
+          "definition": "Four concurrent development tracks: Alpha (Ingestion/OCR/Sanitization), Beta (Ontology Core), Gamma (Destination Adapters), Delta (Phase 2 R&D)."
+        },
+        {
+          "name": "Risk & Blindspot Backlog",
+          "definition": "A prioritized list of unknown risks requiring future research and mitigation strategies."
+        }
+      ],
+      "entities": [
+        {
+          "name": "ScopeBridge",
+          "type": "product",
+          "description": "The product name for the Ontology Engine MVP targeting roofing contractors"
+        },
+        {
+          "name": "JobNimbus",
+          "type": "crm",
+          "description": "Primary CRM target for Phase 1 roofing integration"
+        },
+        {
+          "name": "AccuLynx",
+          "type": "crm",
+          "description": "CRM target with advanced API and supplier integrations"
+        },
+        {
+          "name": "Buildertrend",
+          "type": "crm",
+          "description": "CRM target with CSV-based import system"
+        },
+        {
+          "name": "Microsoft Presidio",
+          "type": "tool",
+          "description": "Open-source PII detection and anonymization framework"
+        },
+        {
+          "name": "Tesseract",
+          "type": "tool",
+          "description": "Open-source OCR engine"
+        },
+        {
+          "name": "AWS Textract",
+          "type": "tool",
+          "description": "Cloud-based OCR/document analysis service"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "REQ_003_01",
+          "description": "PII must be redacted locally BEFORE any data reaches the LLM",
+          "priority": "critical",
+          "status": "defined"
+        },
+        {
+          "id": "REQ_003_02",
+          "description": "LLMs must NEVER perform calculations — only semantic extraction",
+          "priority": "critical",
+          "status": "defined"
+        },
+        {
+          "id": "REQ_003_03",
+          "description": "System must support both native PDF and scanned image inputs via dynamic OCR routing",
+          "priority": "high",
+          "status": "defined"
+        },
+        {
+          "id": "REQ_003_04",
+          "description": "Output must support CSV (Buildertrend, QBO bridge) and API payloads (AccuLynx)",
+          "priority": "high",
+          "status": "defined"
+        },
+        {
+          "id": "REQ_003_05",
+          "description": "Token chunking strategy required for large documents exceeding LLM context windows",
+          "priority": "high",
+          "status": "defined"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "Roofing/Xactimate is the fastest path to revenue validation of the core architecture",
+          "evidence": "Most accessible market with clear pain points and existing contractor relationships"
+        },
+        {
+          "finding": "UAD 3.6 MISMO XML is Phase 2 due to GSE certification requirements and higher complexity",
+          "evidence": "Requires partner access to GSE submission systems"
+        }
+      ],
+      "relationships": [
+        {
+          "from_concept": "4-Node Pipeline Architecture",
+          "to_concept": "Z → A Pipeline",
+          "relation": "instantiates",
+          "target_doc": "DOC_002"
+        },
+        {
+          "from_concept": "Parallel Workstreams",
+          "to_concept": "Risk & Blindspot Backlog",
+          "relation": "constrained_by",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "ScopeBridge",
+          "to_concept": "Roofing CRM Integration",
+          "relation": "targets",
+          "target_doc": "DOC_004"
+        }
+      ]
+    },
+    {
+      "id": "DOC_004",
+      "title": "Roofing CRM & Xactimate Integration Blueprint",
+      "source_path": "R&D-Unsynthesized/markdown/Roofing CRM & Xactimate Integration Blueprint.md",
+      "doc_type": "blueprint",
+      "summary": "Comprehensive technical blueprint for bridging Xactimate data to CRMs (Buildertrend, JobNimbus, AccuLynx). Covers the Lexicon Matrix (50 Xactimate codes), algorithmic conversion models (dimensional analysis, waste factors), and data integration protocols (CSV and REST API). Includes 36 cited sources.",
+      "key_concepts": [
+        {
+          "name": "Lexicon Matrix",
+          "definition": "A mapping of ~50 core Xactimate category codes to their semantic meanings, physical units, and supplier equivalents. The foundation for semantic extraction."
+        },
+        {
+          "name": "Roofer Math (Deterministic Calculus)",
+          "definition": "Industry-specific mathematical conversions: Squares → Bundles (×3), linear feet → pieces (÷10), pitch-adjusted waste factors (steep pitch = 15% waste), and bundle rounding (always round UP)."
+        },
+        {
+          "name": "O&P Double-Dip Prevention",
+          "definition": "Overhead & Profit margins in Xactimate estimates must be stripped before pushing to CRM to prevent double-taxation when the CRM applies its own O&P."
+        },
+        {
+          "name": "CSV Integration Protocol",
+          "definition": "Structured CSV format for importing data into CRMs, with specific column mappings per CRM (Buildertrend uses assembly imports, JobNimbus uses QBO bridge)."
+        },
+        {
+          "name": "REST API Integration Protocol",
+          "definition": "Direct API payload construction for CRMs with documented APIs. AccuLynx V2 is the most documented; JobNimbus API exists but has limited documentation."
+        },
+        {
+          "name": "Duplication Paradox",
+          "definition": "CRMs enforce strict deduplication. JobNimbus throws fatal errors on duplicate Display Names. The engine must append unique identifiers (job site number, timestamp, project ID)."
+        },
+        {
+          "name": "Asynchronous Synchronization Failure",
+          "definition": "Price sync latency between supplier catalogs and CRM product libraries (e.g., QBO-to-JobNimbus sync). The engine should cross-reference live supplier APIs as final validation."
+        }
+      ],
+      "entities": [
+        {
+          "name": "Xactimate Category Codes",
+          "type": "data_standard",
+          "description": "Standardized codes like RFG (roofing), SID (siding), DRY (drywall) used in insurance estimates"
+        },
+        {
+          "name": "Buildertrend",
+          "type": "crm",
+          "description": "CSV-based import via assembly templates"
+        },
+        {
+          "name": "JobNimbus",
+          "type": "crm",
+          "description": "REST API + QBO bridge for product import; strict deduplication rules"
+        },
+        {
+          "name": "AccuLynx",
+          "type": "crm",
+          "description": "REST API V2 with OAuth 2.0; partner access required for material order POST endpoints"
+        },
+        {
+          "name": "QuickBooks Online (QBO)",
+          "type": "accounting",
+          "description": "Used as intermediary bridge for JobNimbus product/service imports"
+        },
+        {
+          "name": "ABC Supply",
+          "type": "supplier",
+          "description": "National roofing supplier with AccuLynx native integration"
+        },
+        {
+          "name": "SRS Distribution",
+          "type": "supplier",
+          "description": "National roofing supplier with AccuLynx native integration via Roof Hub"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "REQ_004_01",
+          "description": "Lexicon Matrix must map all 50 core Xactimate codes to physical units and supplier equivalents",
+          "priority": "critical",
+          "status": "researched"
+        },
+        {
+          "id": "REQ_004_02",
+          "description": "Dimensional analysis must handle pitch-adjusted calculations with configurable waste factors",
+          "priority": "critical",
+          "status": "researched"
+        },
+        {
+          "id": "REQ_004_03",
+          "description": "Bundle rounding must ALWAYS round UP (never round down on physical materials)",
+          "priority": "critical",
+          "status": "researched"
+        },
+        {
+          "id": "REQ_004_04",
+          "description": "O&P must be stripped from Xactimate totals before CRM injection",
+          "priority": "critical",
+          "status": "researched"
+        },
+        {
+          "id": "REQ_004_05",
+          "description": "CSV generator must produce Buildertrend-compatible assembly import format",
+          "priority": "high",
+          "status": "researched"
+        },
+        {
+          "id": "REQ_004_06",
+          "description": "API adapter must handle AccuLynx OAuth 2.0 authentication flow",
+          "priority": "high",
+          "status": "researched"
+        },
+        {
+          "id": "REQ_004_07",
+          "description": "Deduplication logic must append unique identifiers to prevent CRM import errors",
+          "priority": "high",
+          "status": "researched"
+        },
+        {
+          "id": "REQ_004_08",
+          "description": "AccuLynx Material Order POST requires partner API access (undocumented in public API)",
+          "priority": "medium",
+          "status": "risk"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "50 core Xactimate codes map to a finite set of physical roofing materials",
+          "evidence": "Lexicon Matrix documented in source with specific code-to-material mappings"
+        },
+        {
+          "finding": "Xactimate prices are aggregate (material + labor + equipment + O&P) — cannot push directly to CRM cost fields",
+          "evidence": "AccuLynx API docs show separate Material Cost vs Retail Price fields; mixing causes negative margins"
+        },
+        {
+          "finding": "AccuLynx Material Order creation is a private/partner API — not publicly documented",
+          "evidence": "Public API docs focus on leads, contacts, webhooks, and financials only"
+        },
+        {
+          "finding": "JobNimbus has no native product import — requires QBO bridge as backdoor",
+          "evidence": "UserVoice feature request confirms community desire; QBO sync is documented workaround"
+        },
+        {
+          "finding": "Buildertrend assembly imports are the most accessible CSV-based path",
+          "evidence": "Published import template (XLSX) and documented field limits"
+        }
+      ],
+      "relationships": [
+        {
+          "from_concept": "Lexicon Matrix",
+          "to_concept": "Semantic Extraction Node",
+          "relation": "feeds",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "Roofer Math",
+          "to_concept": "Deterministic Calculus Node",
+          "relation": "implements",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "CSV Integration Protocol",
+          "to_concept": "Output Routing Node",
+          "relation": "implements",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "REST API Integration Protocol",
+          "to_concept": "Output Routing Node",
+          "relation": "implements",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "O&P Double-Dip Prevention",
+          "to_concept": "Deterministic Calculus Node",
+          "relation": "constraint_on",
+          "target_doc": "DOC_003"
+        }
+      ]
+    },
+    {
+      "id": "DOC_005",
+      "title": "Data Friction Matrix Generation",
+      "source_path": "R&D-Unsynthesized/markdown/Data Friction Matrix Generation.md",
+      "doc_type": "research",
+      "summary": "Analyzes data friction points caused by the 'Human API' across industries (CRE, Construction, Logistics). Details the cost, business impact, and proposes AI/Code arbitrage solutions by replacing manual data translation with multimodal AI pipelines. Introduces the GOAS Assumption Triage Protocol.",
+      "key_concepts": [
+        {
+          "name": "Data Friction Matrix",
+          "definition": "A structured analysis framework that maps: Source Format → Human Translator → Target Format, identifying cost, latency, error rate, and automation potential at each translation point."
+        },
+        {
+          "name": "Human API",
+          "definition": "Humans acting as middleware translators between incompatible systems. The core bottleneck the Ontology Engine eliminates."
+        },
+        {
+          "name": "AI/Code Arbitrage",
+          "definition": "Replacing expensive human translators with AI pipelines that can perform the same translation at lower cost, higher speed, and greater accuracy."
+        },
+        {
+          "name": "GOAS Assumption Triage Protocol",
+          "definition": "A systematic process for identifying assumptions in a proposed solution, categorizing them by risk, and validating/killing them before implementation."
+        }
+      ],
+      "entities": [
+        {
+          "name": "Commercial Real Estate (CRE)",
+          "type": "industry_vertical",
+          "description": "Lease abstraction, CAM reconciliation, tenant billing workflows"
+        },
+        {
+          "name": "Construction (Residential)",
+          "type": "industry_vertical",
+          "description": "Xactimate to CRM translation for roofing contractors"
+        },
+        {
+          "name": "Logistics/Supply Chain",
+          "type": "industry_vertical",
+          "description": "BOL (Bill of Lading) processing, customs documentation"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "REQ_005_01",
+          "description": "Data Friction Matrix must quantify cost-per-translation and error rate for each industry vertical",
+          "priority": "medium",
+          "status": "researched"
+        },
+        {
+          "id": "REQ_005_02",
+          "description": "Assumption Triage Protocol must validate all critical assumptions before building",
+          "priority": "high",
+          "status": "defined"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "Human API bottleneck costs range from $25-150/hour across industries",
+          "evidence": "Salary analysis of data entry specialists, paralegals, abstractors in CRE, Construction, and Logistics"
+        },
+        {
+          "finding": "Error rates in manual translation range from 2-15% depending on complexity",
+          "evidence": "Industry reports on data entry accuracy in insurance claims processing"
+        },
+        {
+          "finding": "Multimodal AI can achieve 85-95% accuracy on structured data extraction with human review loop",
+          "evidence": "Benchmarks from OCR + LLM pipelines in document processing"
+        }
+      ],
+      "relationships": [
+        {
+          "from_concept": "Human API",
+          "to_concept": "Ontology Engine",
+          "relation": "replaced_by",
+          "target_doc": "DOC_003"
+        },
+        {
+          "from_concept": "Data Friction Matrix",
+          "to_concept": "Industry Verticals",
+          "relation": "analyzes",
+          "target_doc": "DOC_006"
+        },
+        {
+          "from_concept": "AI/Code Arbitrage",
+          "to_concept": "4-Node Pipeline Architecture",
+          "relation": "implemented_as",
+          "target_doc": "DOC_003"
+        }
+      ]
+    },
+    {
+      "id": "DOC_006",
+      "title": "GOAS Data Friction Matrix Generation",
+      "source_path": "R&D-Unsynthesized/markdown/GOAS Data Friction Matrix Generation.md",
+      "doc_type": "research",
+      "summary": "Applies the GOAS framework to Data Friction Matrix analysis across three industry verticals: Custom Cabinetry, Legal Discovery, and Real Estate Appraisal. Each vertical is analyzed for automation opportunities where Human APIs can be replaced by AI/code solutions.",
+      "key_concepts": [
+        {
+          "name": "Custom Cabinetry Friction",
+          "definition": "Translation bottleneck between cabinet design software (SketchUp/AutoCAD) and CNC machine G-code, currently mediated by skilled programmers."
+        },
+        {
+          "name": "Legal Discovery Friction",
+          "definition": "Translation bottleneck between raw document dumps (emails, contracts, depositions) and structured review databases, currently mediated by paralegals/contract attorneys."
+        },
+        {
+          "name": "Real Estate Appraisal Friction",
+          "definition": "Translation bottleneck between MLS data, property inspections, and MISMO XML-compliant appraisal forms (UAD 3.6), currently mediated by licensed appraisers."
+        }
+      ],
+      "entities": [
+        {
+          "name": "Custom Cabinetry",
+          "type": "industry_vertical",
+          "description": "Design-to-manufacturing pipeline requiring CAD → G-code translation"
+        },
+        {
+          "name": "Legal Discovery (eDiscovery)",
+          "type": "industry_vertical",
+          "description": "Document review pipeline requiring unstructured → structured translation"
+        },
+        {
+          "name": "Real Estate Appraisal",
+          "type": "industry_vertical",
+          "description": "Property valuation pipeline requiring field data → MISMO XML translation"
+        },
+        {
+          "name": "SketchUp",
+          "type": "tool",
+          "description": "3D design software used in cabinetry"
+        },
+        {
+          "name": "AutoCAD",
+          "type": "tool",
+          "description": "CAD software used in manufacturing"
+        },
+        {
+          "name": "Relativity",
+          "type": "tool",
+          "description": "eDiscovery platform for legal document review"
+        },
+        {
+          "name": "MLS (Multiple Listing Service)",
+          "type": "data_source",
+          "description": "Real estate listing database"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "REQ_006_01",
+          "description": "Each industry vertical must have a complete friction matrix with quantified automation ROI",
+          "priority": "medium",
+          "status": "researched"
+        }
+      ],
+      "findings": [
+        {
+          "finding": "Custom cabinetry has a high-value friction point: skilled CNC programmers cost $60-100/hour and are in short supply",
+          "evidence": "Industry analysis of manufacturing labor costs and lead times"
+        },
+        {
+          "finding": "Legal discovery is a massive market ($15B+) with well-established eDiscovery platforms already using AI/ML",
+          "evidence": "Market analysis showing TAM and competitive landscape"
+        },
+        {
+          "finding": "Real estate appraisal automation is the highest-barrier but highest-moat opportunity due to GSE compliance requirements",
+          "evidence": "Fannie Mae/Freddie Mac UAD 3.6 mandate creates regulatory barrier to entry"
+        }
+      ],
+      "relationships": [
+        {
+          "from_concept": "Real Estate Appraisal Friction",
+          "to_concept": "UAD 3.6 MISMO XML",
+          "relation": "targets",
+          "target_doc": "DOC_001"
+        },
+        {
+          "from_concept": "Custom Cabinetry Friction",
+          "to_concept": "Data Friction Matrix",
+          "relation": "instance_of",
+          "target_doc": "DOC_005"
+        },
+        {
+          "from_concept": "Legal Discovery Friction",
+          "to_concept": "Data Friction Matrix",
+          "relation": "instance_of",
+          "target_doc": "DOC_005"
+        }
+      ]
+    }
+  ],
+
+  "ontology": {
+    "nodes": [
+      {
+        "id": "C_001",
+        "label": "Ontology Engine",
+        "category": "system",
+        "definition": "Middleware that automates translation of analog/unstructured data into structured, system-ready formats",
+        "source_doc_ids": ["DOC_001", "DOC_003", "DOC_004"]
+      },
+      {
+        "id": "C_002",
+        "label": "Z → A Pipeline",
+        "category": "methodology",
+        "definition": "Reverse extrapolation methodology: define output (Z) first, work backward to input (A)",
+        "source_doc_ids": ["DOC_001", "DOC_002", "DOC_003"]
+      },
+      {
+        "id": "C_003",
+        "label": "GOAS",
+        "category": "methodology",
+        "definition": "Goal-Oriented Action System — planning framework that works backward from goals to prerequisites",
+        "source_doc_ids": ["DOC_001", "DOC_002", "DOC_006"]
+      },
+      {
+        "id": "C_004",
+        "label": "Human API",
+        "category": "problem",
+        "definition": "Humans acting as middleware translators between incompatible systems — the core bottleneck",
+        "source_doc_ids": ["DOC_001", "DOC_005", "DOC_006"]
+      },
+      {
+        "id": "C_005",
+        "label": "Design by Contract",
+        "category": "principle",
+        "definition": "Formal agreements (preconditions, postconditions, invariants) enforced at every node boundary via JSON schema",
+        "source_doc_ids": ["DOC_002", "DOC_003"]
+      },
+      {
+        "id": "C_006",
+        "label": "Agentic V-Model",
+        "category": "principle",
+        "definition": "Acceptance criteria and tests defined BEFORE generative execution",
+        "source_doc_ids": ["DOC_002", "DOC_003"]
+      },
+      {
+        "id": "C_007",
+        "label": "4-Node Pipeline",
+        "category": "architecture",
+        "definition": "Ingestion → Extraction → Calculus → Routing — the core processing chain",
+        "source_doc_ids": ["DOC_003", "DOC_004"]
+      },
+      {
+        "id": "C_008",
+        "label": "Ingestion Node",
+        "category": "pipeline_node",
+        "definition": "Node 1: Accepts data, performs OCR if needed, redacts PII",
+        "source_doc_ids": ["DOC_003"]
+      },
+      {
+        "id": "C_009",
+        "label": "Semantic Extraction Node",
+        "category": "pipeline_node",
+        "definition": "Node 2: LLM extracts raw variables into rigid JSON schema. LLMs NEVER calculate.",
+        "source_doc_ids": ["DOC_003", "DOC_004"]
+      },
+      {
+        "id": "C_010",
+        "label": "Deterministic Calculus Node",
+        "category": "pipeline_node",
+        "definition": "Node 3: Python applies industry-specific math (dimensional analysis, waste factors, rounding) to convert abstract units into physical SKUs",
+        "source_doc_ids": ["DOC_003", "DOC_004"]
+      },
+      {
+        "id": "C_011",
+        "label": "Output Routing Node",
+        "category": "pipeline_node",
+        "definition": "Node 4: Transforms structured JSON into target-specific formats (CSV, JSON, MISMO XML) via APIs or CSV generators",
+        "source_doc_ids": ["DOC_003", "DOC_004"]
+      },
+      {
+        "id": "C_012",
+        "label": "Lexicon Matrix",
+        "category": "data_structure",
+        "definition": "Mapping of ~50 Xactimate codes to physical units, material categories, and supplier equivalents",
+        "source_doc_ids": ["DOC_004"]
+      },
+      {
+        "id": "C_013",
+        "label": "Roofer Math",
+        "category": "algorithm",
+        "definition": "Deterministic conversion formulas: Squares→Bundles(×3), LF→pieces(÷10), pitch waste factors, always-round-UP",
+        "source_doc_ids": ["DOC_004"]
+      },
+      {
+        "id": "C_014",
+        "label": "Data Friction Matrix",
+        "category": "analysis_framework",
+        "definition": "Maps Source→Translator→Target to quantify cost, latency, and error of human translation",
+        "source_doc_ids": ["DOC_005", "DOC_006"]
+      },
+      {
+        "id": "C_015",
+        "label": "AI/Code Arbitrage",
+        "category": "strategy",
+        "definition": "Replacing expensive human translators with AI pipelines at lower cost and higher accuracy",
+        "source_doc_ids": ["DOC_005"]
+      },
+      {
+        "id": "C_016",
+        "label": "PII Redaction",
+        "category": "constraint",
+        "definition": "All personally identifiable information must be masked locally before LLM processing",
+        "source_doc_ids": ["DOC_003"]
+      },
+      {
+        "id": "C_017",
+        "label": "O&P Double-Dip Prevention",
+        "category": "constraint",
+        "definition": "Overhead & Profit must be stripped from Xactimate totals before CRM injection",
+        "source_doc_ids": ["DOC_004"]
+      },
+      {
+        "id": "C_018",
+        "label": "UAD 3.6 MISMO XML",
+        "category": "standard",
+        "definition": "Uniform Appraisal Dataset v3.6 — GSE-mandated format for real estate appraisals",
+        "source_doc_ids": ["DOC_001", "DOC_006"]
+      }
+    ],
+    "edges": [
+      { "from": "C_002", "to": "C_007", "relation": "structures" },
+      { "from": "C_003", "to": "C_002", "relation": "instantiated_by" },
+      { "from": "C_001", "to": "C_004", "relation": "eliminates" },
+      { "from": "C_005", "to": "C_007", "relation": "constrains" },
+      { "from": "C_006", "to": "C_007", "relation": "constrains" },
+      { "from": "C_007", "to": "C_008", "relation": "contains" },
+      { "from": "C_007", "to": "C_009", "relation": "contains" },
+      { "from": "C_007", "to": "C_010", "relation": "contains" },
+      { "from": "C_007", "to": "C_011", "relation": "contains" },
+      { "from": "C_008", "to": "C_009", "relation": "feeds" },
+      { "from": "C_009", "to": "C_010", "relation": "feeds" },
+      { "from": "C_010", "to": "C_011", "relation": "feeds" },
+      { "from": "C_012", "to": "C_009", "relation": "enables" },
+      { "from": "C_013", "to": "C_010", "relation": "implements" },
+      { "from": "C_016", "to": "C_008", "relation": "constrains" },
+      { "from": "C_017", "to": "C_010", "relation": "constrains" },
+      {
+        "from": "C_014",
+        "to": "C_015",
+        "relation": "identifies_opportunity_for"
+      },
+      { "from": "C_015", "to": "C_001", "relation": "implemented_as" }
+    ]
+  },
+
+  "pipeline": {
+    "architecture": {
+      "name": "4-Node Z→A Pipeline",
+      "nodes": [
+        {
+          "id": "NODE_1",
+          "name": "Ingestion Node",
+          "inputs": [
+            "Raw PDF (native or scanned)",
+            "Image files (JPG, PNG, TIFF)"
+          ],
+          "outputs": ["Clean text with metadata", "PII-redacted content"],
+          "tools": ["Tesseract OCR", "AWS Textract", "Microsoft Presidio"],
+          "data_contract": {
+            "preconditions": [
+              "File is a valid PDF or image format",
+              "File size within processing limits"
+            ],
+            "postconditions": [
+              "Output is clean text string",
+              "No PII remains in output",
+              "OCR confidence score attached to each text block"
+            ],
+            "invariants": ["Zero PII in output — no exceptions"]
+          }
+        },
+        {
+          "id": "NODE_2",
+          "name": "Semantic Extraction Node",
+          "inputs": ["PII-redacted text from Node 1"],
+          "outputs": ["Structured JSON matching rigid extraction schema"],
+          "tools": ["LLM (GPT-4 / Claude / Gemini)", "JSON Schema Validator"],
+          "data_contract": {
+            "preconditions": [
+              "Input text is PII-free",
+              "Input text is within LLM context window (or chunked)"
+            ],
+            "postconditions": [
+              "Output JSON validates against defined schema",
+              "All Xactimate codes from input are present in output",
+              "NO calculations performed — raw values only"
+            ],
+            "invariants": [
+              "LLM never performs arithmetic",
+              "LLM never invents data not present in source"
+            ]
+          }
+        },
+        {
+          "id": "NODE_3",
+          "name": "Deterministic Calculus Node",
+          "inputs": ["Structured JSON from Node 2"],
+          "outputs": [
+            "Calculated JSON with physical units, quantities, and costs"
+          ],
+          "tools": ["Python (NumPy/custom)", "Roofer Math library"],
+          "data_contract": {
+            "preconditions": [
+              "Input JSON passes schema validation",
+              "All required fields present (area, pitch, code)"
+            ],
+            "postconditions": [
+              "All quantities converted to physical units (bundles, pieces, rolls)",
+              "O&P stripped from cost calculations",
+              "Negative quantities flagged as credit_return",
+              "Bundle counts always rounded UP"
+            ],
+            "invariants": [
+              "No floating-point rounding errors in currency",
+              "O&P never applied twice"
+            ]
+          }
+        },
+        {
+          "id": "NODE_4",
+          "name": "Output Routing Node",
+          "inputs": ["Calculated JSON from Node 3"],
+          "outputs": ["CRM-specific payload (CSV or API JSON)"],
+          "tools": ["CSV generator", "REST API client", "CRM adapter modules"],
+          "data_contract": {
+            "preconditions": [
+              "Input JSON passes calculated schema validation",
+              "Target CRM identified and adapter available"
+            ],
+            "postconditions": [
+              "Output matches target CRM import format exactly",
+              "Deduplication identifiers appended",
+              "Import/API call returns success confirmation"
+            ],
+            "invariants": [
+              "Data integrity preserved end-to-end from Node 1 input to Node 4 output"
+            ]
+          }
+        }
+      ]
+    },
+    "workstreams": [
+      {
+        "id": "WS_ALPHA",
+        "name": "Workstream Alpha: Ingestion, OCR & Sanitization",
+        "node": "NODE_1",
+        "tasks": [
+          {
+            "id": "TASK_A1",
+            "description": "Build OCR router (Tesseract for scanned, direct parse for native PDF)",
+            "status": "todo",
+            "priority": "critical",
+            "dependencies": []
+          },
+          {
+            "id": "TASK_A2",
+            "description": "Implement PII redaction pipeline using Microsoft Presidio",
+            "status": "todo",
+            "priority": "critical",
+            "dependencies": ["TASK_A1"]
+          },
+          {
+            "id": "TASK_A3",
+            "description": "Build token chunking strategy for large documents",
+            "status": "todo",
+            "priority": "high",
+            "dependencies": ["TASK_A1"]
+          },
+          {
+            "id": "TASK_A4",
+            "description": "Acquire 5+ diverse Xactimate PDF samples for testing",
+            "status": "todo",
+            "priority": "critical",
+            "dependencies": []
+          }
+        ],
+        "acceptance_criteria": "OCR produces clean text from both native and scanned PDFs with PII fully redacted. Token chunking handles documents exceeding LLM context windows."
+      },
+      {
+        "id": "WS_BETA",
+        "name": "Workstream Beta: Ontology Engine Core",
+        "node": "NODE_2 + NODE_3",
+        "tasks": [
+          {
+            "id": "TASK_B1",
+            "description": "Define rigid JSON extraction schema for Xactimate data",
+            "status": "todo",
+            "priority": "critical",
+            "dependencies": []
+          },
+          {
+            "id": "TASK_B2",
+            "description": "Engineer LLM prompt for semantic extraction (no calculation)",
+            "status": "todo",
+            "priority": "critical",
+            "dependencies": ["TASK_B1"]
+          },
+          {
+            "id": "TASK_B3",
+            "description": "Build Roofer Math Python module (Squares→Bundles, pitch adjustment, waste factors)",
+            "status": "todo",
+            "priority": "critical",
+            "dependencies": ["TASK_B1"]
+          },
+          {
+            "id": "TASK_B4",
+            "description": "Implement O&P stripping logic",
+            "status": "todo",
+            "priority": "critical",
+            "dependencies": ["TASK_B3"]
+          },
+          {
+            "id": "TASK_B5",
+            "description": "Implement negative quantity (credit_return) handling",
+            "status": "todo",
+            "priority": "high",
+            "dependencies": ["TASK_B3"]
+          },
+          {
+            "id": "TASK_B6",
+            "description": "Implement F9 note collision detection with HITL gate",
+            "status": "todo",
+            "priority": "high",
+            "dependencies": ["TASK_B2"]
+          },
+          {
+            "id": "TASK_B7",
+            "description": "Build multi-trade data splitting logic",
+            "status": "todo",
+            "priority": "medium",
+            "dependencies": ["TASK_B1"]
+          }
+        ],
+        "acceptance_criteria": "LLM extracts all Xactimate codes into valid JSON without performing any calculations. Python module correctly converts all values to physical units with proper rounding, O&P handling, and credit_return flagging."
+      },
+      {
+        "id": "WS_GAMMA",
+        "name": "Workstream Gamma: Destination Adapters",
+        "node": "NODE_4",
+        "tasks": [
+          {
+            "id": "TASK_G1",
+            "description": "Build Buildertrend CSV generator (assembly import format)",
+            "status": "todo",
+            "priority": "high",
+            "dependencies": ["TASK_B3"]
+          },
+          {
+            "id": "TASK_G2",
+            "description": "Build JobNimbus QBO bridge CSV generator",
+            "status": "todo",
+            "priority": "high",
+            "dependencies": ["TASK_B3"]
+          },
+          {
+            "id": "TASK_G3",
+            "description": "Research AccuLynx partner API access for Material Order POST",
+            "status": "todo",
+            "priority": "medium",
+            "dependencies": []
+          },
+          {
+            "id": "TASK_G4",
+            "description": "Build deduplication logic for CRM imports",
+            "status": "todo",
+            "priority": "high",
+            "dependencies": ["TASK_G1", "TASK_G2"]
+          }
+        ],
+        "acceptance_criteria": "CSV generators produce valid import files for Buildertrend and JobNimbus. AccuLynx API research completed with partner access path documented."
+      },
+      {
+        "id": "WS_DELTA",
+        "name": "Workstream Delta: Phase 2 R&D",
+        "node": "Future",
+        "tasks": [
+          {
+            "id": "TASK_D1",
+            "description": "Research UAD 3.6 MISMO XML schema specifications",
+            "status": "todo",
+            "priority": "low",
+            "dependencies": []
+          },
+          {
+            "id": "TASK_D2",
+            "description": "Identify GSE submission API requirements for Fannie Mae / Freddie Mac",
+            "status": "todo",
+            "priority": "low",
+            "dependencies": []
+          },
+          {
+            "id": "TASK_D3",
+            "description": "Map appraisal data friction points to Ontology Engine architecture",
+            "status": "todo",
+            "priority": "low",
+            "dependencies": ["TASK_D1"]
+          }
+        ],
+        "acceptance_criteria": "UAD 3.6 schema fully documented. GSE submission requirements documented. Architecture adaptation plan drafted."
+      }
+    ]
+  },
+
+  "constraints": {
+    "hardcoded_rules": [
+      {
+        "id": "CONST_001",
+        "name": "PII Redaction",
+        "severity": "critical",
+        "description": "All personally identifiable information (names, addresses, SSNs, policy numbers) must be masked by local Python script (Microsoft Presidio) BEFORE any data reaches the LLM.",
+        "mitigation_strategy": "Microsoft Presidio runs as first step in Node 1. Zero-data-retention policy for LLM API calls.",
+        "status": "defined"
+      },
+      {
+        "id": "CONST_002",
+        "name": "Tax & O&P Double-Dip Prevention",
+        "severity": "critical",
+        "description": "Xactimate estimates include Overhead & Profit margins. CRMs apply their own O&P. Node 3 must strip O&P from Xactimate totals before CRM injection to prevent double-taxation.",
+        "mitigation_strategy": "Deterministic Calculus Node (Node 3) explicitly strips O&P line items and recalculates material-only costs.",
+        "status": "defined"
+      },
+      {
+        "id": "CONST_003",
+        "name": "Negative Quantity Handling",
+        "severity": "high",
+        "description": "Negative integers in Xactimate supplements represent credits/deductions. These must be flagged as 'credit_return' transactions, not treated as errors.",
+        "mitigation_strategy": "Node 3 detects negative quantities and routes them to a credit_return data path with separate CRM handling.",
+        "status": "defined"
+      },
+      {
+        "id": "CONST_004",
+        "name": "F9 Note Collision",
+        "severity": "high",
+        "description": "Xactimate F9 notes can override standard line item values with adjuster-specific modifications. LLM must flag these but NEVER auto-resolve the conflict.",
+        "mitigation_strategy": "Node 2 (LLM) flags F9 note collisions. Human-in-the-Loop gate requires manual approval before overridden values propagate.",
+        "status": "defined"
+      },
+      {
+        "id": "CONST_005",
+        "name": "Human-in-the-Loop (HITL) Gate",
+        "severity": "high",
+        "description": "Any output with confidence below threshold or F9 note conflicts must be held for human review before final CRM submission.",
+        "mitigation_strategy": "HITL queue system with notification. User approves/rejects/edits before data proceeds to Node 4.",
+        "status": "defined"
+      }
+    ],
+    "risk_backlog": [
+      {
+        "id": "RISK_001",
+        "name": "PII & Data Privacy Liability",
+        "severity": "critical",
+        "description": "Processing insurance/appraisal documents may expose PII regulated by HIPAA, state privacy laws, and insurance regulations.",
+        "mitigation_strategy": "Local PII redaction before LLM. Zero-data-retention agreements with LLM providers. Legal review of data handling policies.",
+        "status": "open"
+      },
+      {
+        "id": "RISK_002",
+        "name": "API Paywall Trap",
+        "severity": "high",
+        "description": "CRM API access may require Premium/Enterprise subscription tiers (e.g., AccuLynx partner access). Contractors on lower tiers may not have API access.",
+        "mitigation_strategy": "Audit all target CRM subscription tiers for API availability. Fall back to CSV import where API unavailable.",
+        "status": "open"
+      },
+      {
+        "id": "RISK_003",
+        "name": "Context Window / Token Limit Drop-off",
+        "severity": "high",
+        "description": "Large Xactimate PDFs may exceed LLM context windows, causing information loss or degraded extraction accuracy.",
+        "mitigation_strategy": "Token chunking strategy with overlap windows. Cost analysis for multi-call processing. May need document segmentation by trade.",
+        "status": "open"
+      },
+      {
+        "id": "RISK_004",
+        "name": "OCR Volatility",
+        "severity": "medium",
+        "description": "Scanned PDFs vs native PDFs produce vastly different text quality. Dynamic OCR router needed.",
+        "mitigation_strategy": "Implement PDF type detection. Native PDFs use direct text extraction. Scanned PDFs route through Tesseract/AWS Textract with confidence scoring.",
+        "status": "open"
+      },
+      {
+        "id": "RISK_005",
+        "name": "Multi-Trade Routing Collision",
+        "severity": "medium",
+        "description": "A single Xactimate estimate may contain multiple trades (roofing, siding, gutters) destined for different suppliers. Data must be split correctly.",
+        "mitigation_strategy": "Xactimate category codes naturally segment by trade. Node 2 extracts trade tags. Node 3 splits by trade for separate routing in Node 4.",
+        "status": "open"
+      }
+    ]
+  },
+
+  "prd_synthesis": {
+    "problem_statement": "Skilled professionals currently act as 'Human APIs' — manually translating unstructured data (Xactimate estimates, blueprints, legal documents, real estate appraisals) into structured formats required by downstream systems (CRMs, ERPs, procurement platforms). This creates significant latency (hours to days per translation), high cost ($25-150/hour), and error cascades (2-15% error rates). The Ontology Engine eliminates this bottleneck by automating the full translation pipeline.",
+    "target_markets": [
+      {
+        "phase": 1,
+        "market": "Roofing Contractors (Xactimate → CRM)",
+        "rationale": "Fastest time-to-revenue. Clear pain point, existing contractor relationships. Three target CRMs (JobNimbus, AccuLynx, Buildertrend) with documented integration paths.",
+        "priority": "immediate"
+      },
+      {
+        "phase": 2,
+        "market": "Real Estate Appraisers (Field Data → UAD 3.6 MISMO XML)",
+        "rationale": "Higher enterprise value and competitive moat due to GSE certification requirements. Longer development timeline.",
+        "priority": "future"
+      }
+    ],
+    "system_architecture": {
+      "pattern": "4-Node Z→A Pipeline with Design by Contract",
+      "nodes": [
+        "Ingestion (OCR + PII)",
+        "Semantic Extraction (LLM)",
+        "Deterministic Calculus (Python)",
+        "Output Routing (CSV/API)"
+      ],
+      "principles": [
+        "LLMs never calculate",
+        "DbC at every boundary",
+        "V-Model test-first",
+        "HITL gates for uncertainty"
+      ]
+    },
+    "workstreams": [
+      "Alpha: Ingestion/OCR/Sanitization",
+      "Beta: Ontology Core (Extraction + Calculus)",
+      "Gamma: Destination Adapters (CSV/API)",
+      "Delta: Phase 2 R&D (UAD 3.6)"
+    ],
+    "risk_register": [
+      "PII & Data Privacy (CRITICAL)",
+      "API Paywall Trap (HIGH)",
+      "Token Limit Drop-off (HIGH)",
+      "OCR Volatility (MEDIUM)",
+      "Multi-Trade Routing Collision (MEDIUM)"
+    ],
+    "success_metrics": [
+      "Process an Xactimate PDF → CRM-ready output in < 60 seconds",
+      "Achieve 95%+ extraction accuracy on structured fields",
+      "Zero PII leakage to LLM",
+      "Successful import/API push to at least 2 of 3 target CRMs",
+      "Contractor time savings: from 30-60 min manual entry to < 2 min automated"
+    ],
+    "industry_verticals": [
+      { "name": "Roofing/Construction", "phase": 1, "source_doc": "DOC_004" },
+      { "name": "Real Estate Appraisal", "phase": 2, "source_doc": "DOC_006" },
+      {
+        "name": "Custom Cabinetry",
+        "phase": "future",
+        "source_doc": "DOC_006"
+      },
+      { "name": "Legal Discovery", "phase": "future", "source_doc": "DOC_006" },
+      {
+        "name": "Commercial Real Estate",
+        "phase": "future",
+        "source_doc": "DOC_005"
+      },
+      {
+        "name": "Logistics/Supply Chain",
+        "phase": "future",
+        "source_doc": "DOC_005"
+      }
+    ]
+  }
+}
