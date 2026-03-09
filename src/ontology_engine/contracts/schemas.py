@@ -120,3 +120,142 @@ NODE_3_TO_4_SCHEMA = {
         },
     },
 }
+
+# Schema: Node 5 Input (Two Node 3 outputs → Comparator)
+NODE_5_INPUT_SCHEMA = {
+    "type": "object",
+    "required": ["adjuster_estimate", "contractor_estimate"],
+    "properties": {
+        "adjuster_estimate": {
+            "$ref": "#/$defs/node3_output",
+            "description": "Insurance adjuster's estimate (processed through Nodes 1-3)",
+        },
+        "contractor_estimate": {
+            "$ref": "#/$defs/node3_output",
+            "description": "Contractor's estimate (processed through Nodes 1-3)",
+        },
+    },
+    "$defs": {
+        "node3_output": {
+            "type": "object",
+            "required": ["header", "procurement_items", "adjusted_totals"],
+            "properties": {
+                "header": {"type": "object"},
+                "procurement_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["category", "description", "physical_qty", "physical_unit", "trade"],
+                        "properties": {
+                            "category": {"type": "string"},
+                            "description": {"type": "string"},
+                            "physical_qty": {"type": "number"},
+                            "physical_unit": {"type": "string"},
+                            "trade": {"type": "string"},
+                            "unit_cost": {"type": "number"},
+                        },
+                    },
+                },
+                "credit_items": {"type": "array"},
+                "adjusted_totals": {
+                    "type": "object",
+                    "properties": {
+                        "rcv": {"type": "number"},
+                        "depreciation": {"type": "number"},
+                        "acv": {"type": "number"},
+                        "overhead": {"type": "number"},
+                        "profit": {"type": "number"},
+                        "tax": {"type": "number"},
+                        "net_claim": {"type": "number"},
+                    },
+                },
+                "hitl_flags": {"type": "array"},
+            },
+        },
+    },
+}
+
+# Schema: Node 5 → Node 6 (Gap Report → Supplement Report)
+NODE_5_OUTPUT_SCHEMA = {
+    "type": "object",
+    "required": ["summary", "line_item_gaps", "op_analysis", "depreciation_findings"],
+    "properties": {
+        "summary": {
+            "type": "object",
+            "required": ["adjuster_rcv", "contractor_rcv", "total_delta", "gap_count"],
+            "properties": {
+                "adjuster_rcv": {"type": "number"},
+                "contractor_rcv": {"type": "number"},
+                "total_delta": {"type": "number"},
+                "gap_count": {"type": "integer", "minimum": 0},
+                "adjuster_line_count": {"type": "integer"},
+                "contractor_line_count": {"type": "integer"},
+            },
+        },
+        "line_item_gaps": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["gap_type", "description"],
+                "properties": {
+                    "gap_type": {
+                        "type": "string",
+                        "enum": ["missing_item", "quantity_delta", "pricing_delta"],
+                    },
+                    "category": {"type": "string"},
+                    "description": {"type": "string"},
+                    "contractor_qty": {"type": ["number", "null"]},
+                    "adjuster_qty": {"type": ["number", "null"]},
+                    "quantity_delta": {"type": ["number", "null"]},
+                    "quantity_delta_pct": {"type": ["number", "null"]},
+                    "contractor_total": {"type": ["number", "null"]},
+                    "adjuster_total": {"type": ["number", "null"]},
+                    "pricing_delta": {"type": ["number", "null"]},
+                    "trade": {"type": "string"},
+                },
+            },
+        },
+        "op_analysis": {
+            "type": "object",
+            "required": ["trade_count", "op_warranted", "adjuster_op_applied", "contractor_op_applied"],
+            "properties": {
+                "trade_count": {"type": "integer", "minimum": 0},
+                "op_warranted": {"type": "boolean"},
+                "adjuster_op_applied": {
+                    "type": "object",
+                    "properties": {
+                        "overhead": {"type": "number"},
+                        "profit": {"type": "number"},
+                    },
+                },
+                "contractor_op_applied": {
+                    "type": "object",
+                    "properties": {
+                        "overhead": {"type": "number"},
+                        "profit": {"type": "number"},
+                    },
+                },
+                "op_recovery_amount": {"type": "number"},
+                "trades_detected": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+        },
+        "depreciation_findings": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["description", "depreciation_pct"],
+                "properties": {
+                    "category": {"type": "string"},
+                    "description": {"type": "string"},
+                    "depreciation_pct": {"type": "number"},
+                    "flagged": {"type": "boolean"},
+                    "flag_reason": {"type": "string"},
+                    "recoverable_amount": {"type": ["number", "null"]},
+                },
+            },
+        },
+    },
+}
