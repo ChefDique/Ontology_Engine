@@ -10,18 +10,20 @@
 
 ## Letter Registry
 
-| Letter | Workstream                          | Status      | Branch / Scope                                  |
-| ------ | ----------------------------------- | ----------- | ----------------------------------------------- |
-| A      | Alpha: Node 1 Ingestion             | ✅ Merged   | `feature/agent-a-ingestion`                     |
-| B      | Beta: Nodes 2+3 Extraction+Calculus | ✅ Merged   | `feature/agent-b-extraction-calculus`           |
-| C      | Gamma: Node 4 Output Adapters       | ✅ Merged   | `feature/agent-c-output-adapters`               |
-| D      | Delta: UAD 3.6 R&D                  | 📋 Assigned | `feature/agent-d-uad-research`                  |
-| E      | Epsilon: kb-orchestrator Skill      | ✅ Complete | `~/.gemini/antigravity/skills/kb-orchestrator/` |
-| F      | Foxtrot: Pipeline Wiring + HITL     | ✅ Merged   | `feature/agent-f-pipeline-wiring`               |
-| G      | Golf: LLM Integration (Gemini)      | ✅ Merged   | `feature/agent-g-llm-integration`               |
-| H      | Hotel: Orchestrator Upgrades        | ✅ Merged   | `~/.gemini/antigravity/skills/kb-orchestrator/` |
-| I      | India: Node 5 Estimate Comparator   | 📋 Assigned | `feature/agent-i-comparator`                    |
-| J      | Juliet: Node 6 Supplement Report    | 📋 Assigned | `feature/agent-j-supplement-report`             |
+| Letter | Workstream                          | Status         | Branch / Scope                                  |
+| ------ | ----------------------------------- | -------------- | ----------------------------------------------- |
+| A      | Alpha: Node 1 Ingestion             | ✅ Merged      | `feature/agent-a-ingestion`                     |
+| B      | Beta: Nodes 2+3 Extraction+Calculus | ✅ Merged      | `feature/agent-b-extraction-calculus`           |
+| C      | Gamma: Node 4 Output Adapters       | ✅ Merged      | `feature/agent-c-output-adapters`               |
+| D      | Delta: UAD 3.6 R&D                  | 📋 Assigned    | `feature/agent-d-uad-research`                  |
+| E      | Epsilon: kb-orchestrator Skill      | ✅ Complete    | `~/.gemini/antigravity/skills/kb-orchestrator/` |
+| F      | Foxtrot: Pipeline Wiring + HITL     | ✅ Merged      | `feature/agent-f-pipeline-wiring`               |
+| G      | Golf: LLM Integration (Gemini)      | ✅ Merged      | `feature/agent-g-llm-integration`               |
+| H      | Hotel: Orchestrator Upgrades        | ✅ Merged      | `~/.gemini/antigravity/skills/kb-orchestrator/` |
+| I      | India: Node 5 Estimate Comparator   | ✅ Merged      | `feature/agent-i-comparator`                    |
+| J      | Juliet: Node 6 Supplement Report    | ✅ Merged      | `feature/agent-j-supplement-report`             |
+| K      | Kilo: Red Team Suite                | 🟡 In-Progress | `feature/agent-k-red-team`                      |
+| L      | Lima: UI Shell                      | 🟡 In-Progress | `feature/agent-l-ui-shell`                      |
 
 ## Work Queue
 
@@ -30,21 +32,20 @@
 3. ~~Epsilon (skill build)~~ **Complete**
 4. ~~Foxtrot + Golf (parallel)~~ **Both merged**
 5. ~~Hotel (orchestrator upgrades)~~ **Merged**
-6. **India (Node 5 Comparator)** — SERIALIZE FIRST (J depends on I's output contract)
-7. **Juliet (Node 6 Supplement Report)** — after I merges
-8. Red Team Suite (after I+J merge)
-9. UI Shell (after I+J merge)
-10. Delta (independent, low priority)
+6. ~~India (Node 5 Comparator)~~ **Merged**
+7. ~~Juliet (Node 6 Supplement Report)~~ **Merged**
+8. **Kilo + Lima (parallel)** — Red Team Suite + UI Shell (dispatched)
+9. Delta (independent, low priority)
 
 ## Last Session
 
 - **Date:** 2026-03-09
-- **Session:** Orchestrator — supplement engine dispatch
+- **Session:** Orchestrator — Red Team + UI Shell dispatch
 - **Completed:**
-  - Confirmed supplement_analysis layer in KB (product pivot: CRM import → supplement intelligence)
-  - Defined workstream I: Node 5 Estimate Comparator (5 tasks — diff engine, O&P detection, depreciation audit)
-  - Defined workstream J: Node 6 Supplement Report Generator (5 tasks — blocked on I's output contract)
-  - Updated KB to v1.2.0
-  - Scope collision check: ✅ passed (I and J have disjoint scopes)
-  - Note: I touches `contracts/schemas.py` (shared file) — agent must add new contracts only, not modify existing ones
-- **Next:** Dispatch Agent I → `/agent india` in Planning mode → `/done` → dispatch J
+  - All MVP nodes (1-6) merged and wired
+  - Defined workstream K: Kilo — Red Team Suite (6 tasks: adversarial tests across all nodes + pipeline)
+  - Defined workstream L: Lima — UI Shell (5 tasks: Vite scaffold, upload, dashboard, report viewer, HITL UI)
+  - Scope collision check: ✅ passed (K=`tests/red_team/`, L=`web/` — fully disjoint)
+  - Updated KB to v1.3.0
+  - Neither agent touches shared files (`contracts/`, `config.py`, `pipeline.py`)
+- **Next:** Agents K and L work in parallel → `/done` each when complete → then Delta (D)

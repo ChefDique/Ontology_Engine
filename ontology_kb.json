@@ -1,7 +1,7 @@
 {
   "meta": {
     "project_name": "Ontology Engine",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "created": "2026-03-08",
     "methodology": {
       "name": "Z → A Reverse Extrapolation Pipeline",
@@ -76,7 +76,7 @@
         "path": "R&D-Unsynthesized/markdown/research-xactimite-pdf-esx.json"
       }
     ],
-    "last_updated": "2026-03-08"
+    "last_updated": "2026-03-09"
   },
   "documents": [
     {
@@ -2663,6 +2663,113 @@
       "contracts": [
         "NODE_5_OUTPUT_SCHEMA"
       ]
+    },
+    "kilo": {
+      "letter": "K",
+      "name": "Red Team Suite (Adversarial Testing)",
+      "status": "🟡 in-progress",
+      "scope": [
+        "tests/red_team/"
+      ],
+      "blocker": null,
+      "recommended_mode": "planning",
+      "reasoning_level": "deep",
+      "mode_rationale": "Adversarial test design requires creative thinking about failure modes across all 6 nodes + pipeline",
+      "tasks": [
+        {
+          "id": "TASK_K1",
+          "title": "Malformed PDF adversarial tests (Node 1 — corrupt headers, zero-byte, password-protected, 500-page stress)",
+          "status": "pending",
+          "reasoning_level": 3
+        },
+        {
+          "id": "TASK_K2",
+          "title": "LLM extraction edge cases (Node 2 — gibberish text, prompt injection attempts, empty/null responses, partial JSON)",
+          "status": "pending",
+          "reasoning_level": 4
+        },
+        {
+          "id": "TASK_K3",
+          "title": "Calculus overflow/underflow (Node 3 — extreme values, division by zero, negative quantities, NaN propagation)",
+          "status": "pending",
+          "reasoning_level": 3
+        },
+        {
+          "id": "TASK_K4",
+          "title": "Contract boundary fuzzing (all node boundaries — invalid schemas, missing required fields, type coercion attacks)",
+          "status": "pending",
+          "reasoning_level": 4
+        },
+        {
+          "id": "TASK_K5",
+          "title": "Node 5+6 adversarial (identical estimates, empty gap reports, extreme deltas, single-line-item edge cases)",
+          "status": "pending",
+          "reasoning_level": 3
+        },
+        {
+          "id": "TASK_K6",
+          "title": "End-to-end pipeline stress (corrupted mid-pipeline, partial node failures, HITL queue overflow, timeout simulation)",
+          "status": "pending",
+          "reasoning_level": 4
+        }
+      ],
+      "verify": "pytest tests/red_team/ -v",
+      "branch": "feature/agent-k-red-team",
+      "briefing": "docs/briefings/kilo_briefing.md",
+      "contracts": [
+        "NODE_1_TO_2_SCHEMA",
+        "NODE_2_TO_3_SCHEMA",
+        "NODE_3_TO_4_SCHEMA",
+        "NODE_5_INPUT_SCHEMA",
+        "NODE_5_OUTPUT_SCHEMA"
+      ]
+    },
+    "lima": {
+      "letter": "L",
+      "name": "UI Shell (Web Frontend)",
+      "status": "🟡 in-progress",
+      "scope": [
+        "web/"
+      ],
+      "blocker": null,
+      "recommended_mode": "planning",
+      "reasoning_level": "deep",
+      "mode_rationale": "Full-stack UI requires design decisions on framework, layout, component architecture, and API surface",
+      "tasks": [
+        {
+          "id": "TASK_L1",
+          "title": "Project scaffolding (Vite + vanilla JS, dev server, build config)",
+          "status": "pending",
+          "reasoning_level": 2
+        },
+        {
+          "id": "TASK_L2",
+          "title": "PDF upload component (drag-and-drop, dual-file for adjuster + contractor, validation)",
+          "status": "pending",
+          "reasoning_level": 3
+        },
+        {
+          "id": "TASK_L3",
+          "title": "Pipeline status dashboard (real-time node progress, contract validation indicators)",
+          "status": "pending",
+          "reasoning_level": 3
+        },
+        {
+          "id": "TASK_L4",
+          "title": "Supplement report viewer (render Node 6 output — gap table, O&P analysis, dollar-impact summary)",
+          "status": "pending",
+          "reasoning_level": 4
+        },
+        {
+          "id": "TASK_L5",
+          "title": "HITL review interface (list flagged items, approve/reject actions, queue status)",
+          "status": "pending",
+          "reasoning_level": 3
+        }
+      ],
+      "verify": "cd web && npm run build && npm test",
+      "branch": "feature/agent-l-ui-shell",
+      "briefing": "docs/briefings/lima_briefing.md"
     }
   },
   "supplement_analysis": {
