@@ -3073,6 +3073,36 @@
       ],
       "insight": "Observable state store with subscribe/setState pattern works well for vanilla JS — no framework needed. Keep state flat for simple re-render triggers.",
       "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "mike",
+      "scope": [
+        "src/ontology_engine/api.py",
+        "Procfile",
+        "tests/test_api/"
+      ],
+      "tags": [
+        "fastapi",
+        "testing",
+        "rate-limiter"
+      ],
+      "insight": "FastAPI TestClient uses 'testclient' as default client.host — rate limiter IP detection uses this in tests",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "mike",
+      "scope": [
+        "src/ontology_engine/api.py",
+        "Procfile",
+        "tests/test_api/"
+      ],
+      "tags": [
+        "api",
+        "pipeline",
+        "scope-boundary"
+      ],
+      "insight": "run_supplement_pipeline can be implemented inline in api.py to avoid editing shared pipeline.py — calls _run_nodes_1_to_3 twice then Node 5 + Node 6 directly",
+      "timestamp": "2026-03-09"
     }
   ]
 }
