@@ -152,9 +152,20 @@ def redact_pii(text: str) -> dict:
     # Try Presidio first (upgrade path — no-op if not installed)
     presidio_result = _try_presidio_redact(text)
     if presidio_result is not None:
+        # Defense-in-depth: run regex as secondary safety net on Presidio's
+        # output to catch PII that Presidio's NER models miss (e.g., SSNs
+        # with label prefixes like "SSN: 123-45-6789"). CONST_001 demands
+        # ZERO PII in output — belt AND suspenders.
+        secondary_text, secondary_findings = _regex_redact(
+            presidio_result["redacted_text"]
+        )
+        if secondary_findings:
+            presidio_result["redacted_text"] = secondary_text
+            presidio_result["pii_found"].extend(secondary_findings)
+            presidio_result["pii_count"] += len(secondary_findings)
         return presidio_result
 
-    # Fallback: regex-based redaction
+    # Fallback: regex-based redaction (if Presidio not installed)
     redacted_text, findings = _regex_redact(text)
     return {
         "redacted_text": redacted_text,
