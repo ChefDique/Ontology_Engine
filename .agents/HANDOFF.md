@@ -27,7 +27,7 @@
 | L      | Lima: UI Shell                      | ✅ Merged   | `feature/agent-l-ui-shell`                      |
 | M      | Mike: Backend API + Security        | ✅ Merged   | `src/ontology_engine/api.py`, `tests/test_api/` |
 | N      | November: Frontend Wiring           | ✅ Merged   | `web/src/` — upload, history, pipeline wired    |
-| O      | Oscar: Deployment                   | 📋 Ready    | Vercel (frontend) + Railway (backend)           |
+| O      | Oscar: Deployment                   | ✅ Merged   | Dockerfile, Railway, Vercel configs             |
 | P      | Papa: App Documentation             | ✅ Merged   | `docs/`, `README.md`                            |
 
 ## Supabase Pivot (v1.5.0)
@@ -56,24 +56,22 @@ Frontend (Vercel) → Supabase (auth/db/storage) → FastAPI on Railway (compute
 
 ## Work Queue
 
-1. ~~Alpha through November~~ **All merged** (A–N, 14 agents + E/H skills)
-2. **Oscar** (Deployment — unblocked, ready)
-3. Delta (independent R&D, low priority)
+1. ~~Alpha through Oscar~~ **All merged** (A–P, 16 agents/skills)
+2. Delta (independent R&D, low priority)
+3. 🚀 **Ready to deploy** — see `docs/DEPLOYMENT.md`
 
 ## Known Issues
 
 - ~~**PII SSN detection gap**~~ **FIXED**
 - **Presidio email detection** may fail in 28K+ char text
-- **Flaky test_api tests** — 9 tests in `test_api.py` fail when run as full suite (env var state leaking between kill switch/circuit breaker tests). Pass individually. Pre-existing Agent M issue.
+- **Flaky test_api tests** — 9 tests in `test_api.py` fail in batch (env var state leaking). Pass individually.
 
 ## Last Session
 
 - **Date:** 2026-03-09
-- **Session:** /done — merge Agent N
+- **Session:** /done — merge Agents N + O
 - **Completed:**
-  - Agent N merged (Frontend Wiring) — 64/64 tests, Vite build 337ms
-  - New: upload → real `/api/analyze` with JWT, `/api/history` list+detail, pipeline wiring
-  - KB conflict resolved (`-X ours` strategy — master KB preserved)
-  - Worktree removed, branch deleted, status archived
-  - 451/460 full suite pass (9 flaky test_api, pre-existing)
-- **Next:** Dispatch Agent O (Deployment — Vercel + Railway)
+  - Agent N merged (Frontend Wiring) — upload, history, pipeline wired to real API
+  - Agent O merged (Deployment) — Dockerfile, Railway, Vercel, env configs, DEPLOYMENT.md
+  - All deployment workstreams complete — ready to deploy to Railway + Vercel
+- **Next:** Deploy to production! See `docs/DEPLOYMENT.md`

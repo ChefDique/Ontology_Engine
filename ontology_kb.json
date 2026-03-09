@@ -2834,7 +2834,7 @@
     "oscar": {
       "letter": "O",
       "name": "Deployment + Access Control",
-      "status": "📋 assigned",
+      "status": "✅ merged",
       "scope": [
         "Dockerfile",
         "railway.toml",
@@ -2857,7 +2857,7 @@
       "dependencies": [
         "mike"
       ],
-      "blocker": "Depends on Agent M (Backend API)",
+      "blocker": null,
       "recommended_mode": "fast",
       "reasoning_level": "low",
       "skill": null,
