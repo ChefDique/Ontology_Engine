@@ -10,14 +10,16 @@ import { renderPipelineView } from './components/pipeline.js';
 import { renderReportView } from './components/report.js';
 import { renderReviewView } from './components/review.js';
 import { renderLoginView } from './components/login.js';
+import { renderHistoryView, initHistoryView } from './components/history.js';
 import { isSupabaseConfigured, getSession, signOut, onAuthStateChange } from './utils/supabase.js';
 
-/** @type {Object<string, { label: string, icon: string, render: Function }>} */
+/** @type {Object<string, { label: string, icon: string, render: Function, onActivate?: Function }>} */
 const VIEWS = {
   upload: { label: 'Upload', icon: '📤', render: renderUploadView },
   pipeline: { label: 'Pipeline', icon: '⚡', render: renderPipelineView },
   report: { label: 'Report', icon: '📊', render: renderReportView },
   review: { label: 'Review', icon: '🔍', render: renderReviewView },
+  history: { label: 'History', icon: '📋', render: renderHistoryView, onActivate: initHistoryView },
 };
 
 /** @type {{ user: object|null, loading: boolean }} */
@@ -74,7 +76,10 @@ function renderApp() {
     btn.id = `nav-${key}`;
     btn.setAttribute('role', 'tab');
     btn.setAttribute('aria-selected', state.activeView === key);
-    btn.addEventListener('click', () => setView(key));
+    btn.addEventListener('click', () => {
+      setView(key);
+      if (view.onActivate) view.onActivate();
+    });
     nav.appendChild(btn);
   }
 
