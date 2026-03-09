@@ -63,13 +63,7 @@ cat [BRIEFING_PATH]
 cat src/ontology_engine/contracts/schemas.py
 ```
 
-Read accumulated cross-session learnings (if they exist):
-
-```bash
-cat progress.txt 2>/dev/null || echo "No progress.txt yet — you are the first agent."
-```
-
-Use any relevant learnings from `progress.txt` to inform your implementation decisions.
+Relevant learnings from previous agents are automatically included in the briefing's `## Prior Learnings` section — no manual lookup needed.
 
 ---
 
@@ -169,18 +163,22 @@ git push
 
 ### Append Cross-Session Learnings
 
-Append what you learned to `progress.txt` so future agents benefit. **Append only, never overwrite.**
+Record what you learned into the KB so future agents benefit. Use one `add-learning` call per insight:
 
 ```bash
-cat >> progress.txt << 'LEARNINGS'
+python3 ~/.gemini/antigravity/skills/kb-orchestrator/scripts/kb.py ontology_kb.json add-learning [WORKSTREAM] "[INSIGHT]" --tags [tag1],[tag2]
+```
 
---- Agent [LETTER] ([WORKSTREAM_NAME], [DATE]) ---
-- [What patterns, gotchas, or conventions you discovered]
-- [What worked well or what to avoid]
-- [Any tools, libraries, or approaches worth noting]
-LEARNINGS
+**Example:**
 
-git add progress.txt
+```bash
+python3 ~/.gemini/antigravity/skills/kb-orchestrator/scripts/kb.py ontology_kb.json add-learning alpha "pdfplumber handles native PDFs but fails on scanned images" --tags pdfplumber,ocr,ingestion
+```
+
+Then commit and push the updated KB:
+
+```bash
+git add ontology_kb.json
 git commit -m "docs: agent [LETTER] cross-session learnings"
 git push
 ```

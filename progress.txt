@@ -1,6 +1,0 @@
-
---- Agent H (Orchestrator Competitive Upgrades, 2026-03-08) ---
-- Global skills (outside repo) can't be tracked in git — only the /agent workflow change lives in the branch
-- validate_kb.py's coverage reporting pattern works well: percentage + count format (e.g. "12/15 tasks (80%)")
-- Using tag_str approach (build list, join with comma) keeps cmd_get output clean when optional fields are absent
-- Pre-existing KB has scope collisions and duplicate task IDs — needs cleanup before next round of agent dispatch

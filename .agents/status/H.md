@@ -1,28 +1,30 @@
 # Agent H — Orchestrator Competitive Upgrades
 
 ## Verify Results
-- `python3 -c "import ast; ..."` syntax check — PASS (all 4 scripts)
-- `validate_kb.py ontology_kb.json` — PASS (new coverage warnings display correctly)
-- `kb.py get hotel` — PASS (reasoning_level/skill tags render)
-- `compile_briefing.py hotel` — PASS (new RL/Skill columns in task table)
-- Scope boundary respected — YES (only edited scope files)
+- Python syntax check (4 scripts) — PASS
+- `validate_kb.py` — PASS (learnings validation + coverage warnings)
+- `kb.py add-learning` — PASS (structured JSON entry created)
+- `compile_briefing.py` — PASS (scope-filtered Prior Learnings section)
+- `dashboard.py` — PASS (KB learnings display)
+- Scope boundary respected — YES
 
 ## Shared File Requests
-None. All changes are within scope.
+None.
 
 ## Changes
 
-### In-Repo (on branch `feature/agent-h-orchestrator-upgrades`)
-- `.agents/workflows/agent.md` — Added progress.txt read at startup + append at end
+### In-Repo (branch `feature/agent-h-orchestrator-upgrades`)
+- `.agents/workflows/agent.md` — KB-native learnings via `kb.py add-learning`
+- `progress.txt` — DELETED (replaced by KB learnings)
 
 ### Out-of-Repo (global skills, applied directly)
-- `~/.gemini/antigravity/skills/kb-orchestrator/scripts/kb.py` — Display reasoning_level + skill tags in `get`
-- `~/.gemini/antigravity/skills/kb-orchestrator/scripts/compile_briefing.py` — Added RL + Skill columns to task table
-- `~/.gemini/antigravity/skills/kb-orchestrator/scripts/validate_kb.py` — Added optional field coverage checks
-- `~/.gemini/antigravity/skills/kb-orchestrator/scripts/dashboard.py` — Added progress.txt display
-- `~/.gemini/antigravity/skills/kb-orchestrator/SKILL.md` — Documented new fields, cross-ref to kb-synthesizer, pipeline flow
-- `~/.gemini/antigravity/skills/kb-synthesizer/SKILL.md` — Cross-ref to kb-orchestrator, pipeline flow
+- `kb-orchestrator/scripts/kb.py` — `add-learning` subcommand + reasoning_level/skill display
+- `kb-orchestrator/scripts/compile_briefing.py` — RL/Skill columns + scope-filtered Prior Learnings
+- `kb-orchestrator/scripts/validate_kb.py` — learnings validation + optional field coverage
+- `kb-orchestrator/scripts/dashboard.py` — KB learnings summary
+- `kb-orchestrator/SKILL.md` — Full docs update (fields, learnings, cross-refs, pipeline)
+- `kb-synthesizer/SKILL.md` — Cross-ref to kb-orchestrator + pipeline flow
 
 ## Notes
-- The Hotel workstream scope is OUTSIDE the main repo (global skills dir). Only the `/agent` workflow change is tracked in git.
-- Pre-existing KB issues found: scope collisions and duplicate task IDs in other workstreams (not introduced by this work).
+- H1 revised: KB-native learnings replace progress.txt per user feedback
+- Agents get scope-filtered learnings in briefings automatically — zero agent-side changes
