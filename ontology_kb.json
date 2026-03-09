@@ -3117,6 +3117,20 @@
       "title": "Supabase Integration Pivot",
       "detail": "Pivoted from access-code-gate + in-memory state to full Supabase integration. Supabase handles: Auth (email/password + magic link), PostgreSQL (analyses + rate_limits tables with RLS), Storage (estimates bucket for PDFs). FastAPI backend still needed for compute (pdfplumber, Gemini, etc). Project: ontology-engine (fareqnzxhodvgdkboeff) on Adair AI org, us-west-1, free tier. Frontend uses @supabase/supabase-js, backend uses supabase-py + PyJWT. Auth is gracefully disabled when SUPABASE_URL not set (backward-compatible).",
       "source": "orchestrator"
+    },
+    {
+      "workstream": "papa",
+      "scope": [
+        "docs/",
+        "README.md"
+      ],
+      "tags": [
+        "kb",
+        "papa",
+        "documentation"
+      ],
+      "insight": "Papa workstream KB entry is missing 'branch' and 'briefing' fields — these should be added for consistency. The agent derived branch as feature/agent-p-app-documentation from convention.",
+      "timestamp": "2026-03-09"
     }
   ]
 }
