@@ -1,10 +1,11 @@
 /**
- * TASK_L3 — Pipeline Status Dashboard
+ * TASK_L3 / N3 — Pipeline Status Dashboard
  * Real-time node progress display with contract validation indicators.
+ * Now includes error display when pipeline fails.
  */
 
 import { createElement } from '../utils/format.js';
-import { getState } from '../utils/state.js';
+import { getState, setView } from '../utils/state.js';
 
 /**
  * Get the status icon for a pipeline node.
@@ -95,9 +96,36 @@ export function renderPipelineView() {
       className: 'badge badge-info',
     },
       createElement('span', { className: 'pulse-dot blue' }),
-      'Pipeline Running',
+      'Pipeline Running — this may take 30–60 seconds',
     );
     runIndicator.style.marginBottom = 'var(--space-lg)';
+  }
+
+  // Error banner
+  let errorBanner = null;
+  if (state.pipelineError && !state.pipelineRunning) {
+    errorBanner = createElement('div', { className: 'pipeline-error-banner', id: 'pipeline-error' });
+    errorBanner.style.cssText = `
+      background: var(--color-danger-bg, rgba(239, 68, 68, 0.1));
+      border: 1px solid var(--color-danger, #ef4444);
+      border-radius: var(--radius-md, 8px);
+      padding: var(--space-md, 12px) var(--space-lg, 16px);
+      margin-bottom: var(--space-lg, 16px);
+      color: var(--color-danger-light, #fca5a5);
+    `;
+
+    const errTitle = createElement('div', {}, '❌ Pipeline Failed');
+    errTitle.style.cssText = 'font-weight: 600; margin-bottom: 4px;';
+    const errDetail = createElement('div', {}, state.pipelineError);
+    errDetail.style.cssText = 'font-size: 0.85rem; opacity: 0.9;';
+
+    const retryBtn = createElement('button', {
+      className: 'btn btn-ghost',
+      onClick: () => setView('upload'),
+    }, '← Back to Upload');
+    retryBtn.style.cssText = 'margin-top: var(--space-sm, 8px); font-size: 0.85rem;';
+
+    errorBanner.append(errTitle, errDetail, retryBtn);
   }
 
   // Pipeline visualization
@@ -139,10 +167,50 @@ export function renderPipelineView() {
       ),
     );
     statsSection.style.marginTop = 'var(--space-xl)';
+
+    // Metadata from the real pipeline
+    if (state.lastMetadata) {
+      const meta = state.lastMetadata;
+      const metaEl = createElement('div', { className: 'pipeline-metadata' });
+      metaEl.style.cssText = `
+        margin-top: var(--space-md, 12px);
+        color: var(--text-tertiary, #888);
+        font-size: 0.8rem;
+        text-align: center;
+      `;
+      metaEl.textContent = `Completed in ${meta.duration_seconds || '?'}s`;
+      if (state.lastAnalysisId) {
+        metaEl.textContent += ` · Analysis ID: ${state.lastAnalysisId.substring(0, 8)}…`;
+      }
+      statsSection.appendChild(metaEl);
+    }
+
+    // Action buttons to view results
+    const resultActions = createElement('div', { className: 'pipeline-result-actions' });
+    resultActions.style.cssText = `
+      display: flex;
+      gap: var(--space-md, 12px);
+      justify-content: center;
+      margin-top: var(--space-lg, 16px);
+    `;
+
+    const viewReportBtn = createElement('button', {
+      className: 'btn btn-primary',
+      onClick: () => setView('report'),
+    }, '📊 View Report');
+
+    const viewReviewBtn = createElement('button', {
+      className: 'btn btn-ghost',
+      onClick: () => setView('review'),
+    }, '🔍 Review Queue');
+
+    resultActions.append(viewReportBtn, viewReviewBtn);
+    statsSection.appendChild(resultActions);
   }
 
   container.append(heading);
   if (runIndicator) container.appendChild(runIndicator);
+  if (errorBanner) container.appendChild(errorBanner);
   container.appendChild(pipelineRow);
   if (statsSection) container.appendChild(statsSection);
 

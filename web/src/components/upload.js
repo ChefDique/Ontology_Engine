@@ -1,10 +1,12 @@
 /**
- * TASK_L2 — PDF Upload Component
+ * N1 — PDF Upload Component (wired to real API)
  * Dual drag-and-drop upload for adjuster + contractor estimates.
+ * Calls POST /api/analyze with JWT auth via apiFetch().
  */
 
 import { createElement, formatFileSize } from '../utils/format.js';
 import { getState, setFile, setView, setState, updateNode } from '../utils/state.js';
+import { apiFetch, isSupabaseConfigured } from '../utils/supabase.js';
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
 
@@ -117,33 +119,134 @@ function handleFile(role, file, zone) {
 }
 
 /**
- * Simulate a pipeline run (for UI demo purposes).
- * In production this would POST to the backend API.
+ * Map backend pipeline stage names to frontend node IDs.
+ * Used to update progress when the API returns nodes_completed.
  */
-async function simulatePipelineRun() {
+const STAGE_NODE_MAP = {
+  'adjuster_nodes_1-3': [1, 2, 3],
+  'contractor_nodes_1-3': [1, 2, 3],
+  'node5_comparator': [5],
+  'node6_supplement': [6],
+};
+
+/**
+ * Run the real analysis pipeline via POST /api/analyze.
+ * Sends both PDFs as multipart/form-data with JWT auth.
+ */
+async function runPipeline() {
   const state = getState();
   if (!state.files.adjuster || !state.files.contractor) return;
 
-  setState({ pipelineRunning: true });
-  setView('pipeline');
+  // Reset nodes and switch to pipeline view
+  setState({
+    pipelineRunning: true,
+    pipelineError: null,
+    supplementReport: null,
+    hitlQueue: [],
+  });
 
-  const nodes = state.pipelineNodes;
-  for (const node of nodes) {
-    updateNode(node.id, { status: 'running', progress: 0 });
-    // Simulate progress
-    for (let p = 0; p <= 100; p += 20) {
-      await new Promise((r) => setTimeout(r, 150));
-      updateNode(node.id, { progress: p });
-    }
-    updateNode(node.id, { status: 'completed', progress: 100 });
+  // Reset all nodes to idle
+  for (const node of state.pipelineNodes) {
+    updateNode(node.id, { status: 'idle', progress: 0 });
   }
 
-  // Load demo report after pipeline completes
-  setState({
-    pipelineRunning: false,
-    supplementReport: getDemoReport(),
-    hitlQueue: getDemoHitlQueue(),
-  });
+  setView('pipeline');
+
+  // Show progressive status: mark first batch as running
+  updateNode(1, { status: 'running', progress: 30 });
+  updateNode(2, { status: 'running', progress: 0 });
+
+  try {
+    // Build multipart form data matching backend field names
+    const formData = new FormData();
+    formData.append('adjuster_pdf', state.files.adjuster);
+    formData.append('contractor_pdf', state.files.contractor);
+
+    const response = await apiFetch('/api/analyze', {
+      method: 'POST',
+      body: formData,
+      // Do NOT set Content-Type; fetch sets it with boundary for multipart
+    });
+
+    if (!response.ok) {
+      let errDetail;
+      try {
+        const errBody = await response.json();
+        errDetail = errBody.detail || errBody.error || errBody.message || `Server error ${response.status}`;
+        if (typeof errDetail === 'object') {
+          errDetail = errDetail.error || errDetail.message || JSON.stringify(errDetail);
+        }
+      } catch {
+        errDetail = `Server error: ${response.status} ${response.statusText}`;
+      }
+
+      // Mark all running nodes as failed
+      for (const node of getState().pipelineNodes) {
+        if (node.status === 'running') {
+          updateNode(node.id, { status: 'failed', progress: 0 });
+        }
+      }
+
+      setState({
+        pipelineRunning: false,
+        pipelineError: errDetail,
+      });
+      return;
+    }
+
+    const data = await response.json();
+
+    // Mark all nodes as completed
+    for (const node of getState().pipelineNodes) {
+      updateNode(node.id, { status: 'completed', progress: 100 });
+    }
+
+    // Store the real report and gap report
+    const gapReport = data.gap_report || {};
+    const report = data.report || {};
+
+    // The report view expects the Node 5 gap report shape (summary, line_item_gaps, etc.)
+    // Map from the API response which may have nested structure
+    const supplementReport = {
+      summary: gapReport.summary || report.executive_summary || {},
+      line_item_gaps: gapReport.line_item_gaps || [],
+      op_analysis: gapReport.op_analysis || {},
+      depreciation_findings: gapReport.depreciation_findings || [],
+    };
+
+    // Build HITL queue from hitl_flags if present
+    const hitlQueue = (gapReport.hitl_flags || report.hitl_flags || []).map((flag, i) => ({
+      type: flag.type || flag.flag_type || 'low_confidence',
+      title: flag.title || flag.description || `Flag #${i + 1}`,
+      description: flag.description || flag.reason || '',
+      severity: flag.severity || 'warning',
+      nodeId: flag.nodeId || flag.node_id || 0,
+      lineItem: flag.lineItem || flag.line_item || '',
+    }));
+
+    setState({
+      pipelineRunning: false,
+      pipelineError: null,
+      supplementReport,
+      hitlQueue,
+      lastAnalysisId: data.analysis_id || null,
+      lastMetadata: data.metadata || null,
+      rateLimitRemaining: data.rate_limit?.remaining_today ?? null,
+    });
+
+  } catch (err) {
+    // Network error or unexpected failure
+    for (const node of getState().pipelineNodes) {
+      if (node.status === 'running' || node.status === 'idle') {
+        updateNode(node.id, { status: 'failed', progress: 0 });
+      }
+    }
+
+    setState({
+      pipelineRunning: false,
+      pipelineError: err.message || 'Network error — could not reach the analysis server.',
+    });
+  }
 }
 
 /**
@@ -171,12 +274,12 @@ export function renderUploadView() {
 
   const actions = createElement('div', { className: 'upload-actions' });
 
-  const canRun = state.files.adjuster && state.files.contractor;
+  const canRun = state.files.adjuster && state.files.contractor && !state.pipelineRunning;
   const runBtn = createElement('button', {
     className: 'btn btn-primary',
     id: 'btn-run-pipeline',
-    onClick: () => simulatePipelineRun(),
-  }, '🚀 Run Analysis Pipeline');
+    onClick: () => runPipeline(),
+  }, state.pipelineRunning ? '⏳ Analyzing...' : '🚀 Run Analysis Pipeline');
 
   if (!canRun) {
     runBtn.setAttribute('disabled', 'true');
@@ -188,55 +291,51 @@ export function renderUploadView() {
     onClick: () => {
       setFile('adjuster', null);
       setFile('contractor', null);
+      setState({ pipelineError: null });
     },
   }, 'Clear Files');
 
+  if (state.pipelineRunning) {
+    clearBtn.setAttribute('disabled', 'true');
+  }
+
   actions.append(runBtn, clearBtn);
+
+  // Error display
+  if (state.pipelineError) {
+    const errorBanner = createElement('div', {
+      className: 'pipeline-error-banner',
+      id: 'pipeline-error',
+    });
+    errorBanner.style.cssText = `
+      background: var(--color-danger-bg, rgba(239, 68, 68, 0.1));
+      border: 1px solid var(--color-danger, #ef4444);
+      border-radius: var(--radius-md, 8px);
+      padding: var(--space-md, 12px) var(--space-lg, 16px);
+      margin-top: var(--space-lg, 16px);
+      color: var(--color-danger-light, #fca5a5);
+      font-size: 0.9rem;
+    `;
+    errorBanner.textContent = `❌ ${state.pipelineError}`;
+    actions.appendChild(errorBanner);
+  }
+
+  // Rate limit info
+  if (state.rateLimitRemaining != null) {
+    const rateInfo = createElement('div', {
+      className: 'rate-limit-info',
+    });
+    rateInfo.style.cssText = `
+      color: var(--text-tertiary, #888);
+      font-size: 0.75rem;
+      margin-top: var(--space-sm, 8px);
+      text-align: right;
+    `;
+    rateInfo.textContent = `${state.rateLimitRemaining} analyses remaining today`;
+    actions.appendChild(rateInfo);
+  }
+
   container.append(heading, desc, uploadSection, actions);
 
   return container;
-}
-
-/** Demo supplement report matching Node 5→6 contract */
-function getDemoReport() {
-  return {
-    summary: {
-      adjuster_rcv: 18245.67,
-      contractor_rcv: 24890.12,
-      total_delta: 6644.45,
-      gap_count: 7,
-      adjuster_line_count: 23,
-      contractor_line_count: 31,
-    },
-    line_item_gaps: [
-      { gap_type: 'missing_item', category: 'Roofing', description: 'Ice & water shield — eaves (3 courses)', contractor_total: 1245.00, adjuster_total: null, trade: 'Roofing' },
-      { gap_type: 'missing_item', category: 'Roofing', description: 'Drip edge — aluminum', contractor_total: 487.50, adjuster_total: null, trade: 'Roofing' },
-      { gap_type: 'quantity_delta', category: 'Roofing', description: 'Architectural shingles — 30yr', contractor_qty: 28, adjuster_qty: 24, quantity_delta: 4, quantity_delta_pct: 0.167, contractor_total: 3920.00, adjuster_total: 3360.00, pricing_delta: 560.00, trade: 'Roofing' },
-      { gap_type: 'pricing_delta', category: 'Gutters', description: 'Seamless aluminum gutter — 5"', contractor_qty: 120, adjuster_qty: 120, quantity_delta: 0, contractor_total: 1800.00, adjuster_total: 1440.00, pricing_delta: 360.00, trade: 'Gutters' },
-      { gap_type: 'missing_item', category: 'Interior', description: 'Drywall repair — water damage ceiling', contractor_total: 890.00, adjuster_total: null, trade: 'Drywall' },
-      { gap_type: 'quantity_delta', category: 'Roofing', description: 'Synthetic underlayment', contractor_qty: 28, adjuster_qty: 24, quantity_delta: 4, quantity_delta_pct: 0.167, contractor_total: 1120.00, adjuster_total: 960.00, pricing_delta: 160.00, trade: 'Roofing' },
-      { gap_type: 'pricing_delta', category: 'Siding', description: 'Vinyl siding — remove & replace', contractor_qty: 4, adjuster_qty: 4, quantity_delta: 0, contractor_total: 2200.00, adjuster_total: 1800.00, pricing_delta: 400.00, trade: 'Siding' },
-    ],
-    op_analysis: {
-      trade_count: 4,
-      op_warranted: true,
-      adjuster_op_applied: { overhead: 1824.57, profit: 1824.57 },
-      contractor_op_applied: { overhead: 2489.01, profit: 2489.01 },
-      op_recovery_amount: 1329.88,
-      trades_detected: ['Roofing', 'Gutters', 'Drywall', 'Siding'],
-    },
-    depreciation_findings: [
-      { category: 'Roofing', description: 'Architectural shingles — 30yr', depreciation_pct: 0.45, flagged: true, flag_reason: 'Exceeds 35% threshold for roofing materials', recoverable_amount: 1764.00 },
-      { category: 'Siding', description: 'Vinyl siding — remove & replace', depreciation_pct: 0.25, flagged: false, flag_reason: '', recoverable_amount: null },
-    ],
-  };
-}
-
-/** Demo HITL queue items */
-function getDemoHitlQueue() {
-  return [
-    { type: 'f9_override', title: 'F9 Note Override — Shingle unit price', description: 'Adjuster F9 note changes unit price from $140 to $128/SQ. Manual review required.', severity: 'warning', nodeId: 2, lineItem: 'Architectural shingles — 30yr' },
-    { type: 'low_confidence', title: 'Low Confidence — Interior line item match', description: 'LLM extraction confidence 62% on drywall repair entry. Verify mapping.', severity: 'warning', nodeId: 2, lineItem: 'Drywall repair — water damage ceiling' },
-    { type: 'threshold_breach', title: 'Depreciation Threshold — Shingles at 45%', description: 'Depreciation rate exceeds 35% threshold. May be excessive and recoverable.', severity: 'danger', nodeId: 5, lineItem: 'Architectural shingles — 30yr' },
-  ];
 }

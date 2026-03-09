@@ -32,6 +32,15 @@ describe('Component Rendering', () => {
       supplementReport: null,
       hitlQueue: [],
       pipelineRunning: false,
+      pipelineError: null,
+      lastAnalysisId: null,
+      lastMetadata: null,
+      rateLimitRemaining: null,
+      historyList: [],
+      historyLoading: false,
+      historyError: null,
+      historyDetail: null,
+      historyDetailLoading: false,
     });
   });
 
