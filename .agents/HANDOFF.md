@@ -28,7 +28,7 @@
 | M      | Mike: Backend API + Security        | ✅ Merged   | `src/ontology_engine/api.py`, `tests/test_api/` |
 | N      | November: Frontend Wiring           | 📋 Ready    | `web/src/` — wire upload + history to real API  |
 | O      | Oscar: Deployment                   | 📋 Ready    | Vercel (frontend) + Railway (backend)           |
-| P      | Papa: App Documentation             | 📋 Ready    | `docs/`, `README.md`                            |
+| P      | Papa: App Documentation             | ✅ Merged   | `docs/`, `README.md`                            |
 
 ## Supabase Pivot (v1.5.0)
 

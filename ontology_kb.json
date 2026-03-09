@@ -2867,7 +2867,7 @@
     "papa": {
       "letter": "P",
       "name": "App Documentation",
-      "status": "📋 assigned",
+      "status": "✅ merged",
       "scope": [
         "docs/",
         "README.md"
