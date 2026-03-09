@@ -1,6 +1,6 @@
 /**
  * Ontology Engine — Main Application Entry Point
- * Wires the app shell, navigation, and view rendering.
+ * Wires the app shell, navigation, view rendering, and auth gate.
  */
 
 import './styles/design-system.css';
@@ -9,6 +9,8 @@ import { renderUploadView } from './components/upload.js';
 import { renderPipelineView } from './components/pipeline.js';
 import { renderReportView } from './components/report.js';
 import { renderReviewView } from './components/review.js';
+import { renderLoginView } from './components/login.js';
+import { isSupabaseConfigured, getSession, signOut, onAuthStateChange } from './utils/supabase.js';
 
 /** @type {Object<string, { label: string, icon: string, render: Function }>} */
 const VIEWS = {
@@ -18,6 +20,9 @@ const VIEWS = {
   review: { label: 'Review', icon: '🔍', render: renderReviewView },
 };
 
+/** @type {{ user: object|null, loading: boolean }} */
+let authState = { user: null, loading: true };
+
 /**
  * Render the full application into #app.
  */
@@ -26,8 +31,25 @@ function renderApp() {
   if (!app) return;
 
   const state = getState();
-
   app.innerHTML = '';
+
+  // ── Auth loading state ──
+  if (authState.loading) {
+    const loader = document.createElement('div');
+    loader.className = 'app-loading';
+    loader.innerHTML = `
+      <div class="app-logo-icon" style="font-size: 3rem;">⚙️</div>
+      <p>Loading...</p>
+    `;
+    app.appendChild(loader);
+    return;
+  }
+
+  // ── Auth gate: show login if Supabase is configured and user is not authenticated ──
+  if (isSupabaseConfigured() && !authState.user) {
+    app.appendChild(renderLoginView());
+    return;
+  }
 
   // ── Header ──
   const header = document.createElement('header');
@@ -56,7 +78,21 @@ function renderApp() {
     nav.appendChild(btn);
   }
 
-  header.append(logo, nav);
+  // ── User menu (sign out) ──
+  if (isSupabaseConfigured() && authState.user) {
+    const userMenu = document.createElement('div');
+    userMenu.className = 'user-menu';
+    userMenu.innerHTML = `
+      <span class="user-email">${authState.user.email || ''}</span>
+      <button id="sign-out-btn" class="btn-link">Sign out</button>
+    `;
+    userMenu.querySelector('#sign-out-btn').addEventListener('click', async () => {
+      await signOut();
+    });
+    header.append(logo, nav, userMenu);
+  } else {
+    header.append(logo, nav);
+  }
 
   // ── Main Content ──
   const main = document.createElement('main');
@@ -71,8 +107,33 @@ function renderApp() {
   app.append(header, main);
 }
 
+// ── Auth initialization ──
+async function initAuth() {
+  if (!isSupabaseConfigured()) {
+    // No Supabase → skip auth, render immediately
+    authState = { user: null, loading: false };
+    renderApp();
+    return;
+  }
+
+  try {
+    const { user } = await getSession();
+    authState = { user, loading: false };
+  } catch {
+    authState = { user: null, loading: false };
+  }
+
+  renderApp();
+
+  // Listen for auth changes (login, logout, token refresh)
+  onAuthStateChange((_event, session) => {
+    authState = { user: session?.user || null, loading: false };
+    renderApp();
+  });
+}
+
 // Subscribe to state changes → re-render
 subscribe(renderApp);
 
-// Initial render
-renderApp();
+// Boot
+initAuth();

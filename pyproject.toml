@@ -40,6 +40,8 @@ dependencies = [
     "fastapi>=0.115.0",             # Web framework
     "uvicorn>=0.30.0",              # ASGI server
     "python-multipart>=0.0.12",     # File upload support
+    "supabase>=2.0.0",              # Supabase Python client
+    "PyJWT>=2.8.0",                 # JWT verification
 ]
 
 [project.optional-dependencies]

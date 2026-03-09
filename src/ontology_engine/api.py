@@ -2,23 +2,20 @@
 Backend API + Security — FastAPI server for Ontology Engine.
 
 Endpoints:
-    POST /api/analyze   Upload two Xactimate PDFs → supplement report JSON
+    POST /api/analyze    Upload two Xactimate PDFs → supplement report JSON
+    GET  /api/history    Retrieve past analyses for the authenticated user
     GET  /api/health     Health check + circuit breaker status
 
 Security layers:
+    - Supabase JWT authentication (all /api/analyze and /api/history requests)
     - Kill switch (API_ENABLED env var)
     - Circuit breaker (5 consecutive failures → 5-minute cooldown)
     - Rate limiter (IP daily limits + concurrent request semaphore + global budget)
     - File size + type validation
-
-Tasks:
-    M1: FastAPI server with /api/analyze endpoint
-    M2: run_supplement_pipeline() inline (Node 1-3 per PDF → Node 5 → Node 6)
-    M3: Rate limiter
-    M4: Kill switch + circuit breaker
 """
 
 import asyncio
+import json
 import logging
 import os
 import tempfile
@@ -27,6 +24,7 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
+import jwt as pyjwt
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -193,6 +191,97 @@ def _is_api_enabled() -> bool:
     return os.getenv("API_ENABLED", "true").lower() != "false"
 
 
+def _supabase_enabled() -> bool:
+    """True when Supabase env vars are configured."""
+    return bool(os.getenv("SUPABASE_URL") and os.getenv("SUPABASE_SERVICE_KEY"))
+
+
+def _extract_user_id(request: Request) -> str | None:
+    """Extract and verify user_id from Supabase JWT in Authorization header.
+
+    Returns None if Supabase is not configured (test/dev mode).
+    Raises HTTPException 401 if Supabase is configured but token is invalid.
+    """
+    if not _supabase_enabled():
+        return None
+
+    auth_header = request.headers.get("authorization", "")
+    if not auth_header.startswith("Bearer "):
+        raise HTTPException(
+            status_code=401,
+            detail="Missing or malformed Authorization header. Expected: Bearer <token>",
+        )
+
+    token = auth_header[7:]  # Strip 'Bearer '
+    try:
+        from ontology_engine.supabase_client import get_user_id_from_token
+        return get_user_id_from_token(token)
+    except pyjwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired. Please re-authenticate.")
+    except pyjwt.InvalidTokenError as e:
+        raise HTTPException(status_code=401, detail=f"Invalid token: {e}")
+
+
+def _persist_analysis(
+    user_id: str | None,
+    adjuster_filename: str,
+    contractor_filename: str,
+    adjuster_bytes: bytes,
+    contractor_bytes: bytes,
+    result: dict,
+) -> str | None:
+    """Store analysis result in Supabase DB and upload PDFs to Storage.
+
+    Returns the analysis ID, or None if Supabase is not configured.
+    """
+    if not _supabase_enabled() or user_id is None:
+        return None
+
+    try:
+        from ontology_engine.supabase_client import get_supabase_client
+        sb = get_supabase_client()
+
+        # Upload PDFs to storage
+        adj_path = f"{user_id}/{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_adjuster.pdf"
+        ctr_path = f"{user_id}/{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_contractor.pdf"
+
+        sb.storage.from_("estimates").upload(adj_path, adjuster_bytes, {"content-type": "application/pdf"})
+        sb.storage.from_("estimates").upload(ctr_path, contractor_bytes, {"content-type": "application/pdf"})
+
+        # Extract summary fields for quick listing
+        report = result.get("report", {})
+        gap_report = result.get("gap_report", {})
+        exec_summary = report.get("executive_summary", {})
+        summary = gap_report.get("summary", {})
+
+        # Insert analysis record
+        row = {
+            "user_id": user_id,
+            "adjuster_filename": adjuster_filename,
+            "contractor_filename": contractor_filename,
+            "adjuster_storage_path": adj_path,
+            "contractor_storage_path": ctr_path,
+            "report": json.dumps(report),
+            "gap_report": json.dumps(gap_report),
+            "metadata": json.dumps(result.get("metadata", {})),
+            "total_recovery": exec_summary.get("total_recovery_estimate", 0),
+            "gap_count": summary.get("gap_count", 0),
+            "total_delta": summary.get("total_delta", 0),
+            "duration_seconds": result.get("metadata", {}).get("duration_seconds", 0),
+            "status": "completed",
+        }
+
+        resp = sb.table("analyses").insert(row).execute()
+        analysis_id = resp.data[0]["id"] if resp.data else None
+        logger.info("Analysis persisted: id=%s, user=%s", analysis_id, user_id)
+        return analysis_id
+
+    except Exception as e:
+        # Persistence failure should NOT block the response
+        logger.warning("Failed to persist analysis: %s", str(e))
+        return None
+
+
 # ── M2: Supplement Pipeline (inline) ─────────────────────────────────────
 
 def _run_nodes_1_to_3(input_path: Path) -> dict:
@@ -316,6 +405,8 @@ async def analyze_estimates(
 ):
     """Upload two Xactimate PDFs and receive a supplement report.
 
+    Requires Supabase JWT in Authorization header (when Supabase is configured).
+
     Accepts multipart/form-data with two PDF files:
         - adjuster_pdf: The insurance adjuster's estimate
         - contractor_pdf: The contractor's estimate
@@ -324,6 +415,8 @@ async def analyze_estimates(
         JSON supplement report with gap analysis, financial summary,
         and recommended recovery actions.
     """
+    # ── Auth ──
+    user_id = _extract_user_id(request)
     # ── M4: Kill switch ──
     if not _is_api_enabled():
         raise HTTPException(
@@ -434,20 +527,32 @@ async def analyze_estimates(
         # Circuit breaker: success
         circuit_breaker.record_success()
 
-        return JSONResponse(
-            content={
-                "success": True,
-                "report": result["report"],
-                "gap_report": result["gap_report"],
-                "metadata": {
-                    "duration_seconds": result["metadata"]["duration_seconds"],
-                    "nodes_completed": result["metadata"]["nodes_completed"],
-                },
-                "rate_limit": {
-                    "remaining_today": rate_limiter.get_ip_remaining(client_ip),
-                },
-            },
+        # ── Persist to Supabase ──
+        analysis_id = _persist_analysis(
+            user_id=user_id,
+            adjuster_filename=adjuster_pdf.filename or "adjuster.pdf",
+            contractor_filename=contractor_pdf.filename or "contractor.pdf",
+            adjuster_bytes=adjuster_bytes,
+            contractor_bytes=contractor_bytes,
+            result=result,
         )
+
+        response_data = {
+            "success": True,
+            "report": result["report"],
+            "gap_report": result["gap_report"],
+            "metadata": {
+                "duration_seconds": result["metadata"]["duration_seconds"],
+                "nodes_completed": result["metadata"]["nodes_completed"],
+            },
+            "rate_limit": {
+                "remaining_today": rate_limiter.get_ip_remaining(client_ip),
+            },
+        }
+        if analysis_id:
+            response_data["analysis_id"] = analysis_id
+
+        return JSONResponse(content=response_data)
 
     except HTTPException:
         raise
@@ -472,6 +577,88 @@ async def _acquire_semaphore(sem: asyncio.Semaphore) -> bool:
     return True
 
 
+# ── History endpoint ──────────────────────────────────────────────────────
+
+@app.get("/api/history")
+async def get_analysis_history(request: Request):
+    """Retrieve past analyses for the authenticated user.
+
+    Returns a list of analyses ordered by creation date (newest first).
+    Requires Supabase JWT authentication.
+    """
+    user_id = _extract_user_id(request)
+
+    if not _supabase_enabled() or user_id is None:
+        raise HTTPException(
+            status_code=501,
+            detail="History requires Supabase to be configured.",
+        )
+
+    try:
+        from ontology_engine.supabase_client import get_supabase_client
+        sb = get_supabase_client()
+
+        resp = (
+            sb.table("analyses")
+            .select(
+                "id, created_at, adjuster_filename, contractor_filename, "
+                "total_recovery, gap_count, total_delta, duration_seconds, status"
+            )
+            .eq("user_id", user_id)
+            .order("created_at", desc=True)
+            .limit(50)
+            .execute()
+        )
+
+        return {"analyses": resp.data or []}
+
+    except Exception as e:
+        logger.exception("History fetch error: %s", str(e))
+        raise HTTPException(
+            status_code=500,
+            detail={"error": "Failed to fetch analysis history.", "message": str(e)},
+        )
+
+
+@app.get("/api/history/{analysis_id}")
+async def get_analysis_detail(analysis_id: str, request: Request):
+    """Retrieve a specific analysis by ID (full report + gap report)."""
+    user_id = _extract_user_id(request)
+
+    if not _supabase_enabled() or user_id is None:
+        raise HTTPException(
+            status_code=501,
+            detail="History requires Supabase to be configured.",
+        )
+
+    try:
+        from ontology_engine.supabase_client import get_supabase_client
+        sb = get_supabase_client()
+
+        resp = (
+            sb.table("analyses")
+            .select("*")
+            .eq("id", analysis_id)
+            .eq("user_id", user_id)  # RLS double-check
+            .single()
+            .execute()
+        )
+
+        if not resp.data:
+            raise HTTPException(status_code=404, detail="Analysis not found.")
+
+        return resp.data
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception("Analysis detail error: %s", str(e))
+        raise HTTPException(
+            status_code=500,
+            detail={"error": "Failed to fetch analysis.", "message": str(e)},
+        )
+
+
 # ── Health endpoint ───────────────────────────────────────────────────────
 
 @app.get("/api/health")
@@ -482,6 +669,7 @@ async def health_check(request: Request):
     return {
         "status": "healthy" if _is_api_enabled() else "disabled",
         "api_enabled": _is_api_enabled(),
+        "supabase_configured": _supabase_enabled(),
         "circuit_breaker": {
             "is_open": circuit_breaker.is_open,
             "consecutive_failures": circuit_breaker.consecutive_failures,
