@@ -35,6 +35,11 @@ dependencies = [
     # Core
     "python-dotenv>=1.0.0",         # .env loading
     "pydantic>=2.5.0",              # Data validation
+
+    # API Server (Agent M)
+    "fastapi>=0.115.0",             # Web framework
+    "uvicorn>=0.30.0",              # ASGI server
+    "python-multipart>=0.0.12",     # File upload support
 ]
 
 [project.optional-dependencies]

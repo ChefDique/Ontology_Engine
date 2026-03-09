@@ -10,24 +10,24 @@
 
 ## Letter Registry
 
-| Letter | Workstream                          | Status         | Branch / Scope                                  |
-| ------ | ----------------------------------- | -------------- | ----------------------------------------------- |
-| A      | Alpha: Node 1 Ingestion             | ✅ Merged      | `feature/agent-a-ingestion`                     |
-| B      | Beta: Nodes 2+3 Extraction+Calculus | ✅ Merged      | `feature/agent-b-extraction-calculus`           |
-| C      | Gamma: Node 4 Output Adapters       | ✅ Merged      | `feature/agent-c-output-adapters`               |
-| D      | Delta: UAD 3.6 R&D                  | 📋 Assigned    | `feature/agent-d-uad-research`                  |
-| E      | Epsilon: kb-orchestrator Skill      | ✅ Complete    | `~/.gemini/antigravity/skills/kb-orchestrator/` |
-| F      | Foxtrot: Pipeline Wiring + HITL     | ✅ Merged      | `feature/agent-f-pipeline-wiring`               |
-| G      | Golf: LLM Integration (Gemini)      | ✅ Merged      | `feature/agent-g-llm-integration`               |
-| H      | Hotel: Orchestrator Upgrades        | ✅ Merged      | `~/.gemini/antigravity/skills/kb-orchestrator/` |
-| I      | India: Node 5 Estimate Comparator   | ✅ Merged      | `feature/agent-i-comparator`                    |
-| J      | Juliet: Node 6 Supplement Report    | ✅ Merged      | `feature/agent-j-supplement-report`             |
-| K      | Kilo: Red Team Suite                | ✅ Merged      | `feature/agent-k-red-team`                      |
-| L      | Lima: UI Shell                      | ✅ Merged      | `feature/agent-l-ui-shell`                      |
-| M      | Mike: Backend API + Security        | 🟡 In-Progress | `src/ontology_engine/api.py`, `tests/test_api/` |
-| N      | November: Frontend Wiring           | 📋 Assigned    | `web/src/` (blocked on M)                       |
-| O      | Oscar: Deployment + Access          | 📋 Assigned    | `Dockerfile`, `.env.example`, `railway.toml`    |
-| P      | Papa: App Documentation             | 📋 Assigned    | `docs/`, `README.md`                            |
+| Letter | Workstream                          | Status      | Branch / Scope                                  |
+| ------ | ----------------------------------- | ----------- | ----------------------------------------------- |
+| A      | Alpha: Node 1 Ingestion             | ✅ Merged   | `feature/agent-a-ingestion`                     |
+| B      | Beta: Nodes 2+3 Extraction+Calculus | ✅ Merged   | `feature/agent-b-extraction-calculus`           |
+| C      | Gamma: Node 4 Output Adapters       | ✅ Merged   | `feature/agent-c-output-adapters`               |
+| D      | Delta: UAD 3.6 R&D                  | 📋 Assigned | `feature/agent-d-uad-research`                  |
+| E      | Epsilon: kb-orchestrator Skill      | ✅ Complete | `~/.gemini/antigravity/skills/kb-orchestrator/` |
+| F      | Foxtrot: Pipeline Wiring + HITL     | ✅ Merged   | `feature/agent-f-pipeline-wiring`               |
+| G      | Golf: LLM Integration (Gemini)      | ✅ Merged   | `feature/agent-g-llm-integration`               |
+| H      | Hotel: Orchestrator Upgrades        | ✅ Merged   | `~/.gemini/antigravity/skills/kb-orchestrator/` |
+| I      | India: Node 5 Estimate Comparator   | ✅ Merged   | `feature/agent-i-comparator`                    |
+| J      | Juliet: Node 6 Supplement Report    | ✅ Merged   | `feature/agent-j-supplement-report`             |
+| K      | Kilo: Red Team Suite                | ✅ Merged   | `feature/agent-k-red-team`                      |
+| L      | Lima: UI Shell                      | ✅ Merged   | `feature/agent-l-ui-shell`                      |
+| M      | Mike: Backend API + Security        | ✅ Merged   | `src/ontology_engine/api.py`, `tests/test_api/` |
+| N      | November: Frontend Wiring           | 📋 Assigned | `web/src/` (blocked on M)                       |
+| O      | Oscar: Deployment + Access          | 📋 Assigned | `Dockerfile`, `.env.example`, `railway.toml`    |
+| P      | Papa: App Documentation             | 📋 Assigned | `docs/`, `README.md`                            |
 
 ## Work Queue
 
