@@ -3117,6 +3117,32 @@
       "title": "Supabase Integration Pivot",
       "detail": "Pivoted from access-code-gate + in-memory state to full Supabase integration. Supabase handles: Auth (email/password + magic link), PostgreSQL (analyses + rate_limits tables with RLS), Storage (estimates bucket for PDFs). FastAPI backend still needed for compute (pdfplumber, Gemini, etc). Project: ontology-engine (fareqnzxhodvgdkboeff) on Adair AI org, us-west-1, free tier. Frontend uses @supabase/supabase-js, backend uses supabase-py + PyJWT. Auth is gracefully disabled when SUPABASE_URL not set (backward-compatible).",
       "source": "orchestrator"
+    },
+    {
+      "workstream": "november",
+      "scope": [
+        "web/src/"
+      ],
+      "tags": [
+        "api",
+        "frontend",
+        "mapping"
+      ],
+      "insight": "API response has both gap_report and report top-level keys; frontend must map from gap_report.summary for the report view since that contains the Node 5 output shape",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "november",
+      "scope": [
+        "web/src/"
+      ],
+      "tags": [
+        "fetch",
+        "upload",
+        "multipart"
+      ],
+      "insight": "FormData for multipart uploads must NOT set Content-Type header manually — fetch auto-sets it with the boundary",
+      "timestamp": "2026-03-09"
     }
   ]
 }
