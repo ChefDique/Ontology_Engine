@@ -1,0 +1,25 @@
+# .dockerignore — Keep Docker build context lean
+.git
+.agents
+.venv
+venv
+env
+node_modules
+web/node_modules
+web/dist
+__pycache__
+*.pyc
+.pytest_cache
+htmlcov
+.coverage
+.DS_Store
+*.log
+*.tmp
+R&D-Unsynthesized
+docs
+tests
+.env
+.env.local
+.env.production
+ontology_kb.json
+PRD_Ontology_Engine_Complete.md
