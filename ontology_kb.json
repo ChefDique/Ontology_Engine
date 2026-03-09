@@ -2529,6 +2529,54 @@
           "status": "pending"
         }
       ]
+    },
+    "hotel": {
+      "letter": "H",
+      "name": "Orchestrator Competitive Upgrades",
+      "status": "📋 assigned",
+      "scope": [
+        "~/.gemini/antigravity/skills/kb-orchestrator/",
+        "~/.gemini/antigravity/skills/kb-synthesizer/"
+      ],
+      "blocker": null,
+      "recommended_mode": "fast",
+      "tasks": [
+        {
+          "id": "TASK_H1",
+          "title": "Add progress.txt cross-session learning to /agent workflow",
+          "status": "pending",
+          "priority": "high",
+          "rationale": "Ralph pattern — agents append learnings to a persistent file so future sessions benefit from discovered patterns, gotchas, and conventions. Each agent iteration appends, never overwrites."
+        },
+        {
+          "id": "TASK_H2",
+          "title": "Add reasoning_level field to KB workstream tasks",
+          "status": "pending",
+          "priority": "medium",
+          "rationale": "PRD Planner pattern — each task gets a reasoning level (1-5) hinting which model/mode to use. Low = fast/mechanical, High = planning/novel. Helps the orchestrator recommend session mode."
+        },
+        {
+          "id": "TASK_H3",
+          "title": "Add skill field to KB workstream tasks for skill-to-task mapping",
+          "status": "pending",
+          "priority": "medium",
+          "rationale": "PRD Implementation Planning pattern — each task names which installed skill should execute it. Enables the agent to auto-load the right skill when starting a task."
+        },
+        {
+          "id": "TASK_H4",
+          "title": "Cross-reference kb-synthesizer and kb-orchestrator in their SKILL.md files",
+          "status": "pending",
+          "priority": "high",
+          "rationale": "Users and agents need to understand the pipeline: synthesize → orchestrate → agent → done. Both skills should reference each other explicitly."
+        },
+        {
+          "id": "TASK_H5",
+          "title": "Update validate_kb.py to check new fields (reasoning_level, skill)",
+          "status": "pending",
+          "priority": "medium",
+          "rationale": "Validator should warn if tasks are missing the new optional fields so KBs stay rich."
+        }
+      ]
     }
   }
 }
