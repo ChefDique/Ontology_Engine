@@ -3131,6 +3131,23 @@
       ],
       "insight": "Papa workstream KB entry is missing 'branch' and 'briefing' fields — these should be added for consistency. The agent derived branch as feature/agent-p-app-documentation from convention.",
       "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "oscar",
+      "scope": [
+        "Dockerfile",
+        "railway.toml",
+        "vercel.json",
+        "web/.env.production",
+        ".env.production"
+      ],
+      "tags": [
+        "docker",
+        "setuptools",
+        "deployment"
+      ],
+      "insight": "Multi-stage Dockerfile builder stage needs src/ + README.md alongside pyproject.toml — setuptools fails with 'egg_base not found' if src/ is missing from the COPY",
+      "timestamp": "2026-03-09"
     }
   ]
 }
