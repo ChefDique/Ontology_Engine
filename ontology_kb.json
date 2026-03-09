@@ -2884,6 +2884,46 @@
       ],
       "insight": "The supplement report pipeline is: Node5 gap_report → format_category_narratives → summarize_financials → format_op_narrative → format_depreciation_narrative → build_recommended_actions → assemble report. Each step is independently testable.",
       "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "lima",
+      "scope": [
+        "web/"
+      ],
+      "tags": [
+        "vite",
+        "scaffolding",
+        "cli"
+      ],
+      "insight": "Vite create-vite CLI uses relative paths from CWD — must cd into target directory first, not pass absolute path",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "lima",
+      "scope": [
+        "web/"
+      ],
+      "tags": [
+        "html",
+        "dom",
+        "disabled",
+        "gotcha"
+      ],
+      "insight": "HTML disabled attribute is boolean — setting it to any value (including undefined via setAttribute) disables the element. Must conditionally add/remove, not set to undefined",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "lima",
+      "scope": [
+        "web/"
+      ],
+      "tags": [
+        "architecture",
+        "state-management",
+        "vanilla-js"
+      ],
+      "insight": "Observable state store with subscribe/setState pattern works well for vanilla JS — no framework needed. Keep state flat for simple re-render triggers.",
+      "timestamp": "2026-03-09"
     }
   ]
 }
