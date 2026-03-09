@@ -1,7 +1,7 @@
 {
   "meta": {
     "project_name": "Ontology Engine",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "created": "2026-03-08",
     "methodology": {
       "name": "Z \u2192 A Reverse Extrapolation Pipeline",
@@ -2576,6 +2576,85 @@
           "status": "done",
           "priority": "medium",
           "rationale": "Validator should warn if tasks are missing the new optional fields so KBs stay rich."
+        }
+      ]
+    },
+    "india": {
+      "letter": "I",
+      "name": "Node 5: Estimate Comparator (Gap Detection)",
+      "status": "\ud83d\udccb assigned",
+      "scope": [
+        "src/ontology_engine/node5_comparator/",
+        "src/ontology_engine/contracts/schemas.py",
+        "tests/test_node5_comparator/"
+      ],
+      "blocker": null,
+      "recommended_mode": "planning",
+      "reasoning_level": "deep",
+      "tasks": [
+        {
+          "id": "TASK_I1",
+          "title": "Define Node 5 input/output contracts (two Node 3 outputs \u2192 gap report schema)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_I2",
+          "title": "Implement line-item diff engine (missing items, quantity deltas, pricing deltas)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_I3",
+          "title": "Implement O&P detection (trade count \u2192 warranted O&P vs applied O&P)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_I4",
+          "title": "Implement depreciation audit (age/life ratio validation)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_I5",
+          "title": "Write unit tests using McKee case study data from supplement_analysis",
+          "status": "pending"
+        }
+      ]
+    },
+    "juliet": {
+      "letter": "J",
+      "name": "Node 6: Supplement Report Generator",
+      "status": "\ud83d\udccb assigned",
+      "scope": [
+        "src/ontology_engine/node6_supplement/",
+        "tests/test_node6_supplement/"
+      ],
+      "blocker": "Requires Node 5 gap report output contract (TASK_I1)",
+      "recommended_mode": "planning",
+      "reasoning_level": "deep",
+      "tasks": [
+        {
+          "id": "TASK_J1",
+          "title": "Define supplement report output schema (structured JSON \u2192 human-readable report)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_J2",
+          "title": "Implement gap-to-narrative formatter (category-by-category breakdown)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_J3",
+          "title": "Implement dollar-impact summarizer (per-category and total recovery estimate)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_J4",
+          "title": "Wire into pipeline.py (adjuster PDF + contractor PDF \u2192 Nodes 1-3 \u00d7 2 \u2192 Node 5 \u2192 Node 6 \u2192 Node 4)",
+          "status": "pending"
+        },
+        {
+          "id": "TASK_J5",
+          "title": "Write integration tests using McKee case study (verify $60K gap detection)",
+          "status": "pending"
         }
       ]
     }
