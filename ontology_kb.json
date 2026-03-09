@@ -2884,6 +2884,45 @@
       ],
       "insight": "The supplement report pipeline is: Node5 gap_report → format_category_narratives → summarize_financials → format_op_narrative → format_depreciation_narrative → build_recommended_actions → assemble report. Each step is independently testable.",
       "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "kilo",
+      "scope": [
+        "tests/red_team/"
+      ],
+      "tags": [
+        "presidio",
+        "pii",
+        "red-team"
+      ],
+      "insight": "Presidio US_SSN recognizer misses SSNs when prefixed with label text like 'SSN:' — consider running regex as secondary detection pass",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "kilo",
+      "scope": [
+        "tests/red_team/"
+      ],
+      "tags": [
+        "presidio",
+        "pii",
+        "performance"
+      ],
+      "insight": "Presidio email detection may fail in very long text (28K+ chars) — chunk text before PII analysis for reliability",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "kilo",
+      "scope": [
+        "tests/red_team/"
+      ],
+      "tags": [
+        "extractor",
+        "llm",
+        "red-team"
+      ],
+      "insight": "_parse_llm_response returns None for 'null' JSON literal — downstream functions must guard against None return",
+      "timestamp": "2026-03-09"
     }
   ]
 }
