@@ -2667,7 +2667,7 @@
     "kilo": {
       "letter": "K",
       "name": "Red Team Suite (Adversarial Testing)",
-      "status": "🟡 in-progress",
+      "status": "✅ merged",
       "scope": [
         "tests/red_team/"
       ],
@@ -2727,7 +2727,7 @@
     "lima": {
       "letter": "L",
       "name": "UI Shell (Web Frontend)",
-      "status": "🟡 in-progress",
+      "status": "✅ merged",
       "scope": [
         "web/"
       ],
@@ -2922,6 +2922,46 @@
         "red-team"
       ],
       "insight": "_parse_llm_response returns None for 'null' JSON literal — downstream functions must guard against None return",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "lima",
+      "scope": [
+        "web/"
+      ],
+      "tags": [
+        "vite",
+        "scaffolding",
+        "cli"
+      ],
+      "insight": "Vite create-vite CLI uses relative paths from CWD — must cd into target directory first, not pass absolute path",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "lima",
+      "scope": [
+        "web/"
+      ],
+      "tags": [
+        "html",
+        "dom",
+        "disabled",
+        "gotcha"
+      ],
+      "insight": "HTML disabled attribute is boolean — setting it to any value (including undefined via setAttribute) disables the element. Must conditionally add/remove, not set to undefined",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "lima",
+      "scope": [
+        "web/"
+      ],
+      "tags": [
+        "architecture",
+        "state-management",
+        "vanilla-js"
+      ],
+      "insight": "Observable state store with subscribe/setState pattern works well for vanilla JS — no framework needed. Keep state flat for simple re-render triggers.",
       "timestamp": "2026-03-09"
     }
   ]
