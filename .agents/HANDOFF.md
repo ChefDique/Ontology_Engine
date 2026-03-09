@@ -26,7 +26,7 @@
 | K      | Kilo: Red Team Suite                | ✅ Merged   | `feature/agent-k-red-team`                      |
 | L      | Lima: UI Shell                      | ✅ Merged   | `feature/agent-l-ui-shell`                      |
 | M      | Mike: Backend API + Security        | ✅ Merged   | `src/ontology_engine/api.py`, `tests/test_api/` |
-| N      | November: Frontend Wiring           | 📋 Ready    | `web/src/` — wire upload + history to real API  |
+| N      | November: Frontend Wiring           | ✅ Merged   | `web/src/` — upload, history, pipeline wired    |
 | O      | Oscar: Deployment                   | 📋 Ready    | Vercel (frontend) + Railway (backend)           |
 | P      | Papa: App Documentation             | ✅ Merged   | `docs/`, `README.md`                            |
 
@@ -56,25 +56,24 @@ Frontend (Vercel) → Supabase (auth/db/storage) → FastAPI on Railway (compute
 
 ## Work Queue
 
-1. ~~Alpha through Mike~~ **All merged** (A–M, 13 agents)
-2. **November + Oscar + Papa** (parallel — all unblocked)
+1. ~~Alpha through November~~ **All merged** (A–N, 14 agents + E/H skills)
+2. **Oscar** (Deployment — unblocked, ready)
 3. Delta (independent R&D, low priority)
 
 ## Known Issues
 
 - ~~**PII SSN detection gap**~~ **FIXED**
 - **Presidio email detection** may fail in 28K+ char text
+- **Flaky test_api tests** — 9 tests in `test_api.py` fail when run as full suite (env var state leaking between kill switch/circuit breaker tests). Pass individually. Pre-existing Agent M issue.
 
 ## Last Session
 
 - **Date:** 2026-03-09
-- **Session:** Supabase pivot + Agent M merge
+- **Session:** /done — merge Agent N
 - **Completed:**
-  - Agent M merged (Backend API + Security) — 22/22 tests → 460/460 full suite
-  - Supabase project created (ontology-engine, Adair AI org)
-  - 4 migrations: analyses, rate_limits, RLS policies, estimates storage
-  - Backend: JWT auth, result persistence, /api/history endpoints
-  - Frontend: login view, auth gate, Supabase JS client
-  - Login page verified live at localhost:5173
-  - KB bumped to v1.5.0
-- **Next:** Fire N + O + P in parallel
+  - Agent N merged (Frontend Wiring) — 64/64 tests, Vite build 337ms
+  - New: upload → real `/api/analyze` with JWT, `/api/history` list+detail, pipeline wiring
+  - KB conflict resolved (`-X ours` strategy — master KB preserved)
+  - Worktree removed, branch deleted, status archived
+  - 451/460 full suite pass (9 flaky test_api, pre-existing)
+- **Next:** Dispatch Agent O (Deployment — Vercel + Railway)

@@ -2806,7 +2806,7 @@
     "november": {
       "letter": "N",
       "name": "Frontend Wiring",
-      "status": "📋 assigned",
+      "status": "✅ merged",
       "scope": [
         "web/src/"
       ],
@@ -2824,7 +2824,7 @@
       "dependencies": [
         "mike"
       ],
-      "blocker": "Depends on Agent M (Backend API)",
+      "blocker": null,
       "recommended_mode": "fast",
       "reasoning_level": "low",
       "skill": null,
