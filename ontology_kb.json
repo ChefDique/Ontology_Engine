@@ -1,7 +1,7 @@
 {
   "meta": {
     "project_name": "Ontology Engine",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "created": "2026-03-08",
     "methodology": {
       "name": "Z → A Reverse Extrapolation Pipeline",
@@ -2770,6 +2770,116 @@
       "verify": "cd web && npm run build && npm test",
       "branch": "feature/agent-l-ui-shell",
       "briefing": "docs/briefings/lima_briefing.md"
+    },
+    "mike": {
+      "letter": "M",
+      "name": "Backend API + Security",
+      "status": "🟡 in-progress",
+      "scope": [
+        "src/ontology_engine/api.py",
+        "Procfile",
+        "tests/test_api/"
+      ],
+      "tasks": [
+        "M1: FastAPI server with /api/analyze endpoint (dual PDF upload → supplement report JSON)",
+        "M2: run_supplement_pipeline() in pipeline.py (Node 1-3 per PDF → Node 5 → Node 6)",
+        "M3: Rate limiter (IP daily limits, concurrent request semaphore, global budget)",
+        "M4: Kill switch (API_ENABLED env var) + circuit breaker (5 failures → 5 min cooldown)",
+        "M5: API endpoint tests (upload, rate limit, kill switch, error handling)"
+      ],
+      "contracts": {
+        "input": "Two Xactimate PDFs (multipart/form-data)",
+        "output": "Supplement report JSON (Node 6 schema)"
+      },
+      "verify": "pytest tests/test_api/ -v",
+      "dependencies": [],
+      "blocker": null,
+      "recommended_mode": "planning",
+      "reasoning_level": "high",
+      "skill": null,
+      "shared_file_requests": [
+        "pyproject.toml (add fastapi/uvicorn/python-multipart deps)",
+        "pipeline.py (add run_supplement_pipeline)"
+      ]
+    },
+    "november": {
+      "letter": "N",
+      "name": "Frontend Wiring",
+      "status": "📋 assigned",
+      "scope": [
+        "web/src/"
+      ],
+      "tasks": [
+        "N1: Replace simulatePipelineRun() + demo data with real fetch(/api/analyze) calls",
+        "N2: Access code gate component (sessionStorage, ACCESS_CODE env var)",
+        "N3: Error handling UI (rate limit, service down, invalid PDF, kill switch message)"
+      ],
+      "contracts": {
+        "input": "Backend API /api/analyze response",
+        "output": "Working UI rendering real pipeline data"
+      },
+      "verify": "cd web && npm run build && npm test",
+      "dependencies": [
+        "mike"
+      ],
+      "blocker": "Depends on Agent M (Backend API)",
+      "recommended_mode": "fast",
+      "reasoning_level": "low",
+      "skill": null,
+      "shared_file_requests": []
+    },
+    "oscar": {
+      "letter": "O",
+      "name": "Deployment + Access Control",
+      "status": "📋 assigned",
+      "scope": [
+        "Dockerfile",
+        ".env.example",
+        "railway.toml"
+      ],
+      "tasks": [
+        "O1: Dockerfile (multi-stage: Node build → Python serve)",
+        "O2: .env.example + railway.toml + deployment docs",
+        "O3: Verify end-to-end on Railway/Render"
+      ],
+      "contracts": {
+        "input": "Working FastAPI server + built Vite frontend",
+        "output": "Public URL serving the app"
+      },
+      "verify": "docker build -t ontology-engine . && docker run -p 8000:8000 ontology-engine",
+      "dependencies": [
+        "mike"
+      ],
+      "blocker": "Depends on Agent M (Backend API)",
+      "recommended_mode": "fast",
+      "reasoning_level": "low",
+      "skill": null,
+      "shared_file_requests": []
+    },
+    "papa": {
+      "letter": "P",
+      "name": "App Documentation",
+      "status": "📋 assigned",
+      "scope": [
+        "docs/",
+        "README.md"
+      ],
+      "tasks": [
+        "P1: README.md — project overview, architecture diagram, quick start, deployment guide",
+        "P2: docs/APP_STATUS.md — current state, what works, what is planned",
+        "P3: docs/FINANCIAL.md — cost analysis, pricing models, monetization strategy"
+      ],
+      "contracts": {
+        "input": "Current codebase + implementation plan",
+        "output": "Markdown docs in docs/"
+      },
+      "verify": "ls docs/ && cat README.md | head -5",
+      "dependencies": [],
+      "blocker": null,
+      "recommended_mode": "fast",
+      "reasoning_level": "low",
+      "skill": null,
+      "shared_file_requests": []
     }
   },
   "supplement_analysis": {
