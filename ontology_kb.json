@@ -2582,7 +2582,7 @@
     "india": {
       "letter": "I",
       "name": "Node 5: Estimate Comparator (Gap Detection)",
-      "status": "📋 assigned",
+      "status": "✅ merged",
       "scope": [
         "src/ontology_engine/node5_comparator/",
         "src/ontology_engine/contracts/schemas.py",
@@ -2627,7 +2627,7 @@
         "src/ontology_engine/node6_supplement/",
         "tests/test_node6_supplement/"
       ],
-      "blocker": "Requires Node 5 gap report output contract (TASK_I1)",
+      "blocker": null,
       "recommended_mode": "planning",
       "reasoning_level": "deep",
       "tasks": [
