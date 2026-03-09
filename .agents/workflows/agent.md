@@ -63,6 +63,8 @@ cat [BRIEFING_PATH]
 cat src/ontology_engine/contracts/schemas.py
 ```
 
+Relevant learnings from previous agents are automatically included in the briefing's `## Prior Learnings` section — no manual lookup needed.
+
 ---
 
 ## Step 3: Create Worktree
@@ -156,6 +158,28 @@ REPORT
 
 git add .agents/status/[LETTER].md
 git commit -m "docs: agent [LETTER] completion report"
+git push
+```
+
+### Append Cross-Session Learnings
+
+Record what you learned into the KB so future agents benefit. Use one `add-learning` call per insight:
+
+```bash
+python3 ~/.gemini/antigravity/skills/kb-orchestrator/scripts/kb.py ontology_kb.json add-learning [WORKSTREAM] "[INSIGHT]" --tags [tag1],[tag2]
+```
+
+**Example:**
+
+```bash
+python3 ~/.gemini/antigravity/skills/kb-orchestrator/scripts/kb.py ontology_kb.json add-learning alpha "pdfplumber handles native PDFs but fails on scanned images" --tags pdfplumber,ocr,ingestion
+```
+
+Then commit and push the updated KB:
+
+```bash
+git add ontology_kb.json
+git commit -m "docs: agent [LETTER] cross-session learnings"
 git push
 ```
 
