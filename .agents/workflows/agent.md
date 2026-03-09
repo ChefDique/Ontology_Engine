@@ -63,6 +63,14 @@ cat [BRIEFING_PATH]
 cat src/ontology_engine/contracts/schemas.py
 ```
 
+Read accumulated cross-session learnings (if they exist):
+
+```bash
+cat progress.txt 2>/dev/null || echo "No progress.txt yet — you are the first agent."
+```
+
+Use any relevant learnings from `progress.txt` to inform your implementation decisions.
+
 ---
 
 ## Step 3: Create Worktree
@@ -156,6 +164,24 @@ REPORT
 
 git add .agents/status/[LETTER].md
 git commit -m "docs: agent [LETTER] completion report"
+git push
+```
+
+### Append Cross-Session Learnings
+
+Append what you learned to `progress.txt` so future agents benefit. **Append only, never overwrite.**
+
+```bash
+cat >> progress.txt << 'LEARNINGS'
+
+--- Agent [LETTER] ([WORKSTREAM_NAME], [DATE]) ---
+- [What patterns, gotchas, or conventions you discovered]
+- [What worked well or what to avoid]
+- [Any tools, libraries, or approaches worth noting]
+LEARNINGS
+
+git add progress.txt
+git commit -m "docs: agent [LETTER] cross-session learnings"
 git push
 ```
 
