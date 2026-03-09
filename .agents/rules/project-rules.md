@@ -44,6 +44,7 @@ python -m ruff check src/            # lint
 - **Commit style:** Conventional (`feat:`, `fix:`, `docs:`, `test:`)
 - **Worktrees:** Each agent works in `../agent-[letter]/` directory
 - **Never commit to master directly** — only orchestrator merges via `/done`
+- **Every commit must be followed by a push.** No exceptions. Other agents pull from origin — an unpushed commit is invisible to them and causes stale state. This applies to orchestrator KB updates, agent work, and `/done` merges equally.
 
 ## Agent Guidelines
 
@@ -54,3 +55,4 @@ python -m ruff check src/            # lint
 - Do NOT install new dependencies without checking `pyproject.toml`.
 - Never disable contract validation or PII guards.
 - Respect scope boundaries defined in KB Layer 7.
+- **Always `git push` immediately after `git commit`.** Never leave committed work unpushed — parallel agents depend on origin being current.
