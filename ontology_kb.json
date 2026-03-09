@@ -2622,7 +2622,7 @@
     "juliet": {
       "letter": "J",
       "name": "Node 6: Supplement Report Generator",
-      "status": "📋 assigned",
+      "status": "✅ merged",
       "scope": [
         "src/ontology_engine/node6_supplement/",
         "tests/test_node6_supplement/"
