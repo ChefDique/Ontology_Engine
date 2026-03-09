@@ -3,10 +3,11 @@
 ## Project Info
 
 - **Name:** Ontology Engine
-- **Stack:** Python 3.13, pytest, jsonschema, FastAPI (incoming)
+- **Stack:** Python 3.13, FastAPI, Supabase, Vite
 - **Default Branch:** master
 - **Test:** `source .venv/bin/activate && pytest tests/ -v`
-- **KB:** `ontology_kb.json` (7 layers, single source of truth)
+- **KB:** `ontology_kb.json` v1.5.0
+- **Supabase:** `fareqnzxhodvgdkboeff` (Adair AI org, us-west-1, free tier)
 
 ## Letter Registry
 
@@ -25,37 +26,55 @@
 | K      | Kilo: Red Team Suite                | ✅ Merged   | `feature/agent-k-red-team`                      |
 | L      | Lima: UI Shell                      | ✅ Merged   | `feature/agent-l-ui-shell`                      |
 | M      | Mike: Backend API + Security        | ✅ Merged   | `src/ontology_engine/api.py`, `tests/test_api/` |
-| N      | November: Frontend Wiring           | 📋 Assigned | `web/src/` (blocked on M)                       |
-| O      | Oscar: Deployment + Access          | 📋 Assigned | `Dockerfile`, `.env.example`, `railway.toml`    |
-| P      | Papa: App Documentation             | 📋 Assigned | `docs/`, `README.md`                            |
+| N      | November: Frontend Wiring           | 📋 Ready    | `web/src/` — wire upload + history to real API  |
+| O      | Oscar: Deployment                   | 📋 Ready    | Vercel (frontend) + Railway (backend)           |
+| P      | Papa: App Documentation             | 📋 Ready    | `docs/`, `README.md`                            |
+
+## Supabase Pivot (v1.5.0)
+
+**What changed:** Replaced the planned access-code-gate + in-memory state with full Supabase integration.
+
+**Why:**
+
+- Auth (email/password + magic link) is production-grade and free — building from scratch would take hours and be less secure
+- PostgreSQL with RLS gives per-user data isolation out of the box
+- Storage bucket handles PDF uploads with per-user access policies
+- Rate limits survive server restarts (durable DB-backed)
+- $0/month on free tier — no cost increase
+
+**Architecture:**
+
+```
+Frontend (Vercel) → Supabase (auth/db/storage) → FastAPI on Railway (compute) → Supabase (persist results)
+```
+
+**Impact on agents:**
+
+- **N** scope changed: access-code-gate → wire upload to `/api/analyze` with JWT + wire `/api/history`
+- **O** scope changed: add Vercel deploy for frontend, Railway for backend (Dockerfile needed)
+- **P** unchanged
 
 ## Work Queue
 
-1. ~~Alpha + Beta (parallel)~~ **Both merged**
-2. ~~Gamma (parallel with Alpha)~~ **Merged**
-3. ~~Epsilon (skill build)~~ **Complete**
-4. ~~Foxtrot + Golf (parallel)~~ **Both merged**
-5. ~~Hotel (orchestrator upgrades)~~ **Merged**
-6. ~~India (Node 5 Comparator)~~ **Merged**
-7. ~~Juliet (Node 6 Supplement Report)~~ **Merged**
-8. ~~Kilo + Lima (parallel)~~ **Both merged**
-9. **Mike** (Backend API — FIRST, blocks N+O)
-10. **November + Oscar + Papa** (parallel, after M merges)
-11. Delta (independent, low priority)
+1. ~~Alpha through Mike~~ **All merged** (A–M, 13 agents)
+2. **November + Oscar + Papa** (parallel — all unblocked)
+3. Delta (independent R&D, low priority)
 
 ## Known Issues
 
-- ~~**PII SSN detection gap**~~ **FIXED** — regex secondary pass added (belt+suspenders for CONST_001)
-- **Presidio email detection** may fail in 28K+ char text (chunk text before passing to Presidio)
+- ~~**PII SSN detection gap**~~ **FIXED**
+- **Presidio email detection** may fail in 28K+ char text
 
 ## Last Session
 
 - **Date:** 2026-03-09
-- **Session:** /orchestrate — dispatch deployment agents (M, N, O, P)
+- **Session:** Supabase pivot + Agent M merge
 - **Completed:**
-  - Fixed SSN PII bug (regex secondary pass after Presidio)
-  - 438 tests passing, 0 failures
-  - Financial analysis: $0.0024/analysis, ~$5/mo at beta scale
-  - Security plan: access code gate, IP rate limiter, kill switch, circuit breaker
-  - KB bumped to v1.4.0
-- **Next:** Fire Agent M (Backend API), then N+O+P in parallel after M merges
+  - Agent M merged (Backend API + Security) — 22/22 tests → 460/460 full suite
+  - Supabase project created (ontology-engine, Adair AI org)
+  - 4 migrations: analyses, rate_limits, RLS policies, estimates storage
+  - Backend: JWT auth, result persistence, /api/history endpoints
+  - Frontend: login view, auth gate, Supabase JS client
+  - Login page verified live at localhost:5173
+  - KB bumped to v1.5.0
+- **Next:** Fire N + O + P in parallel

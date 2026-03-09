@@ -1,7 +1,7 @@
 {
   "meta": {
     "project_name": "Ontology Engine",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "created": "2026-03-08",
     "methodology": {
       "name": "Z → A Reverse Extrapolation Pipeline",
@@ -76,7 +76,8 @@
         "path": "R&D-Unsynthesized/markdown/research-xactimite-pdf-esx.json"
       }
     ],
-    "last_updated": "2026-03-09"
+    "last_updated": "2026-03-09",
+    "changelog": " | v1.5.0: Supabase pivot — auth/db/storage integrated, Agent N/O scopes updated"
   },
   "documents": [
     {
@@ -2810,9 +2811,10 @@
         "web/src/"
       ],
       "tasks": [
-        "N1: Replace simulatePipelineRun() + demo data with real fetch(/api/analyze) calls",
-        "N2: Access code gate component (sessionStorage, ACCESS_CODE env var)",
-        "N3: Error handling UI (rate limit, service down, invalid PDF, kill switch message)"
+        "N1: Wire upload.js → real fetch(/api/analyze) with JWT from supabase.js apiFetch()",
+        "N2: Wire report/review views to /api/history endpoints (list + detail)",
+        "N3: Add loading states, error handling, progress feedback during pipeline run",
+        "N4: Frontend tests for auth flow, upload flow, history display"
       ],
       "contracts": {
         "input": "Backend API /api/analyze response",
@@ -2826,7 +2828,8 @@
       "recommended_mode": "fast",
       "reasoning_level": "low",
       "skill": null,
-      "shared_file_requests": []
+      "shared_file_requests": [],
+      "notes": "Supabase Auth already wired (login.js + main.js auth gate). N2 scope changed from access-code-gate to history wiring."
     },
     "oscar": {
       "letter": "O",
@@ -2834,13 +2837,17 @@
       "status": "📋 assigned",
       "scope": [
         "Dockerfile",
-        ".env.example",
-        "railway.toml"
+        "railway.toml",
+        "vercel.json",
+        "web/.env.production",
+        ".env.production"
       ],
       "tasks": [
-        "O1: Dockerfile (multi-stage: Node build → Python serve)",
-        "O2: .env.example + railway.toml + deployment docs",
-        "O3: Verify end-to-end on Railway/Render"
+        "O1: Dockerfile for FastAPI backend (multi-stage, tesseract + Python deps)",
+        "O2: Deploy backend to Railway from GitHub",
+        "O3: Deploy frontend to Vercel from GitHub (vite build)",
+        "O4: Wire production URLs (VITE_API_BASE_URL, CORS_ORIGINS, Supabase redirect URLs)",
+        "O5: .env.production templates + deployment docs"
       ],
       "contracts": {
         "input": "Working FastAPI server + built Vite frontend",
@@ -2854,7 +2861,8 @@
       "recommended_mode": "fast",
       "reasoning_level": "low",
       "skill": null,
-      "shared_file_requests": []
+      "shared_file_requests": [],
+      "notes": "Architecture: Vercel (frontend) + Railway (backend compute) + Supabase (auth/db/storage). All free tiers."
     },
     "papa": {
       "letter": "P",
@@ -3103,6 +3111,12 @@
       ],
       "insight": "run_supplement_pipeline can be implemented inline in api.py to avoid editing shared pipeline.py — calls _run_nodes_1_to_3 twice then Node 5 + Node 6 directly",
       "timestamp": "2026-03-09"
+    },
+    {
+      "id": "LEARN_SUPABASE_PIVOT",
+      "title": "Supabase Integration Pivot",
+      "detail": "Pivoted from access-code-gate + in-memory state to full Supabase integration. Supabase handles: Auth (email/password + magic link), PostgreSQL (analyses + rate_limits tables with RLS), Storage (estimates bucket for PDFs). FastAPI backend still needed for compute (pdfplumber, Gemini, etc). Project: ontology-engine (fareqnzxhodvgdkboeff) on Adair AI org, us-west-1, free tier. Frontend uses @supabase/supabase-js, backend uses supabase-py + PyJWT. Auth is gracefully disabled when SUPABASE_URL not set (backward-compatible).",
+      "source": "orchestrator"
     }
   ]
 }
