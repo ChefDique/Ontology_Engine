@@ -72,6 +72,20 @@ export async function sendMagicLink(email) {
 }
 
 /**
+ * Sign in with Google OAuth (redirects to Google).
+ * @returns {Promise<{error: object|null}>}
+ */
+export async function signInWithGoogle() {
+  const { error } = await getSupabase().auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}`,
+    },
+  });
+  return { error };
+}
+
+/**
  * Sign out the current user.
  * @returns {Promise<void>}
  */

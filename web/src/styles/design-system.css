@@ -880,6 +880,39 @@ body {
   color: var(--text-muted);
 }
 
+.google-signin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: 10px var(--space-md);
+  background: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: var(--radius-sm);
+  color: #3c4043;
+  font-family: 'Roboto', var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  letter-spacing: 0.01em;
+}
+
+.google-signin-btn:hover {
+  background: #f8f9fa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.google-signin-btn:active {
+  background: #eff0f1;
+}
+
+.google-signin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
