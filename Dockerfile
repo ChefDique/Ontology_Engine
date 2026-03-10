@@ -43,9 +43,7 @@ WORKDIR /app
 COPY src/ src/
 
 # ── Runtime configuration ────────────────────────────────────────────────
-# These are defaults; override via Railway/Docker env vars
-ENV PORT=8000
-ENV API_ENABLED=true
+# Railway injects PORT as an env var; our app defaults to 8000 if unset
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -53,11 +51,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 RUN adduser --disabled-password --gecos '' appuser
 USER appuser
 
-EXPOSE ${PORT}
+EXPOSE 8000
 
-# Health check — hit the root endpoint
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:${PORT}/')" || exit 1
+# Start the FastAPI server — Railway sets PORT env var at runtime
+CMD uvicorn ontology_engine.api:app --host 0.0.0.0 --port ${PORT:-8000}
 
-# Start the FastAPI server
-CMD ["sh", "-c", "uvicorn ontology_engine.api:app --host 0.0.0.0 --port ${PORT}"]
