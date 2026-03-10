@@ -4,6 +4,7 @@
  */
 
 import './styles/design-system.css';
+import './components/feedback.css';
 import { subscribe, getState, setView } from './utils/state.js';
 import { renderUploadView } from './components/upload.js';
 import { renderPipelineView } from './components/pipeline.js';
@@ -12,6 +13,7 @@ import { renderReviewView } from './components/review.js';
 import { renderLoginView } from './components/login.js';
 import { renderHistoryView, initHistoryView } from './components/history.js';
 import { isSupabaseConfigured, getSession, signOut, onAuthStateChange } from './utils/supabase.js';
+import { createFeedbackButton } from './components/feedback.js';
 
 /** @type {Object<string, { label: string, icon: string, render: Function, onActivate?: Function }>} */
 const VIEWS = {
@@ -110,6 +112,11 @@ function renderApp() {
   }
 
   app.append(header, main);
+
+  // Add floating feedback button (from Agent Q)
+  if (!document.getElementById('feedback-fab')) {
+    app.appendChild(createFeedbackButton());
+  }
 }
 
 // ── Auth initialization ──

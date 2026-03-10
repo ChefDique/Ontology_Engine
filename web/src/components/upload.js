@@ -2,6 +2,15 @@
  * N1 — PDF Upload Component (wired to real API)
  * Dual drag-and-drop upload for adjuster + contractor estimates.
  * Calls POST /api/analyze with JWT auth via apiFetch().
+ *
+ * UI improvements:
+ *   - Upload arrow icon over PDF document for clear affordance
+ *   - Color-coded zones: amber (adjuster) vs cyan (contractor)
+ *   - "Click or drag to upload" CTA text
+ *   - Collapsible mock Xactimate preview tables
+ *   - Rich file success state with name, size, and remove button
+ *   - Toast notifications for pipeline success
+ *   - Keyboard shortcut: Ctrl+Enter to run pipeline
  */
 
 import { createElement, formatFileSize } from '../utils/format.js';
@@ -29,6 +38,50 @@ export function validateFile(file) {
   return { valid: true };
 }
 
+/* ── SVG Icons ── */
+
+/**
+ * Create an SVG upload icon: PDF document with upload arrow overlay.
+ * @param {string} accentColor - CSS color for the arrow accent
+ * @returns {HTMLElement}
+ */
+function createUploadIcon(accentColor) {
+  const wrapper = createElement('div', { className: 'upload-icon-wrapper' });
+  wrapper.innerHTML = `
+    <svg width="64" height="72" viewBox="0 0 64 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Document body -->
+      <rect x="4" y="8" width="48" height="60" rx="4" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <!-- Folded corner -->
+      <path d="M36 8L52 24H40C37.7909 24 36 22.2091 36 20V8Z" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+      <!-- PDF text -->
+      <text x="28" y="50" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="var(--font-mono)" font-size="10" font-weight="600">PDF</text>
+      <!-- Upload arrow circle -->
+      <circle cx="48" cy="56" r="14" fill="${accentColor}" opacity="0.9"/>
+      <!-- Arrow up -->
+      <path d="M48 62V50M48 50L43 55M48 50L53 55" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  return wrapper;
+}
+
+/**
+ * Create a file icon showing successful upload.
+ * @returns {HTMLElement}
+ */
+function createSuccessIcon() {
+  const wrapper = createElement('div', { className: 'upload-icon-wrapper' });
+  wrapper.innerHTML = `
+    <svg width="64" height="72" viewBox="0 0 64 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="8" width="48" height="60" rx="4" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.3)" stroke-width="1.5"/>
+      <path d="M36 8L52 24H40C37.7909 24 36 22.2091 36 20V8Z" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.3)" stroke-width="1.5"/>
+      <text x="28" y="46" text-anchor="middle" fill="rgba(16,185,129,0.5)" font-family="var(--font-mono)" font-size="10" font-weight="600">PDF</text>
+      <circle cx="48" cy="56" r="14" fill="#10b981" opacity="0.9"/>
+      <path d="M42 56L46 60L54 52" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  return wrapper;
+}
+
 /**
  * Create a single upload zone for a role.
  * @param {'adjuster'|'contractor'} role
@@ -39,9 +92,12 @@ export function validateFile(file) {
 function createUploadZone(role, label, description) {
   const state = getState();
   const file = state.files[role];
+  const isAdjuster = role === 'adjuster';
+  const accentColor = isAdjuster ? '#f59e0b' : '#06b6d4';
+  const roleClass = isAdjuster ? 'upload-zone--adjuster' : 'upload-zone--contractor';
 
   const zone = createElement('div', {
-    className: `upload-zone ${file ? 'has-file' : ''}`,
+    className: `upload-zone ${roleClass} ${file ? 'has-file' : ''}`,
     id: `upload-zone-${role}`,
   });
 
@@ -76,20 +132,40 @@ function createUploadZone(role, label, description) {
     if (dropped) handleFile(role, dropped, zone);
   });
 
-  zone.addEventListener('click', () => input.click());
+  zone.addEventListener('click', (e) => {
+    // Don't trigger file picker when clicking remove button or collapsible toggle
+    if (e.target.closest('.upload-file-remove') || e.target.closest('.upload-preview-toggle')) return;
+    input.click();
+  });
 
-  // Content
-  const icon = createElement('div', { className: 'upload-icon' }, file ? '✅' : '📄');
-  const labelEl = createElement('div', { className: 'upload-label' }, label);
-  const descEl = createElement('div', { className: 'upload-sublabel' }, description);
-
-  zone.append(input, icon, labelEl, descEl);
-
+  // Content: either file-selected state or upload prompt
   if (file) {
-    const fileInfo = createElement('div', { className: 'upload-file-info' },
-      `${file.name} (${formatFileSize(file.size)})`
-    );
-    zone.appendChild(fileInfo);
+    // ── File selected state ──
+    const icon = createSuccessIcon();
+
+    const fileCard = createElement('div', { className: 'upload-file-card' });
+    const fileName = createElement('div', { className: 'upload-file-name' }, file.name);
+    const fileSize = createElement('div', { className: 'upload-file-size' }, formatFileSize(file.size));
+    const removeBtn = createElement('button', {
+      className: 'upload-file-remove',
+      id: `remove-file-${role}`,
+    }, '✕');
+    removeBtn.title = 'Remove file';
+    removeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setFile(role, null);
+    });
+
+    fileCard.append(fileName, fileSize, removeBtn);
+    zone.append(input, icon, createElement('div', { className: 'upload-label' }, label), fileCard);
+  } else {
+    // ── Upload prompt state ──
+    const icon = createUploadIcon(accentColor);
+    const labelEl = createElement('div', { className: 'upload-label' }, label);
+    const descEl = createElement('div', { className: 'upload-sublabel' }, description);
+    const ctaEl = createElement('div', { className: 'upload-cta' }, '📎 Click or drag PDF to upload');
+
+    zone.append(input, icon, labelEl, descEl, ctaEl);
   }
 
   return zone;
@@ -116,6 +192,7 @@ function handleFile(role, file, zone) {
     return;
   }
   setFile(role, file);
+  showToast(`✅ ${file.name} ready`, 'success');
 }
 
 /**
@@ -234,6 +311,8 @@ async function runPipeline() {
       rateLimitRemaining: data.rate_limit?.remaining_today ?? null,
     });
 
+    showToast('🎉 Analysis complete! View your supplement report.', 'success');
+
   } catch (err) {
     // Network error or unexpected failure
     for (const node of getState().pipelineNodes) {
@@ -247,6 +326,34 @@ async function runPipeline() {
       pipelineError: err.message || 'Network error — could not reach the analysis server.',
     });
   }
+}
+
+/* ── Toast Notification System ── */
+
+/**
+ * Show a toast notification at the top of the viewport.
+ * @param {string} message
+ * @param {'success'|'error'|'info'} type
+ */
+function showToast(message, type = 'info') {
+  const existing = document.getElementById('oe-toast');
+  if (existing) existing.remove();
+
+  const toast = document.createElement('div');
+  toast.id = 'oe-toast';
+  toast.className = `oe-toast oe-toast--${type}`;
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
+
+  // Trigger entrance
+  requestAnimationFrame(() => toast.classList.add('oe-toast--visible'));
+
+  // Auto-dismiss
+  setTimeout(() => {
+    toast.classList.remove('oe-toast--visible');
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
 }
 
 /* ── Onboarding: How It Works ── */
@@ -489,20 +596,26 @@ function renderHowItWorks() {
 }
 
 /**
- * Render a mock Xactimate estimate preview inside the upload zone area.
+ * Render a collapsible mock Xactimate estimate preview.
  * @param {'adjuster'|'contractor'} role
  * @returns {HTMLElement}
  */
 function renderMockEstimatePreview(role) {
-  const preview = createElement('div', { className: 'mock-estimate-preview' });
-  preview.style.cssText = `
-    margin-top: var(--space-md, 1rem);
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: var(--radius-sm, 6px);
-    padding: var(--space-sm, 0.5rem) var(--space-md, 1rem);
-    overflow: hidden;
-    pointer-events: none;
-  `;
+  const wrapper = createElement('div', { className: 'upload-preview-wrapper' });
+
+  const toggle = createElement('button', { className: 'upload-preview-toggle' });
+  toggle.innerHTML = `<span class="upload-preview-arrow">▶</span> Preview sample format`;
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const content = wrapper.querySelector('.upload-preview-content');
+    const arrow = wrapper.querySelector('.upload-preview-arrow');
+    const isOpen = content.style.display !== 'none';
+    content.style.display = isOpen ? 'none' : 'block';
+    arrow.textContent = isOpen ? '▶' : '▼';
+  });
+
+  const preview = createElement('div', { className: 'upload-preview-content mock-estimate-preview' });
+  preview.style.display = 'none'; // collapsed by default
 
   const label = createElement('div', {});
   label.style.cssText = `
@@ -531,7 +644,8 @@ function renderMockEstimatePreview(role) {
       ];
 
   preview.append(label, buildMockTable(rows));
-  return preview;
+  wrapper.append(toggle, preview);
+  return wrapper;
 }
 
 /**
@@ -690,6 +804,25 @@ function renderSampleOutput() {
   return section;
 }
 
+/* ── Keyboard Shortcuts ── */
+
+/** Set up global keyboard shortcut for Ctrl+Enter to run pipeline */
+let keyboardBound = false;
+function bindKeyboardShortcuts() {
+  if (keyboardBound) return;
+  keyboardBound = true;
+  document.addEventListener('keydown', (e) => {
+    // Ctrl+Enter or Cmd+Enter to run pipeline
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      const state = getState();
+      if (state.activeView === 'upload' && state.files.adjuster && state.files.contractor && !state.pipelineRunning) {
+        e.preventDefault();
+        runPipeline();
+      }
+    }
+  });
+}
+
 /**
  * Render the upload view.
  * @returns {HTMLElement}
@@ -697,6 +830,9 @@ function renderSampleOutput() {
 export function renderUploadView() {
   const state = getState();
   const container = createElement('div', { className: 'fade-in' });
+
+  // Bind keyboard shortcuts on first render
+  bindKeyboardShortcuts();
 
   const heading = createElement('h1', {
     className: 'card-title',
@@ -729,13 +865,13 @@ export function renderUploadView() {
   // How It Works section
   const howItWorks = renderHowItWorks();
 
-  // Upload zones with mock estimate previews embedded
+  // Upload zones with role-specific colors
   const uploadSection = createElement('div', { className: 'upload-section' },
     createUploadZone('adjuster', 'Adjuster Estimate', 'Insurance company\'s Xactimate PDF'),
     createUploadZone('contractor', 'Contractor Estimate', 'Contractor\'s Xactimate PDF'),
   );
 
-  // Add mock previews inside each upload zone (only when no file is selected)
+  // Add collapsible mock previews inside each upload zone (only when no file is selected)
   if (!state.files.adjuster) {
     const adjZone = uploadSection.querySelector('#upload-zone-adjuster');
     if (adjZone) adjZone.appendChild(renderMockEstimatePreview('adjuster'));
@@ -756,6 +892,14 @@ export function renderUploadView() {
 
   if (!canRun) {
     runBtn.setAttribute('disabled', 'true');
+  }
+
+  // Keyboard shortcut hint
+  const shortcutHint = createElement('span', { className: 'shortcut-hint' });
+  shortcutHint.textContent = navigator.platform.includes('Mac') ? '⌘↵' : 'Ctrl+↵';
+
+  if (canRun) {
+    runBtn.appendChild(shortcutHint);
   }
 
   const clearBtn = createElement('button', {

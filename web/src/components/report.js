@@ -5,6 +5,7 @@
 
 import { createElement, formatCurrency, formatPercent, moneyClass, gapTypeBadge, gapTypeLabel } from '../utils/format.js';
 import { getState } from '../utils/state.js';
+import { createFeedbackLink } from './feedback.js';
 
 /**
  * Render the dollar-impact summary stats.
@@ -237,6 +238,7 @@ export function renderReportView() {
     renderGapTable(report.line_item_gaps),
     renderOPAnalysis(report.op_analysis),
     renderDepreciationFindings(report.depreciation_findings),
+    createFeedbackLink('report'),
   );
 
   return container;

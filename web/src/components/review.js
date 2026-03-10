@@ -5,6 +5,7 @@
 
 import { createElement } from '../utils/format.js';
 import { getState, resolveHitlItem } from '../utils/state.js';
+import { createFeedbackLink } from './feedback.js';
 
 /**
  * Get the severity badge class.
@@ -125,6 +126,8 @@ export function renderReviewView() {
     });
     container.appendChild(queue);
   }
+
+  container.appendChild(createFeedbackLink('review'));
 
   return container;
 }
