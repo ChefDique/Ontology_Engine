@@ -34,3 +34,5 @@ coverage.xml
 # Temporary
 *.tmp
 *.log
+.vercel
+.env*.local
