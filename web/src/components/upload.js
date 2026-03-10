@@ -265,7 +265,25 @@ export function renderUploadView() {
   const desc = createElement('p', {
     className: 'card-subtitle',
   }, 'Upload both the insurance adjuster\'s estimate and the contractor\'s estimate to generate a supplement analysis report.');
-  desc.style.marginBottom = 'var(--space-xl)';
+  desc.style.marginBottom = 'var(--space-md)';
+
+  const formatNotice = createElement('div', {
+    className: 'upload-format-notice',
+    id: 'format-notice',
+  });
+  formatNotice.style.cssText = `
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: var(--radius-md, 10px);
+    padding: var(--space-sm, 8px) var(--space-md, 12px);
+    margin-bottom: var(--space-xl, 2rem);
+    font-size: 0.82rem;
+    color: var(--color-warning-light, #fbbf24);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+  `;
+  formatNotice.textContent = '⚠️ Currently supports Xactimate estimate PDFs only. Other estimate formats are not yet supported.';
 
   const uploadSection = createElement('div', { className: 'upload-section' },
     createUploadZone('adjuster', 'Adjuster Estimate', 'Insurance company\'s Xactimate PDF'),
@@ -335,7 +353,7 @@ export function renderUploadView() {
     actions.appendChild(rateInfo);
   }
 
-  container.append(heading, desc, uploadSection, actions);
+  container.append(heading, desc, formatNotice, uploadSection, actions);
 
   return container;
 }
