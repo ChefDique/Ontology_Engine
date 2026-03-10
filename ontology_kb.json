@@ -2892,7 +2892,7 @@
     "quebec": {
       "letter": "Q",
       "name": "Feedback Widget (Paste + Voice)",
-      "status": "🟡 in-progress",
+      "status": "✅ merged",
       "blocker": null,
       "scope": [
         "web/src/components/feedback.js",

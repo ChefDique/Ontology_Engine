@@ -29,7 +29,7 @@
 | N      | November: Frontend Wiring           | ✅ Merged   | `web/src/` — upload, history, pipeline wired    |
 | O      | Oscar: Deployment                   | ✅ Merged   | Dockerfile, Railway, Vercel configs             |
 | P      | Papa: App Documentation             | ✅ Merged   | `docs/`, `README.md`                            |
-| Q      | Quebec: Feedback Widget             | 🟡 Active   | `web/src/components/feedback.*`, paste + voice  |
+| Q      | Quebec: Feedback Widget             | ✅ Merged   | `web/src/components/feedback.*`, paste + voice  |
 
 ## Supabase Pivot (v1.5.0)
 
