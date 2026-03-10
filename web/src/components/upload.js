@@ -309,103 +309,182 @@ function buildMockTable(rows) {
 }
 
 /**
- * Render the "How It Works" 3-step visual flow.
+ * Render the "How It Works" stepper with animated beam connectors.
  * @returns {HTMLElement}
  */
 function renderHowItWorks() {
   const section = createElement('div', { className: 'how-it-works', id: 'how-it-works' });
-  section.style.cssText = `
-    margin-bottom: var(--space-xl, 2rem);
-  `;
+  section.style.cssText = `margin-bottom: var(--space-xl, 2rem);`;
 
   const title = createElement('div', { className: 'report-section-title' }, '⚡ How It Works');
-  title.style.cssText = 'font-size: 1rem; font-weight: 600; margin-bottom: var(--space-md);';
+  title.style.cssText = 'font-size: 1rem; font-weight: 600; margin-bottom: var(--space-lg);';
 
-  const steps = createElement('div', {});
-  steps.style.cssText = `
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--space-md, 1rem);
+  // Inject keyframes for beam animation (only once)
+  if (!document.getElementById('stepper-beam-keyframes')) {
+    const style = document.createElement('style');
+    style.id = 'stepper-beam-keyframes';
+    style.textContent = `
+      @keyframes beamTravel {
+        0% { left: -8px; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { left: calc(100% - 4px); opacity: 0; }
+      }
+      @keyframes beamGlow {
+        0%, 100% { box-shadow: 0 0 6px 2px rgba(34, 211, 238, 0.5), 0 0 12px 4px rgba(34, 211, 238, 0.2); }
+        50% { box-shadow: 0 0 10px 3px rgba(34, 211, 238, 0.7), 0 0 20px 6px rgba(34, 211, 238, 0.3); }
+      }
+      @keyframes beamTrail {
+        0% { left: -40px; opacity: 0; }
+        10% { opacity: 0.4; }
+        90% { opacity: 0.4; }
+        100% { left: calc(100% - 40px); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Stepper container — horizontal flow
+  const stepper = createElement('div', {});
+  stepper.style.cssText = `
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    position: relative;
   `;
 
   const stepData = [
-    {
-      num: '1',
-      icon: '📄',
-      title: 'Upload Two PDFs',
-      desc: 'Drop or select the insurance adjuster\'s Xactimate estimate and the contractor\'s estimate.',
-    },
-    {
-      num: '2',
-      icon: '🔬',
-      title: 'AI Analyzes & Diffs',
-      desc: 'Our 6-node pipeline extracts line items, applies roofer math, and compares estimate discrepancies.',
-    },
-    {
-      num: '3',
-      icon: '📊',
-      title: 'Get Supplement Report',
-      desc: 'See exactly which items are missing, quantity deltas, O&P recovery, and dollar impact — ready for the carrier.',
-    },
+    { num: '1', icon: '📄', title: 'Upload Two PDFs', desc: 'Drop the adjuster\'s and contractor\'s Xactimate estimates' },
+    { num: '2', icon: '🔬', title: 'AI Analyzes & Diffs', desc: '6-node pipeline: extract, calculate, compare' },
+    { num: '3', icon: '📊', title: 'Supplement Report', desc: 'Missing items, O&P recovery, dollar impact' },
   ];
 
   stepData.forEach(({ num, icon, title: stepTitle, desc: stepDesc }, i) => {
-    const card = createElement('div', {});
-    card.style.cssText = `
-      background: var(--surface-card, #12121a);
-      border: 1px solid var(--surface-border, rgba(255,255,255,0.08));
-      border-radius: var(--radius-md, 10px);
-      padding: var(--space-lg, 1.5rem) var(--space-md, 1rem);
+    // Step node
+    const stepNode = createElement('div', {});
+    stepNode.style.cssText = `
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 0 0 auto;
+      width: 160px;
       text-align: center;
-      position: relative;
-      transition: all 250ms ease;
     `;
 
-    const numBadge = createElement('div', {});
-    numBadge.style.cssText = `
+    // Numbered circle
+    const circle = createElement('div', {});
+    circle.style.cssText = `
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--surface-card, #12121a);
+      border: 2px solid var(--brand-primary, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+      transition: all 250ms ease;
+    `;
+    circle.textContent = icon;
+
+    // Step number (small, top-right of circle)
+    const numLabel = createElement('div', {});
+    numLabel.style.cssText = `
       position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 22px;
-      height: 22px;
+      top: -4px;
+      right: -4px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--brand-primary, #6366f1), var(--brand-accent, #06b6d4));
       color: white;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 3;
     `;
-    numBadge.textContent = num;
+    numLabel.textContent = num;
+    circle.appendChild(numLabel);
 
-    const iconEl = createElement('div', {});
-    iconEl.style.cssText = 'font-size: 1.8rem; margin-bottom: var(--space-sm); margin-top: var(--space-xs);';
-    iconEl.textContent = icon;
-
+    // Title
     const titleEl = createElement('div', {});
-    titleEl.style.cssText = 'font-weight: 600; font-size: 0.85rem; color: var(--text-primary); margin-bottom: var(--space-xs);';
+    titleEl.style.cssText = `
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--text-primary, #f1f5f9);
+      margin-top: var(--space-sm, 0.5rem);
+      line-height: 1.3;
+    `;
     titleEl.textContent = stepTitle;
 
+    // Description
     const descEl = createElement('div', {});
-    descEl.style.cssText = 'font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;';
+    descEl.style.cssText = `
+      font-size: 0.7rem;
+      color: var(--text-muted, #64748b);
+      margin-top: 4px;
+      line-height: 1.4;
+    `;
     descEl.textContent = stepDesc;
 
-    card.append(numBadge, iconEl, titleEl, descEl);
+    stepNode.append(circle, titleEl, descEl);
 
-    // Add connector arrow between steps (not after last)
-    if (i < stepData.length - 1) {
-      const wrapper = createElement('div', {});
-      wrapper.style.cssText = 'position: relative;';
-      wrapper.appendChild(card);
-      steps.appendChild(wrapper);
-    } else {
-      steps.appendChild(card);
+    // Add connector beam BEFORE step (except first)
+    if (i > 0) {
+      const beam = createElement('div', {});
+      beam.style.cssText = `
+        flex: 1;
+        height: 2px;
+        background: rgba(99, 102, 241, 0.15);
+        position: relative;
+        align-self: center;
+        margin-top: -60px;
+        min-width: 60px;
+        overflow: hidden;
+        border-radius: 1px;
+      `;
+
+      // Animated trailing glow
+      const trail = createElement('div', {});
+      trail.style.cssText = `
+        position: absolute;
+        top: -1px;
+        width: 40px;
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.3), transparent);
+        animation: beamTrail 2.5s ease-in-out infinite;
+        animation-delay: ${i * 0.3}s;
+      `;
+
+      // Animated leading dot with glow
+      const dot = createElement('div', {});
+      dot.style.cssText = `
+        position: absolute;
+        top: -3px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--brand-accent-light, #22d3ee);
+        animation: beamTravel 2.5s ease-in-out infinite, beamGlow 1.2s ease-in-out infinite;
+        animation-delay: ${i * 0.3}s;
+        z-index: 1;
+      `;
+
+      beam.append(trail, dot);
+      stepper.appendChild(beam);
     }
+
+    stepper.appendChild(stepNode);
   });
 
-  section.append(title, steps);
+  section.append(title, stepper);
   return section;
 }
 
