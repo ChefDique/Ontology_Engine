@@ -39,20 +39,20 @@ COPY --from=builder /install /usr/local
 
 WORKDIR /app
 
-# Copy application source (already installed, but keep for any runtime path refs)
+# Copy application source + startup script
 COPY src/ src/
+COPY start.sh .
 
 # ── Runtime configuration ────────────────────────────────────────────────
-# Railway injects PORT as an env var; our app defaults to 8000 if unset
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
 # Non-root user for security
-RUN adduser --disabled-password --gecos '' appuser
+RUN adduser --disabled-password --gecos '' appuser && chmod +x /app/start.sh
 USER appuser
 
 EXPOSE 8000
 
-# Start the FastAPI server — Railway sets PORT env var at runtime
-CMD uvicorn ontology_engine.api:app --host 0.0.0.0 --port ${PORT:-8000}
+# Start via shell script — guarantees PORT env var expansion on Railway
+CMD ["/bin/sh", "/app/start.sh"]
 
