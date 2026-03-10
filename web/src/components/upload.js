@@ -416,182 +416,120 @@ function buildMockTable(rows) {
 }
 
 /**
- * Render the "How It Works" stepper with animated beam connectors.
+ * Render the hero pipeline flow section matching the design spec.
+ * Features: gradient title, SVG line-art icon circles, glowing particle beams,
+ * and a "Supplement Intelligence Platform" subtitle.
  * @returns {HTMLElement}
  */
 function renderHowItWorks() {
-  const section = createElement('div', { className: 'how-it-works', id: 'how-it-works' });
-  section.style.cssText = `margin-bottom: var(--space-xl, 2rem);`;
+  const section = createElement('div', { className: 'hero-section', id: 'how-it-works' });
 
-  const title = createElement('div', { className: 'report-section-title' }, '⚡ How It Works');
-  title.style.cssText = 'font-size: 1rem; font-weight: 600; margin-bottom: var(--space-lg);';
-
-  // Inject keyframes for beam animation (only once)
+  // ── Inject keyframes (only once) ──
   if (!document.getElementById('stepper-beam-keyframes')) {
     const style = document.createElement('style');
     style.id = 'stepper-beam-keyframes';
     style.textContent = `
       @keyframes beamTravel {
-        0% { left: -8px; opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { left: calc(100% - 4px); opacity: 0; }
+        0% { left: -10px; opacity: 0; }
+        8% { opacity: 1; }
+        92% { opacity: 1; }
+        100% { left: calc(100% - 6px); opacity: 0; }
       }
       @keyframes beamGlow {
         0%, 100% { box-shadow: 0 0 6px 2px rgba(34, 211, 238, 0.5), 0 0 12px 4px rgba(34, 211, 238, 0.2); }
         50% { box-shadow: 0 0 10px 3px rgba(34, 211, 238, 0.7), 0 0 20px 6px rgba(34, 211, 238, 0.3); }
       }
       @keyframes beamTrail {
-        0% { left: -40px; opacity: 0; }
-        10% { opacity: 0.4; }
-        90% { opacity: 0.4; }
-        100% { left: calc(100% - 40px); opacity: 0; }
+        0% { left: -60px; opacity: 0; }
+        10% { opacity: 0.5; }
+        90% { opacity: 0.5; }
+        100% { left: calc(100% - 60px); opacity: 0; }
       }
     `;
     document.head.appendChild(style);
   }
 
-  // Stepper container — horizontal flow
-  const stepper = createElement('div', {});
-  stepper.style.cssText = `
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 0;
-    position: relative;
-  `;
+  // ── Gradient hero title ──
+  const heroTitle = createElement('div', { className: 'hero-title' }, 'Ontology Engine');
+
+  // ── SVG Icon definitions ──
+  const svgIcons = {
+    upload: `<svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="3" width="16" height="21" rx="2" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none"/>
+      <path d="M15 3L21 9H17C15.9 9 15 8.1 15 7V3Z" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="rgba(255,255,255,0.06)"/>
+      <path d="M13 18V12M13 12L10 15M13 12L16 15" stroke="rgba(129,140,248,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`,
+    analyze: `<svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="4" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none"/>
+      <path d="M12 10V14M10 12H14" stroke="rgba(34,211,238,0.9)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M15 15L20 20" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+      <rect x="18" y="18" width="6" height="8" rx="1.5" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
+      <path d="M19.5 21H22.5M19.5 23H22.5" stroke="rgba(34,211,238,0.5)" stroke-width="0.8" stroke-linecap="round"/>
+    </svg>`,
+    report: `<svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="3" width="18" height="22" rx="2" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none"/>
+      <rect x="8" y="17" width="3" height="5" rx="0.5" fill="rgba(16,185,129,0.6)"/>
+      <rect x="12.5" y="13" width="3" height="9" rx="0.5" fill="rgba(16,185,129,0.7)"/>
+      <rect x="17" y="9" width="3" height="13" rx="0.5" fill="rgba(16,185,129,0.85)"/>
+      <path d="M8 8H18" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round"/>
+    </svg>`,
+  };
+
+  // ── Stepper flow ──
+  const stepper = createElement('div', { className: 'stepper-flow' });
 
   const stepData = [
-    { num: '1', icon: '📄', title: 'Upload Two PDFs', desc: 'Drop the adjuster\'s and contractor\'s Xactimate estimates' },
-    { num: '2', icon: '🔬', title: 'AI Analyzes & Diffs', desc: '6-node pipeline: extract, calculate, compare' },
-    { num: '3', icon: '📊', title: 'Supplement Report', desc: 'Missing items, O&P recovery, dollar impact' },
+    { key: 'upload', title: 'Upload', colorClass: 'stepper-circle--indigo' },
+    { key: 'analyze', title: 'Analyze', colorClass: 'stepper-circle--cyan' },
+    { key: 'report', title: 'Report', colorClass: 'stepper-circle--emerald' },
   ];
 
-  stepData.forEach(({ num, icon, title: stepTitle, desc: stepDesc }, i) => {
-    // Step node
-    const stepNode = createElement('div', {});
-    stepNode.style.cssText = `
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 0 0 auto;
-      width: 160px;
-      text-align: center;
-    `;
-
-    // Numbered circle
-    const circle = createElement('div', {});
-    circle.style.cssText = `
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--surface-card, #12121a);
-      border: 2px solid var(--brand-primary, #6366f1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      position: relative;
-      z-index: 2;
-      box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
-      transition: all 250ms ease;
-    `;
-    circle.textContent = icon;
-
-    // Step number (small, top-right of circle)
-    const numLabel = createElement('div', {});
-    numLabel.style.cssText = `
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--brand-primary, #6366f1), var(--brand-accent, #06b6d4));
-      color: white;
-      font-size: 0.6rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 3;
-    `;
-    numLabel.textContent = num;
-    circle.appendChild(numLabel);
-
-    // Title
-    const titleEl = createElement('div', {});
-    titleEl.style.cssText = `
-      font-weight: 600;
-      font-size: 0.82rem;
-      color: var(--text-primary, #f1f5f9);
-      margin-top: var(--space-sm, 0.5rem);
-      line-height: 1.3;
-    `;
-    titleEl.textContent = stepTitle;
-
-    // Description
-    const descEl = createElement('div', {});
-    descEl.style.cssText = `
-      font-size: 0.7rem;
-      color: var(--text-muted, #64748b);
-      margin-top: 4px;
-      line-height: 1.4;
-    `;
-    descEl.textContent = stepDesc;
-
-    stepNode.append(circle, titleEl, descEl);
-
-    // Add connector beam BEFORE step (except first)
+  stepData.forEach(({ key, title, colorClass }, i) => {
+    // Beam connector BEFORE each step (except first)
     if (i > 0) {
-      const beam = createElement('div', {});
-      beam.style.cssText = `
-        flex: 1;
-        height: 2px;
-        background: rgba(99, 102, 241, 0.15);
-        position: relative;
-        align-self: center;
-        margin-top: -60px;
-        min-width: 60px;
-        overflow: hidden;
-        border-radius: 1px;
-      `;
+      const beam = createElement('div', { className: 'stepper-beam' });
 
-      // Animated trailing glow
-      const trail = createElement('div', {});
-      trail.style.cssText = `
-        position: absolute;
-        top: -1px;
-        width: 40px;
-        height: 4px;
-        border-radius: 2px;
-        background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.3), transparent);
-        animation: beamTrail 2.5s ease-in-out infinite;
-        animation-delay: ${i * 0.3}s;
-      `;
+      // Trailing glow
+      const trail = createElement('div', { className: 'stepper-beam-trail' });
+      trail.style.animationDelay = `${i * 0.4}s`;
 
-      // Animated leading dot with glow
-      const dot = createElement('div', {});
-      dot.style.cssText = `
-        position: absolute;
-        top: -3px;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--brand-accent-light, #22d3ee);
-        animation: beamTravel 2.5s ease-in-out infinite, beamGlow 1.2s ease-in-out infinite;
-        animation-delay: ${i * 0.3}s;
-        z-index: 1;
-      `;
+      // Floating micro-particles (4 per beam — dots are handled by the single continuous dot)
+      const p1 = createElement('div', { className: 'stepper-beam-particle' });
+      p1.style.animationDelay = `${i * 0.3}s`;
+      const p2 = createElement('div', { className: 'stepper-beam-particle' });
+      p2.style.animationDelay = `${i * 0.3 + 0.8}s`;
+      const p3 = createElement('div', { className: 'stepper-beam-particle' });
+      p3.style.animationDelay = `${i * 0.3 + 1.6}s`;
+      const p4 = createElement('div', { className: 'stepper-beam-particle' });
+      p4.style.animationDelay = `${i * 0.3 + 2.2}s`;
 
-      beam.append(trail, dot);
+      beam.append(trail, p1, p2, p3, p4);
       stepper.appendChild(beam);
     }
 
-    stepper.appendChild(stepNode);
+    // Step node
+    const node = createElement('div', { className: 'stepper-node' });
+
+    // Circle with SVG icon
+    const circle = createElement('div', { className: `stepper-circle ${colorClass}` });
+    circle.innerHTML = svgIcons[key];
+
+    // Label
+    const titleEl = createElement('div', { className: 'stepper-node-title' }, title);
+
+    node.append(circle, titleEl);
+    stepper.appendChild(node);
   });
 
-  section.append(title, stepper);
+  // ── Single continuous traveling dot ──
+  // One dot that sweeps across the full stepper width (both beam segments)
+  const continuousDot = createElement('div', { className: 'stepper-continuous-dot' });
+  stepper.appendChild(continuousDot);
+
+  // ── Subtitle ──
+  const heroSubtitle = createElement('div', { className: 'hero-subtitle' }, 'Supplement Intelligence Platform');
+
+  section.append(heroTitle, stepper, heroSubtitle);
   return section;
 }
 

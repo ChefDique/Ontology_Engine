@@ -1,0 +1,13 @@
+{
+  "job_id": "job_oe_upload_polish",
+  "project": "Ontology Engine — Upload UI Polish Design Assets",
+  "nodes": ["designer"],
+  "target_platforms": ["gumroad", "twitter", "linkedin"],
+  "inputs": {
+    "source_material": "intake-docs/prd_upload_ui_polish.md",
+    "topic": "SaaS upload interface UI/UX polish — color-coded zones, toast system, keyboard shortcuts",
+    "tone": "premium-dark-mode-saas",
+    "notes": "Designer-only run. All PRD features are already implemented in code. Generate marketing/documentation visual assets."
+  },
+  "output_dir": "outputs/job_oe_upload_polish"
+}

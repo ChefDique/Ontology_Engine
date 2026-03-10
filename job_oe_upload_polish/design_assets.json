@@ -1,0 +1,49 @@
+{
+  "job_id": "job_oe_upload_polish",
+  "node": "designer",
+  "assets": {
+    "items": [
+      {
+        "name": "Product Hero — Dashboard Overview",
+        "type": "cover",
+        "file_path": "assets/hero_dashboard_overview.png",
+        "prompt_used": "A premium dark-mode SaaS dashboard displayed on a sleek MacBook Pro laptop, showing a dual-upload interface for PDF documents. The left upload zone has an amber-gold (#f59e0b) dashed border with a subtle warm glow and an SVG icon of a PDF document with an upload arrow in an amber circle. The right upload zone has a cyan (#06b6d4) dashed border with a cool glow and matching cyan upload arrow icon. Above the upload zones is a 3-step horizontal stepper with glowing cyan beam connectors between numbered circles: \"Upload → Analyze → Report.\" Below is a prominent indigo (#6366f1) \"Run Analysis Pipeline\" button with a small keyboard shortcut badge showing \"⌘↵\". The entire interface has a near-black background (#0a0a0f), card surfaces (#12121a), and uses Inter font for UI text and JetBrains Mono for data. Glassmorphism effects with backdrop blur on the header. Professional product photography style, studio lighting with soft gradient background transitioning from dark indigo to black, clean composition, 16:9 aspect ratio. No watermarks.",
+        "dimensions": { "width": 1280, "height": 720, "unit": "px" },
+        "description": "Hero image showing the full Ontology Engine upload dashboard on a MacBook Pro. Features dual color-coded upload zones (amber/cyan), 3-step stepper, and Run Pipeline button.",
+        "platform_target": "gumroad"
+      },
+      {
+        "name": "Feature Close-Up — Color-Coded Upload Zones",
+        "type": "infographic",
+        "file_path": "assets/feature_upload_zones.png",
+        "prompt_used": "A close-up UI detail shot of two side-by-side file upload zones on a pure dark background (#0a0a0f). Left zone labeled \"Adjuster Estimate\" has an amber/gold (#f59e0b) dashed border with subtle amber gradient hover glow, containing an SVG icon of a PDF document silhouette with an upload arrow in an amber circle, and text \"📎 Click or drag PDF to upload\" in muted gray. Right zone labeled \"Contractor Estimate\" has a cyan (#06b6d4) dashed border with subtle cyan gradient hover glow, containing a matching PDF icon with cyan upload arrow circle. Both zones have rounded corners (16px radius), glassmorphism surface cards (#12121a), and the amber zone shows a slight warm tint while the cyan zone shows a cool tint. Clean, minimalist dark SaaS design. Inter font for labels, no device frame, centered composition, 16:9 aspect ratio. Professional UI screenshot aesthetic.",
+        "dimensions": { "width": 1200, "height": 675, "unit": "px" },
+        "description": "Close-up detail of the two upload zones — amber (adjuster) and cyan (contractor) — showing dashed borders, PDF icons with upload arrows, and CTA text.",
+        "platform_target": "twitter"
+      },
+      {
+        "name": "Social Card — Pipeline Flow Promo",
+        "type": "social_image",
+        "file_path": "assets/social_pipeline_flow.png",
+        "prompt_used": "A sleek dark social media card graphic for a SaaS product. Deep near-black background (#0a0a0f) with a subtle indigo-to-cyan gradient glow emanating from the center. Three circular icon nodes arranged horizontally, connected by glowing cyan (#06b6d4) beam lines with animated particle effects. Node 1: a document/upload icon in an indigo circle with label \"Upload\" below. Node 2: a microscope/analysis icon in a cyan circle with label \"Analyze\" below. Node 3: a chart/report icon in an emerald green (#10b981) circle with label \"Report\" below. Above the nodes, bold text reads \"Ontology Engine\" in a gradient from indigo (#6366f1) to cyan (#06b6d4). Below the flow, smaller text: \"Supplement Intelligence Platform\" in muted gray (#94a3b8). Clean Inter font typography, minimalist composition with generous negative space. Professional SaaS marketing graphic, 16:9 aspect ratio. No device frames, no watermarks.",
+        "dimensions": { "width": 1200, "height": 675, "unit": "px" },
+        "description": "Social media card showing the 3-step pipeline flow (Upload → Analyze → Report) with glowing beam connectors and brand text.",
+        "platform_target": "linkedin"
+      },
+      {
+        "name": "Before/After — UI Polish Comparison",
+        "type": "infographic",
+        "file_path": "assets/before_after_comparison.png",
+        "prompt_used": "A split-screen comparison graphic showing a UI transformation. Left half labeled \"BEFORE\" in red (#ef4444) at the top: shows a bland, generic file upload form with gray flat design, plain white background, basic file input buttons, no visual hierarchy, boring default browser styling, and a generic \"Upload File\" label — everything looks utilitarian and unfinished. Right half labeled \"AFTER\" in emerald green (#10b981) at the top: shows a premium dark-mode upload interface (#0a0a0f background) with two color-coded upload zones — left zone with amber (#f59e0b) dashed glowing border and PDF upload arrow icon, right zone with cyan (#06b6d4) dashed glowing border and matching icon. Rich file cards with monospace filename text, a glowing indigo \"Run Analysis Pipeline\" button, and glassmorphism card surfaces (#12121a). A thin vertical divider separates the halves. Clean, marketing-quality comparison graphic, 16:9 aspect ratio. Professional design showcase style.",
+        "dimensions": { "width": 1280, "height": 720, "unit": "px" },
+        "description": "Split-screen before/after comparison — bland generic upload form vs premium dark-mode UI with color-coded zones, file cards, and glassmorphism.",
+        "platform_target": "blog"
+      }
+    ],
+    "style_guide": {
+      "primary_colors": ["#6366f1", "#06b6d4", "#f59e0b", "#10b981", "#0a0a0f", "#12121a"],
+      "fonts": ["Inter", "JetBrains Mono"],
+      "visual_tone": "Premium dark-mode SaaS with glassmorphism surfaces, indigo-to-cyan gradient accents, micro-animation cues, and amber/cyan role-based color coding for upload zones."
+    }
+  }
+}

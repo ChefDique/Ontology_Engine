@@ -1241,6 +1241,292 @@ body {
   white-space: nowrap;
 }
 
+/* ── Hero Pipeline Section (matches social_pipeline_flow.png spec) ── */
+.hero-section {
+  position: relative;
+  text-align: center;
+  padding: var(--space-2xl) var(--space-xl);
+  margin-bottom: var(--space-xl);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+/* Radial background glow */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 55%,
+    rgba(99, 102, 241, 0.06) 0%,
+    rgba(6, 182, 212, 0.04) 30%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gradient title: "Ontology Engine" */
+.hero-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-xl);
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary-light) 0%,
+    var(--brand-accent-light) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Muted subtitle: "Supplement Intelligence Platform" */
+.hero-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-xl);
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+
+/* ── Upgraded Stepper Circles ── */
+.stepper-circle {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--surface-card);
+  border: 2px solid var(--brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  transition: all 300ms ease;
+}
+
+.stepper-circle svg {
+  width: 40px;
+  height: 40px;
+}
+
+/* Progressive ring colors */
+.stepper-circle--indigo {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.2),
+    0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.stepper-circle--cyan {
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.2),
+    0 0 4px rgba(6, 182, 212, 0.1);
+}
+
+.stepper-circle--emerald {
+  border-color: var(--color-success);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.2),
+    0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+/* ── Enhanced Beam Connectors ── */
+.stepper-beam {
+  flex: 1;
+  height: 2px;
+  position: relative;
+  align-self: center;
+  margin-top: 0;
+  min-width: 60px;
+  overflow: visible;
+  z-index: 1;
+}
+
+/* Base beam track — subtle glow */
+.stepper-beam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(6, 182, 212, 0.15),
+    rgba(6, 182, 212, 0.25),
+    rgba(6, 182, 212, 0.15)
+  );
+  border-radius: 1px;
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.15);
+}
+
+/* Wide trailing glow */
+.stepper-beam-trail {
+  position: absolute;
+  top: -3px;
+  width: 60px;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(6, 182, 212, 0.25),
+    rgba(34, 211, 238, 0.4),
+    rgba(6, 182, 212, 0.25),
+    transparent
+  );
+  animation: beamTrail 2.8s ease-in-out infinite;
+  filter: blur(1px);
+}
+
+/* Single continuous traveling dot — spans full stepper width */
+.stepper-continuous-dot {
+  position: absolute;
+  top: 39px;  /* vertically centered on 88px circles (44 - 5) */
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--brand-accent-light);
+  box-shadow: 0 0 8px 3px rgba(34, 211, 238, 0.5),
+    0 0 16px 5px rgba(34, 211, 238, 0.2);
+  z-index: 1;  /* behind circles (z-index: 2) */
+  pointer-events: none;
+  animation: continuousDotTravel 4s ease-in-out infinite;
+}
+
+@keyframes continuousDotTravel {
+  0% {
+    left: 70px;     /* just past the first circle */
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  45% {
+    left: calc(50% - 5px);  /* arrive at center circle */
+    opacity: 0.7;
+  }
+  55% {
+    left: calc(50% + 5px);  /* depart center circle */
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 80px);  /* just before the last circle */
+    opacity: 0;
+  }
+}
+
+/* Floating micro-particles along the beam */
+.stepper-beam-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(34, 211, 238, 0.6);
+  animation: particleFloat 3.5s ease-in-out infinite;
+}
+
+.stepper-beam-particle:nth-child(2) {
+  animation-delay: 0.8s;
+  top: -5px;
+  width: 2px;
+  height: 2px;
+  background: rgba(34, 211, 238, 0.4);
+}
+
+.stepper-beam-particle:nth-child(3) {
+  animation-delay: 1.6s;
+  top: 3px;
+  width: 2px;
+  height: 2px;
+  background: rgba(99, 102, 241, 0.5);
+}
+
+.stepper-beam-particle:nth-child(4) {
+  animation-delay: 2.2s;
+  top: -3px;
+  width: 2.5px;
+  height: 2.5px;
+  background: rgba(34, 211, 238, 0.5);
+}
+
+@keyframes particleFloat {
+  0% {
+    left: -10px;
+    opacity: 0;
+    transform: translateY(0);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    left: calc(100% + 10px);
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+@keyframes beamPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(6, 182, 212, 0.3);
+  }
+}
+
+/* ── Stepper Step Node ── */
+.stepper-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 140px;
+  text-align: center;
+}
+
+.stepper-node-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  margin-top: var(--space-md);
+  line-height: 1.3;
+}
+
+.stepper-node-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* ── Stepper Layout ── */
+.stepper-flow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+}
+
+/* Beam alignment with circles */
+.stepper-flow .stepper-beam {
+  margin-top: 44px; /* half of 88px circle */
+}
+
 /* ── App Loading ── */
 .app-loading {
   display: flex;
