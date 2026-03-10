@@ -2888,6 +2888,30 @@
       "reasoning_level": "low",
       "skill": null,
       "shared_file_requests": []
+    },
+    "quebec": {
+      "letter": "Q",
+      "name": "Feedback Widget (Paste + Voice)",
+      "status": "🟡 in-progress",
+      "blocker": null,
+      "scope": [
+        "web/src/components/feedback.js",
+        "web/src/components/feedback.css",
+        "web/tests/feedback.test.js"
+      ],
+      "contracts": {
+        "input": "User session (JWT) + analysis context",
+        "output": "Feedback record in Supabase feedback table with text, screenshots, voice transcription"
+      },
+      "verify": "cd web && npm run build && npm test",
+      "recommended_mode": "fast",
+      "tasks": [
+        "Q1: Create Supabase feedback table (orchestrator does migration)",
+        "Q2: Build feedback component with textarea + clipboard paste for screenshots",
+        "Q3: Add Web Speech API microphone button for voice-to-text",
+        "Q4: Wire to Supabase (insert feedback + upload screenshots to storage)",
+        "Q5: Add feedback entry point in report/review views"
+      ]
     }
   },
   "supplement_analysis": {
