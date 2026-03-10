@@ -3172,6 +3172,51 @@
       ],
       "insight": "Multi-stage Dockerfile builder stage needs src/ + README.md alongside pyproject.toml — setuptools fails with 'egg_base not found' if src/ is missing from the COPY",
       "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "quebec",
+      "scope": [
+        "web/src/components/feedback.js",
+        "web/src/components/feedback.css",
+        "web/tests/feedback.test.js"
+      ],
+      "tags": [
+        "feedback",
+        "integration",
+        "frontend"
+      ],
+      "insight": "Feedback widget is fully self-contained — exports createFeedbackButton() for FAB and createFeedbackLink(context) for inline entry points. Orchestrator wires these into main.js, report.js, review.js",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "quebec",
+      "scope": [
+        "web/src/components/feedback.js",
+        "web/src/components/feedback.css",
+        "web/tests/feedback.test.js"
+      ],
+      "tags": [
+        "speech-api",
+        "voice",
+        "browser-compat"
+      ],
+      "insight": "Web Speech API (SpeechRecognition) must be feature-detected at runtime — not available in jsdom or non-Chrome browsers. Use window.SpeechRecognition || window.webkitSpeechRecognition",
+      "timestamp": "2026-03-09"
+    },
+    {
+      "workstream": "quebec",
+      "scope": [
+        "web/src/components/feedback.js",
+        "web/src/components/feedback.css",
+        "web/tests/feedback.test.js"
+      ],
+      "tags": [
+        "clipboard",
+        "paste",
+        "screenshots"
+      ],
+      "insight": "Clipboard paste for images uses e.clipboardData.items — check item.type.startsWith('image/'), call getAsFile(), then URL.createObjectURL for thumbnail previews. Limit to 5 images per feedback",
+      "timestamp": "2026-03-09"
     }
   ]
 }
