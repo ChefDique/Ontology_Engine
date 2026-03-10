@@ -249,6 +249,368 @@ async function runPipeline() {
   }
 }
 
+/* ── Onboarding: How It Works ── */
+
+/**
+ * Build a styled mini-table resembling an Xactimate estimate.
+ * @param {Array<{sel: string, desc: string, qty: string, unit: string, price: string, total: string}>} rows
+ * @returns {HTMLElement}
+ */
+function buildMockTable(rows) {
+  const table = document.createElement('table');
+  table.style.cssText = `
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.68rem;
+    font-family: var(--font-mono, monospace);
+    color: var(--text-secondary, #94a3b8);
+  `;
+
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  ['Selector', 'Description', 'Qty', 'Unit', 'Price', 'Total'].forEach(h => {
+    const th = document.createElement('th');
+    th.textContent = h;
+    th.style.cssText = `
+      padding: 3px 6px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted, #64748b);
+      border-bottom: 1px solid var(--surface-border, rgba(255,255,255,0.08));
+    `;
+    if (['Qty', 'Price', 'Total'].includes(h)) th.style.textAlign = 'right';
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+
+  const tbody = document.createElement('tbody');
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    [r.sel, r.desc, r.qty, r.unit, r.price, r.total].forEach((val, i) => {
+      const td = document.createElement('td');
+      td.textContent = val;
+      td.style.cssText = `
+        padding: 3px 6px;
+        border-bottom: 1px solid rgba(255,255,255,0.04);
+        white-space: nowrap;
+      `;
+      if (i >= 2 && i !== 3) td.style.textAlign = 'right';
+      if (i === 0) td.style.color = 'var(--brand-accent, #06b6d4)';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+
+  table.append(thead, tbody);
+  return table;
+}
+
+/**
+ * Render the "How It Works" 3-step visual flow.
+ * @returns {HTMLElement}
+ */
+function renderHowItWorks() {
+  const section = createElement('div', { className: 'how-it-works', id: 'how-it-works' });
+  section.style.cssText = `
+    margin-bottom: var(--space-xl, 2rem);
+  `;
+
+  const title = createElement('div', { className: 'report-section-title' }, '⚡ How It Works');
+  title.style.cssText = 'font-size: 1rem; font-weight: 600; margin-bottom: var(--space-md);';
+
+  const steps = createElement('div', {});
+  steps.style.cssText = `
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-md, 1rem);
+  `;
+
+  const stepData = [
+    {
+      num: '1',
+      icon: '📄',
+      title: 'Upload Two PDFs',
+      desc: 'Drop or select the insurance adjuster\'s Xactimate estimate and the contractor\'s estimate.',
+    },
+    {
+      num: '2',
+      icon: '🔬',
+      title: 'AI Analyzes & Diffs',
+      desc: 'Our 6-node pipeline extracts line items, applies roofer math, and compares estimate discrepancies.',
+    },
+    {
+      num: '3',
+      icon: '📊',
+      title: 'Get Supplement Report',
+      desc: 'See exactly which items are missing, quantity deltas, O&P recovery, and dollar impact — ready for the carrier.',
+    },
+  ];
+
+  stepData.forEach(({ num, icon, title: stepTitle, desc: stepDesc }, i) => {
+    const card = createElement('div', {});
+    card.style.cssText = `
+      background: var(--surface-card, #12121a);
+      border: 1px solid var(--surface-border, rgba(255,255,255,0.08));
+      border-radius: var(--radius-md, 10px);
+      padding: var(--space-lg, 1.5rem) var(--space-md, 1rem);
+      text-align: center;
+      position: relative;
+      transition: all 250ms ease;
+    `;
+
+    const numBadge = createElement('div', {});
+    numBadge.style.cssText = `
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-primary, #6366f1), var(--brand-accent, #06b6d4));
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    numBadge.textContent = num;
+
+    const iconEl = createElement('div', {});
+    iconEl.style.cssText = 'font-size: 1.8rem; margin-bottom: var(--space-sm); margin-top: var(--space-xs);';
+    iconEl.textContent = icon;
+
+    const titleEl = createElement('div', {});
+    titleEl.style.cssText = 'font-weight: 600; font-size: 0.85rem; color: var(--text-primary); margin-bottom: var(--space-xs);';
+    titleEl.textContent = stepTitle;
+
+    const descEl = createElement('div', {});
+    descEl.style.cssText = 'font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;';
+    descEl.textContent = stepDesc;
+
+    card.append(numBadge, iconEl, titleEl, descEl);
+
+    // Add connector arrow between steps (not after last)
+    if (i < stepData.length - 1) {
+      const wrapper = createElement('div', {});
+      wrapper.style.cssText = 'position: relative;';
+      wrapper.appendChild(card);
+      steps.appendChild(wrapper);
+    } else {
+      steps.appendChild(card);
+    }
+  });
+
+  section.append(title, steps);
+  return section;
+}
+
+/**
+ * Render a mock Xactimate estimate preview inside the upload zone area.
+ * @param {'adjuster'|'contractor'} role
+ * @returns {HTMLElement}
+ */
+function renderMockEstimatePreview(role) {
+  const preview = createElement('div', { className: 'mock-estimate-preview' });
+  preview.style.cssText = `
+    margin-top: var(--space-md, 1rem);
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: var(--radius-sm, 6px);
+    padding: var(--space-sm, 0.5rem) var(--space-md, 1rem);
+    overflow: hidden;
+    pointer-events: none;
+  `;
+
+  const label = createElement('div', {});
+  label.style.cssText = `
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted, #64748b);
+    margin-bottom: var(--space-xs, 4px);
+  `;
+  label.textContent = 'Sample Xactimate format:';
+
+  const rows = role === 'adjuster'
+    ? [
+        { sel: 'RFG 250', desc: 'Remove Comp. shingles', qty: '24.00', unit: 'SQ', price: '$68.57', total: '$1,645.68' },
+        { sel: 'RFG 260', desc: 'Shingles - 30yr laminate', qty: '24.00', unit: 'SQ', price: '$135.42', total: '$3,250.08' },
+        { sel: 'RFG 120', desc: 'Felt - #30', qty: '24.00', unit: 'SQ', price: '$18.25', total: '$438.00' },
+        { sel: 'RFG 400', desc: 'Drip edge', qty: '220.00', unit: 'LF', price: '$3.10', total: '$682.00' },
+      ]
+    : [
+        { sel: 'RFG 250', desc: 'Remove Comp. shingles', qty: '26.50', unit: 'SQ', price: '$68.57', total: '$1,817.11' },
+        { sel: 'RFG 260', desc: 'Shingles - 30yr laminate', qty: '26.50', unit: 'SQ', price: '$135.42', total: '$3,588.63' },
+        { sel: 'RFG 120', desc: 'Felt - #30', qty: '26.50', unit: 'SQ', price: '$18.25', total: '$483.63' },
+        { sel: 'RFG 400', desc: 'Drip edge', qty: '232.00', unit: 'LF', price: '$3.10', total: '$719.20' },
+        { sel: 'RFG 525', desc: 'Ice & water shield', qty: '4.50', unit: 'SQ', price: '$94.18', total: '$423.81' },
+      ];
+
+  preview.append(label, buildMockTable(rows));
+  return preview;
+}
+
+/**
+ * Render a sample output teaser showing what the gap report looks like.
+ * @returns {HTMLElement}
+ */
+function renderSampleOutput() {
+  const section = createElement('div', { id: 'sample-output' });
+  section.style.cssText = `
+    margin-top: var(--space-xl, 2rem);
+    margin-bottom: var(--space-lg, 1.5rem);
+  `;
+
+  const title = createElement('div', { className: 'report-section-title' }, '🎯 What You\'ll Get');
+  title.style.cssText = 'font-size: 1rem; font-weight: 600; margin-bottom: var(--space-md);';
+
+  const card = createElement('div', {});
+  card.style.cssText = `
+    background: var(--surface-card, #12121a);
+    border: 1px solid var(--surface-border, rgba(255,255,255,0.08));
+    border-radius: var(--radius-lg, 16px);
+    padding: var(--space-lg, 1.5rem);
+    overflow: hidden;
+  `;
+
+  // Mock summary stats row
+  const statsRow = createElement('div', {});
+  statsRow.style.cssText = `
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm, 0.5rem);
+    margin-bottom: var(--space-md, 1rem);
+  `;
+
+  const mockStats = [
+    { label: 'Adjuster RCV', value: '$8,415.76', cls: '' },
+    { label: 'Contractor RCV', value: '$10,032.38', cls: '' },
+    { label: 'Recovery Opportunity', value: '+$1,616.62', cls: 'positive' },
+  ];
+
+  mockStats.forEach(({ label, value, cls }) => {
+    const stat = createElement('div', {});
+    stat.style.cssText = `
+      background: var(--surface-glass, rgba(255,255,255,0.04));
+      border-radius: var(--radius-sm, 6px);
+      padding: var(--space-sm, 0.5rem) var(--space-md, 1rem);
+      text-align: center;
+    `;
+    const labelEl = createElement('div', {});
+    labelEl.style.cssText = 'font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 2px;';
+    labelEl.textContent = label;
+    const valueEl = createElement('div', {});
+    valueEl.style.cssText = `font-size: 1.1rem; font-weight: 700; font-family: var(--font-mono); ${cls === 'positive' ? 'color: var(--color-success-light, #34d399);' : 'color: var(--text-primary);'}`;
+    valueEl.textContent = value;
+    stat.append(labelEl, valueEl);
+    statsRow.appendChild(stat);
+  });
+
+  // Mock gap table
+  const tableLabel = createElement('div', {});
+  tableLabel.style.cssText = 'font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: var(--space-sm);';
+  tableLabel.textContent = '📋 Sample Gap Analysis';
+
+  const gapTable = document.createElement('table');
+  gapTable.style.cssText = `
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.72rem;
+  `;
+
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  ['Type', 'Description', 'Adjuster', 'Contractor', 'Delta'].forEach((h, i) => {
+    const th = document.createElement('th');
+    th.textContent = h;
+    th.style.cssText = `
+      padding: 4px 8px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted, #64748b);
+      border-bottom: 1px solid var(--surface-border, rgba(255,255,255,0.08));
+      background: var(--surface-glass, rgba(255,255,255,0.04));
+    `;
+    if (i >= 2) th.style.textAlign = 'right';
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+
+  const gapData = [
+    { type: 'MISSING',  typeCls: '#f87171', desc: 'Ice & water shield (RFG 525)', adj: '—', con: '$423.81', delta: '+$423.81', deltaCls: '#34d399' },
+    { type: 'QTY Δ',    typeCls: '#fbbf24', desc: 'Remove Comp. shingles (RFG 250)', adj: '24.00 SQ', con: '26.50 SQ', delta: '+$171.43', deltaCls: '#34d399' },
+    { type: 'QTY Δ',    typeCls: '#fbbf24', desc: 'Shingles - 30yr laminate (RFG 260)', adj: '24.00 SQ', con: '26.50 SQ', delta: '+$338.55', deltaCls: '#34d399' },
+  ];
+
+  const tbody = document.createElement('tbody');
+  gapData.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.style.cssText = 'transition: background 150ms;';
+
+    // Type badge
+    const tdType = document.createElement('td');
+    tdType.style.cssText = 'padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,0.04);';
+    const badge = document.createElement('span');
+    badge.textContent = row.type;
+    badge.style.cssText = `
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 100px;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      background: ${row.typeCls}20;
+      color: ${row.typeCls};
+    `;
+    tdType.appendChild(badge);
+
+    // Other cells
+    const tdDesc = document.createElement('td');
+    tdDesc.textContent = row.desc;
+    tdDesc.style.cssText = 'padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary);';
+
+    const tdAdj = document.createElement('td');
+    tdAdj.textContent = row.adj;
+    tdAdj.style.cssText = 'padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); text-align: right; font-family: var(--font-mono); color: var(--text-muted);';
+
+    const tdCon = document.createElement('td');
+    tdCon.textContent = row.con;
+    tdCon.style.cssText = 'padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); text-align: right; font-family: var(--font-mono); color: var(--text-secondary);';
+
+    const tdDelta = document.createElement('td');
+    tdDelta.textContent = row.delta;
+    tdDelta.style.cssText = `padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); text-align: right; font-family: var(--font-mono); font-weight: 600; color: ${row.deltaCls};`;
+
+    tr.append(tdType, tdDesc, tdAdj, tdCon, tdDelta);
+    tbody.appendChild(tr);
+  });
+
+  gapTable.append(thead, tbody);
+
+  // Fade-out overlay at bottom to suggest "there's more"
+  const fadeHint = createElement('div', {});
+  fadeHint.style.cssText = `
+    text-align: center;
+    padding: var(--space-sm) 0;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-style: italic;
+  `;
+  fadeHint.textContent = '… and more — O&P audit, depreciation findings, HITL review flags';
+
+  card.append(statsRow, tableLabel, gapTable, fadeHint);
+  section.append(title, card);
+  return section;
+}
+
 /**
  * Render the upload view.
  * @returns {HTMLElement}
@@ -285,10 +647,24 @@ export function renderUploadView() {
   `;
   formatNotice.textContent = '⚠️ Currently supports Xactimate estimate PDFs only. Other estimate formats are not yet supported.';
 
+  // How It Works section
+  const howItWorks = renderHowItWorks();
+
+  // Upload zones with mock estimate previews embedded
   const uploadSection = createElement('div', { className: 'upload-section' },
     createUploadZone('adjuster', 'Adjuster Estimate', 'Insurance company\'s Xactimate PDF'),
     createUploadZone('contractor', 'Contractor Estimate', 'Contractor\'s Xactimate PDF'),
   );
+
+  // Add mock previews inside each upload zone (only when no file is selected)
+  if (!state.files.adjuster) {
+    const adjZone = uploadSection.querySelector('#upload-zone-adjuster');
+    if (adjZone) adjZone.appendChild(renderMockEstimatePreview('adjuster'));
+  }
+  if (!state.files.contractor) {
+    const conZone = uploadSection.querySelector('#upload-zone-contractor');
+    if (conZone) conZone.appendChild(renderMockEstimatePreview('contractor'));
+  }
 
   const actions = createElement('div', { className: 'upload-actions' });
 
@@ -353,7 +729,10 @@ export function renderUploadView() {
     actions.appendChild(rateInfo);
   }
 
-  container.append(heading, desc, formatNotice, uploadSection, actions);
+  // Sample output teaser
+  const sampleOutput = renderSampleOutput();
+
+  container.append(heading, desc, formatNotice, howItWorks, uploadSection, actions, sampleOutput);
 
   return container;
 }
