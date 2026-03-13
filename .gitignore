@@ -12,8 +12,11 @@ build/
 venv/
 env/
 
-# Environment
+# Environment — never commit real env files
 .env
+.env.*
+!.env.*.example
+!.env.example
 
 # IDE
 .vscode/
